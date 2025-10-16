@@ -1,0 +1,17 @@
+services:
+  postgres:
+    build: ./postgres
+    ports:
+     - "5432:5432"
+    volumes:
+     - postgres_data:/var/lib/postgresql/data
+
+  django:
+    build: ./django
+    ports:
+     - "8000:8000"
+    depends_on:
+     - postgres
+
+volumes:
+   postgres_data:
