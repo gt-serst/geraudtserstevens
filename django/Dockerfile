@@ -1,17 +1,17 @@
-FROM python:3.13
-
-RUN mkdir /app
+FROM python:3.13-slim
 
 WORKDIR /app
 
+COPY . .
+
 RUN pip install --upgrade pip
 
-COPY requirements.txt  /app/
+RUN pip install -r requirements.txt
 
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . /app/
+COPY /tools/entrypoint.sh ../usr/local/bin/
 
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+RUN chmod +x ../usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["bash", "../usr/local/bin/entrypoint.sh"]
