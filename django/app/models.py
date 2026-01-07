@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.hashers import make_password
 
 class Todo(models.Model):
 	title = models.CharField(max_length=120)
@@ -8,3 +7,5 @@ class Todo(models.Model):
 
 	def _str_(self):
 		return self.title
+
+

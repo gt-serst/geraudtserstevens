@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription</title>
+</head>
+<body>
+
+<h1>Inscription</h1>
+
+<form method="post", action="/api/register/">
+    {% csrf_token %}
+
+    <p>
+        <label>Nom d'utilisateur :</label><br>
+        <input type="username" name="username" required>
+    </p>
+
+	<p>
+        <label>Email :</label><br>
+        <input type="email" name="email" required>
+    </p>
+
+    <p>
+        <label>Mot de passe :</label><br>
+        <input type="password" name="password" required>
+    </p>
+
+    <button type="submit">Créer un compte</button>
+</form>
+
+</body>
+</html>
