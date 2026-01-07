@@ -8,17 +8,12 @@
 
 <h1>Inscription</h1>
 
-<form method="post", action="/api/register/">
+<form method="post", action="/api/auth/register/">
     {% csrf_token %}
 
     <p>
         <label>Nom d'utilisateur :</label><br>
         <input type="username" name="username" required>
-    </p>
-
-	<p>
-        <label>Email :</label><br>
-        <input type="email" name="email" required>
     </p>
 
     <p>
