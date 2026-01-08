@@ -1,0 +1,13 @@
+.wb-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.wb-logo {
+	height: 150px;
+	width: 150px;
+}
+
+.wb-title {
+}

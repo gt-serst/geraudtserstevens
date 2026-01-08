@@ -20,10 +20,15 @@ services:
       - app-network
     depends_on:
       - postgres
+
   react:
     build: ./react
     ports:
       - "3000:3000"
+    volumes:
+      - './react:/app'
+    depends_on:
+      - django
 
 volumes:
    shared-volumes:
