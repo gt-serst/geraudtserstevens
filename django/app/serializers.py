@@ -4,7 +4,10 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate
 
 class RegisterSerializer(serializers.ModelSerializer):
-	# Minimun password length required
+	"""
+	Serializer to validate the register information sent from a user.
+	"""
+	# Minimun and maximun password length required
 	password = serializers.CharField(write_only=True, min_length=8, max_length=15)
 	class Meta:
 		model = User
@@ -15,6 +18,9 @@ class RegisterSerializer(serializers.ModelSerializer):
 		return User.objects.create(**validated_data)
 
 class LoginSerializer(serializers.Serializer):
+	"""
+	Serializer to validate the credentials sent from a user.
+	"""
 	username = serializers.CharField()
 	password = serializers.CharField(write_only=True)
 
@@ -28,3 +34,10 @@ class LoginSerializer(serializers.Serializer):
 			raise serializers.ValidationError("Invalid credentials")
 		attrs['user'] = user
 		return attrs
+
+class SendMailSerializer(serializers.Serializer):
+	# Maximum subject length required
+	subject = serializers.CharField(max_length=255)
+	message = serializers.CharField()
+	from_email = serializers.EmailField()
+
