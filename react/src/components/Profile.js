@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 function Profile({ updateLoginStatus }) {
 	const navigate = useNavigate()
 	const [serverResponse, setServerResponse] = useState(null)
-	const [serverErrors, setServerErrors] = useState(null)
+	// const [serverErrors, setServerErrors] = useState(null)
 
 	// useEffect(() => {
 	// 	const fetchProfile = async () => {
@@ -23,7 +23,9 @@ function Profile({ updateLoginStatus }) {
 			const endpoint = "/account/profile/"
 			const { response, result } = await getRequest(endpoint)
 			if (!response || !response.ok){
-				setServerErrors(result)
+				// setServerErrors(result)
+				updateLoginStatus(false)
+				navigate("/login")
 			}
 			// const response = await fetch("http://localhost:8000/api/account/profile/", {method: "GET", credentials: "include"})
 			// const result = await response.json()
@@ -49,11 +51,11 @@ function Profile({ updateLoginStatus }) {
 				<button type="button" onClick={handleClick}>Se déconnecter</button>
 				</span>
 			)}
-			{serverErrors && (
+			{/* {serverErrors && (
 				<span className="wb-error-box">
 						<p>{serverErrors.detail}</p>
 				</span>
-			)}
+			)} */}
 		</div>
 	)
 }

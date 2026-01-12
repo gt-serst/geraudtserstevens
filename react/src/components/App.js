@@ -5,6 +5,7 @@ import Register from './Register'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Profile from './Profile'
 import Login from './Login'
+import Home from './Home'
 
 function App() {
 	// const [users, setUsers] = useState([]);
@@ -41,16 +42,17 @@ function App() {
 	useEffect(() => {
 		localStorage.setItem('loginStatus', loginStatus)
 	}, [loginStatus])
-	console.log(loginStatus)
 	return (
 		<div className="App">
 			{loginStatus ? (
 			<BrowserRouter>
 				<nav>
+					<Link to="/">Accueil</Link> |{" "}
 					<Link to="/profile">Profil</Link> |{" "}
 				</nav>
 				<Header />
 				<Routes>
+					<Route path="/" element={<Home />} />
 					<Route path="/profile" element={<Profile updateLoginStatus={updateLoginStatus}/>} />
 				</Routes>
 			</BrowserRouter>
@@ -58,11 +60,13 @@ function App() {
 			(
 				<BrowserRouter>
 				<nav>
+					<Link to="/">Accueil</Link> |{" "}
 					<Link to="/register">Inscription</Link> |{" "}
 					<Link to="/login">Connexion</Link> |{" "}
 				</nav>
 				<Header />
 				<Routes>
+					<Route path="/" element={<Home />} />
 					<Route path="/register" element={<Register updateLoginStatus={updateLoginStatus}/>} />
 					<Route path="/login" element={<Login updateLoginStatus={updateLoginStatus}/>} />
 				</Routes>
