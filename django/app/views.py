@@ -42,11 +42,20 @@ class LoginView(APIView):
 			user = serializer.validated_data['user']
 			# Generate a refresh token for the user
 			refresh = RefreshToken.for_user(user)
-			return Response({
-				'access': str(refresh.access_token),
-				'refresh': str(refresh),
-				'user': {'id': user.id, 'username': user.username}
-			})
+			response = Response({"user": {"id": user.id, "username": user.username}})
+			response.set_cookie(
+				key="access",
+				value=str(refresh.access_token),
+				httponly=True,
+				samesite="Lax",
+			)
+			response.set_cookie(
+				key="refresh",
+				value=str(refresh),
+				httponly=True,
+				samesite="Lax",
+			)
+			return response
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CookieTokenRefreshView(APIView):

@@ -1,9 +1,11 @@
 import '../styles/App.css';
-// import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Header from './Header'
 import Register from './Register'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import ProfilePage from './ProfilePage'
+import Profile from './Profile'
+import Login from './Login'
+import { getRequest } from "../api"
 
 function App() {
 	// const [users, setUsers] = useState([]);
@@ -26,17 +28,28 @@ function App() {
 
 	// 	fetchUsers();
 	// }, []);
+	const [serverResponse, setServerResponse] = useState(null)
+	async function getUserInfo(accessToken) {
+		const endpoint = "/account/profile/"
+
+		const { response, result } = await getRequest(endpoint, accessToken)
+		console.log(result)
+		setServerResponse(result)
+		// console.log(serverResponse)
+	}
 	return (
 		<div className="App">
 			<BrowserRouter>
 				<nav>
-					<Link to="/">Inscription</Link> |{" "}
+					<Link to="/register">Inscription</Link> |{" "}
+					<Link to="/login">Connexion</Link> |{" "}
 					<Link to="/profile">Profil</Link> |{" "}
 				</nav>
 				<Header />
 				<Routes>
-					<Route path="/" element={<Register />} />
-					<Route path="/profile" element={<ProfilePage />} />
+					<Route path="/register" element={<Register getUserInfo={getUserInfo}/>} />
+					<Route path="/login" element={<Login getUserInfo={getUserInfo}/>} />
+					<Route path="/profile" element={<Profile serverResponse={serverResponse}/>} />
 				</Routes>
 			</BrowserRouter>
 			{/* <ul>

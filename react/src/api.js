@@ -17,3 +17,22 @@ export async function fetchRequest(endpoint, data) {
 		};
 	}
 }
+
+export async function getRequest(endpoint, accessToken) {
+	try {
+		console.log(accessToken)
+		const response = await fetch(API_URL + endpoint, {
+			method: "GET",
+			credentials: "include",
+			// headers: {"Authorization": "Bearer " + accessToken}
+		});
+		const result = await response.json();
+		console.log(result)
+		return { response, result };
+	} catch (error) {
+		return {
+			response: null,
+			result: { error: error.message }
+		};
+	}
+}

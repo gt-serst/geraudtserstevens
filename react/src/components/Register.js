@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { fetchRequest } from "../api"
 
-function Register() {
+function Register({ getUserInfo }) {
 	const navigate = useNavigate();
 	const [serverErrors, setServerErrors] = useState(null);
 	const { register, handleSubmit, formState: { errors } } = useForm();
@@ -16,9 +16,11 @@ function Register() {
 
 		if (!response || !response.ok) {
 			setServerErrors(result);
-			return;
 		}
+		else {
+		getUserInfo()
 		navigate("/profile");
+		}
 	}
 
 	return (
@@ -32,11 +34,11 @@ function Register() {
 				<input type="submit" value="S'inscrire"></input>
 			</form>
 			{serverErrors && (
-				<div className="wb-error-box">
+				<span className="wb-error-box">
 					{Object.entries(serverErrors).map(([field, messages]) => (
 						<p key={field}>{messages[0]}</p>
 					))}
-				</div>
+				</span>
 			)}
 		</div>
 	)
