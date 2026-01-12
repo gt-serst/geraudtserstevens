@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:8000/api";
 
-async function fetchRequest(endpoint, data) {
+export async function fetchRequest(endpoint, data) {
 	try {
 		const response = await fetch(API_URL + endpoint, {
 			method: "POST",
