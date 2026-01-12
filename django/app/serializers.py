@@ -1,4 +1,4 @@
-from rest_framework import serializers
+from rest_framework import serializers, validators
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate
@@ -12,6 +12,12 @@ class RegisterSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
 		fields = ('id', 'username', 'password')
+	def __init__(self, *args, **kwargs):
+		# Overide the constructor to customize error message
+		super(RegisterSerializer, self).__init__(*args, **kwargs)
+		for validator in self.fields['username'].validators:
+			if isinstance(validator, validators.UniqueValidator):
+				validator.message = "Ce nom d'utilisateur existe déjà."
 	def create(self, validated_data):
 		# Hash the password for security
 		validated_data['password'] = make_password(validated_data['password'])
@@ -31,7 +37,7 @@ class LoginSerializer(serializers.Serializer):
 			password=attrs['password']
 		)
 		if not user:
-			raise serializers.ValidationError("Les informations d'identification sont incorrectes.")
+			raise serializers.ValidationError("Les informations d'identification sont inc")
 		attrs['user'] = user
 		return attrs
 

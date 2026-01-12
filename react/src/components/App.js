@@ -1,11 +1,10 @@
 import '../styles/App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './Header'
 import Register from './Register'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Profile from './Profile'
 import Login from './Login'
-import { getRequest } from "../api"
 
 function App() {
 	// const [users, setUsers] = useState([]);
@@ -28,30 +27,47 @@ function App() {
 
 	// 	fetchUsers();
 	// }, []);
-	const [serverResponse, setServerResponse] = useState(null)
-	async function getUserInfo(accessToken) {
-		const endpoint = "/account/profile/"
+	// const [serverResponse, setServerResponse] = useState(null)
+	// async function getUserInfo(accessToken) {
+	// 	const endpoint = "/account/profile/"
 
-		const { response, result } = await getRequest(endpoint, accessToken)
-		console.log(result)
-		setServerResponse(result)
-		// console.log(serverResponse)
-	}
+	// 	const result = await getRequest(endpoint, accessToken)
+	// 	console.log(result)
+	// 	setServerResponse(result)
+	// 	console.log(serverResponse)
+	// }
+	const savedLoginStatus = localStorage.getItem("cart")
+	const [loginStatus, updateLoginStatus] = useState(savedLoginStatus ? localStorage.getItem("loginStatus") : false)
+	useEffect(() => {
+		localStorage.setItem('loginStatus', loginStatus)
+	}, [loginStatus])
+	console.log(loginStatus)
 	return (
 		<div className="App">
+			{loginStatus ? (
 			<BrowserRouter>
 				<nav>
-					<Link to="/register">Inscription</Link> |{" "}
-					<Link to="/login">Connexion</Link> |{" "}
 					<Link to="/profile">Profil</Link> |{" "}
 				</nav>
 				<Header />
 				<Routes>
-					<Route path="/register" element={<Register getUserInfo={getUserInfo}/>} />
-					<Route path="/login" element={<Login getUserInfo={getUserInfo}/>} />
-					<Route path="/profile" element={<Profile serverResponse={serverResponse}/>} />
+					<Route path="/profile" element={<Profile updateLoginStatus={updateLoginStatus}/>} />
 				</Routes>
 			</BrowserRouter>
+			) :
+			(
+				<BrowserRouter>
+				<nav>
+					<Link to="/register">Inscription</Link> |{" "}
+					<Link to="/login">Connexion</Link> |{" "}
+				</nav>
+				<Header />
+				<Routes>
+					<Route path="/register" element={<Register updateLoginStatus={updateLoginStatus}/>} />
+					<Route path="/login" element={<Login updateLoginStatus={updateLoginStatus}/>} />
+				</Routes>
+			</BrowserRouter>
+			)}
 			{/* <ul>
 				{users.map((fields) => (
 					<li key={fields.id}>{fields.username}</li>

@@ -4,6 +4,7 @@ export async function fetchRequest(endpoint, data) {
 	try {
 		const response = await fetch(API_URL + endpoint, {
 			method: "POST",
+			credentials: "include",
 			body: JSON.stringify(data),
 			headers: {"Content-type": "application/json; charset=UTF-8"}
 		});
@@ -18,16 +19,13 @@ export async function fetchRequest(endpoint, data) {
 	}
 }
 
-export async function getRequest(endpoint, accessToken) {
+export async function getRequest(endpoint) {
 	try {
-		console.log(accessToken)
 		const response = await fetch(API_URL + endpoint, {
 			method: "GET",
 			credentials: "include",
-			// headers: {"Authorization": "Bearer " + accessToken}
 		});
 		const result = await response.json();
-		console.log(result)
 		return { response, result };
 	} catch (error) {
 		return {

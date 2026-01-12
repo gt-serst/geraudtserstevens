@@ -1,22 +1,59 @@
-import { getRequest } from "../api";
-import { useState } from "react"
+import { fetchRequest, getRequest } from "../api";
+import { useState, useEffect } from "react"
+import "../styles/Profile.css"
+import { useNavigate } from "react-router-dom";
 
-function Profile(serverResponse) {
-	// const [ serverResponse, setServerResponse ] = useState(null)
+function Profile({ updateLoginStatus }) {
+	const navigate = useNavigate()
+	const [serverResponse, setServerResponse] = useState(null)
+	const [serverErrors, setServerErrors] = useState(null)
 
-	// async function getUserInfo() {
-	// 	const endpoint = "/account/profile/"
+	// useEffect(() => {
+	// 	const fetchProfile = async () => {
+	// 		const endpoint = "/account/profile/"
 
-	// 	const { result, response } = getRequest(endpoint)
-	// 	setServerResponse(result)
-	// }
+	// 		const result = await getRequest(endpoint)
+	// 		console.log(result)
+	// 		setServerResponse(result)
+	// 	}
+	// 	fetchProfile()
+	// }, [serverResponse]);
+	useEffect(() => {
+		async function fetchProfile() {
+			const endpoint = "/account/profile/"
+			const { response, result } = await getRequest(endpoint)
+			if (!response || !response.ok){
+				setServerErrors(result)
+			}
+			// const response = await fetch("http://localhost:8000/api/account/profile/", {method: "GET", credentials: "include"})
+			// const result = await response.json()
+			else{
+				setServerResponse(result)
+			}
+		}
+		fetchProfile();
+	}, []);
+	async function handleClick(){
+		await fetchRequest("/auth/logout/")
+		updateLoginStatus(false)
+		navigate("/login")
+	}
 	return (
 		<div>
 			<h3>Ton profil</h3>
-			<p><strong>Id: </strong>{serverResponse.serverResponse.id}</p>
-			<p><strong>Nom d'utilisateur: </strong>{serverResponse.serverResponse.username}</p>
-			<p><strong>Date d'inscription: </strong>{serverResponse.serverResponse.date_joined}</p>
-			<button></button>
+			{serverResponse && (
+				<span>
+					{Object.entries(serverResponse).map(([field, messages]) => (
+						<p key={field}>{messages}</p>
+					))}
+				<button type="button" onClick={handleClick}>Se déconnecter</button>
+				</span>
+			)}
+			{serverErrors && (
+				<span className="wb-error-box">
+						<p>{serverErrors.detail}</p>
+				</span>
+			)}
 		</div>
 	)
 }

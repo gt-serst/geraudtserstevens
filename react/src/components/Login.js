@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { fetchRequest } from "../api";
 import "../styles/Login.css"
 
-function Login({ getUserInfo }) {
+function Login({ updateLoginStatus }) {
 	const navigate = useNavigate()
 	const [serverErrors, setServerErrors] = useState(null)
 	const { register, handleSubmit } = useForm()
@@ -16,7 +16,7 @@ function Login({ getUserInfo }) {
 			setServerErrors(result)
 		}
 		else{
-			getUserInfo(result.access)
+			updateLoginStatus(true)
 			navigate("/profile/")
 		}
 	}

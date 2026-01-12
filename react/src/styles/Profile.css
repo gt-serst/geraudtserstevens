@@ -1,0 +1,10 @@
+.wb-error-box {
+	margin-top: 1rem;
+	color: red;
+	font-size: 1rem;
+}
+
+button {
+	padding: 0.625rem;
+	font-size: 1rem;
+}

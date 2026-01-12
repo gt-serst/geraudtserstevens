@@ -3,8 +3,9 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { fetchRequest } from "../api"
+const API_URL = "http://localhost:8000/api";
 
-function Register({ getUserInfo }) {
+function Register({ updateLoginStatus }) {
 	const navigate = useNavigate();
 	const [serverErrors, setServerErrors] = useState(null);
 	const { register, handleSubmit, formState: { errors } } = useForm();
@@ -18,7 +19,13 @@ function Register({ getUserInfo }) {
 			setServerErrors(result);
 		}
 		else {
-		getUserInfo()
+			await fetch(API_URL + "/auth/login/", {
+				method: "POST",
+				credentials: "include",
+				body: JSON.stringify(data),
+				headers: { "Content-Type": "application/json" }
+		});
+		updateLoginStatus(true)
 		navigate("/profile");
 		}
 	}
