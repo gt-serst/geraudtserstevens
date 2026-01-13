@@ -12,7 +12,7 @@ input {
 }
 
 .wb-error-box {
-	margin-top: 1rem;
+	margin-top: 1.25rem;
 	color: red;
 	font-size: 1rem;
 }
