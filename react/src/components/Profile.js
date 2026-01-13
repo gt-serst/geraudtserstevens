@@ -1,4 +1,4 @@
-import { fetchRequest, getRequest } from "../api";
+import { postRequest, getRequest } from "../api";
 import { useState, useEffect } from "react"
 import "../styles/Profile.css"
 import { useNavigate } from "react-router-dom";
@@ -36,7 +36,7 @@ function Profile({ updateLoginStatus }) {
 		fetchProfile();
 	}, []);
 	async function handleClick(){
-		await fetchRequest("/auth/logout/")
+		await postRequest("/auth/logout/")
 		updateLoginStatus(false)
 		navigate("/login")
 	}

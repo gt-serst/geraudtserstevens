@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { fetchRequest } from "../api";
+import { postRequest } from "../api";
 import "../styles/Login.css"
 
 function Login({ updateLoginStatus }) {
@@ -11,7 +11,7 @@ function Login({ updateLoginStatus }) {
 
 	async function onSubmit(data) {
 		const endpoint = "/auth/login/"
-		const { response, result } = await fetchRequest(endpoint, data)
+		const { response, result } = await postRequest(endpoint, data)
 		if (!response || !response.ok){
 			setServerErrors(result)
 		}

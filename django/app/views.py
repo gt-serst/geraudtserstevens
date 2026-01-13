@@ -10,7 +10,15 @@ from rest_framework.permissions import IsAuthenticated
 from django.core.mail import send_mail
 from django.conf import settings
 from .authenticate import CustomAuthentication
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.http import JsonResponse
 
+@ensure_csrf_cookie
+def get_csrf(request):
+	"""
+	Generate and stock the CSRF cookie
+	"""
+	return JsonResponse({"detail": "CSRF cookie set"})
 
 # Create your views here.
 
@@ -22,7 +30,7 @@ class RegisterView(APIView):
 	"""
 		Register view to list all users or create a new user.
 	"""
-	def get(self):
+	def get(self, request):
 		users = User.objects.all()
 		serializer = RegisterSerializer(users, many=True)
 		return Response(serializer.data)
@@ -121,7 +129,9 @@ class LogoutView(APIView):
 			refresh = RefreshToken(refresh_token)
 			# Set the refresh token in blacklist
 			refresh.blacklist()
-			return Response(status=status.HTTP_205_RESET_CONTENT)
+			response = Response(status=status.HTTP_205_RESET_CONTENT)
+			response.delete_cookie(settings.SIMPLE_JWT["AUTH_COOKIE"])
+			return response
 		except Exception as e:
 			return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -144,3 +154,58 @@ class SendMailView(APIView):
 					status=status.HTTP_500_INTERNAL_SERVER_ERROR
 					)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+"""
+class CookieStrategy {
+    // Main authentication cookie - balanced security and UX
+    setAuthCookie(res, token) {
+        res.cookie('auth', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax',  // Good default
+            maxAge: 7 * 24 * 60 * 60 * 1000,  // 1 week
+            path: '/'
+        });
+    }
+
+    // High-security operations cookie - maximum protection
+    setSecureActionCookie(res, token) {
+        res.cookie('secure_action', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'strict',  // Maximum security
+            maxAge: 15 * 60 * 1000,  // 15 minutes only
+            path: '/account'  // Restricted path
+        });
+    }
+
+    // Cross-domain SSO cookie - needed for integrations
+    setSSOCookie(res, token) {
+        res.cookie('sso', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',  // Required for cross-site
+            maxAge: 60 * 60 * 1000,  // 1 hour
+            domain: '.sso-provider.com'
+        });
+
+        // Additional CSRF protection since we're using None
+        res.cookie('csrf', generateCSRFToken(), {
+            secure: true,
+            sameSite: 'strict',  // CSRF token can be strict!
+            maxAge: 60 * 60 * 1000
+        });
+    }
+
+    // Remember me cookie - long-lived but limited scope
+    setRememberMeCookie(res, token) {
+        res.cookie('remember', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax',
+            maxAge: 30 * 24 * 60 * 60 * 1000,  // 30 days
+            path: '/auth'  // Only for auth endpoints
+        });
+    }
+}
+"""

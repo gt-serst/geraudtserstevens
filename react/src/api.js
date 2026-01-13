@@ -1,12 +1,15 @@
 const API_URL = "http://localhost:8000/api";
 
-export async function fetchRequest(endpoint, data) {
+export async function postRequest(endpoint, data) {
 	try {
 		const response = await fetch(API_URL + endpoint, {
 			method: "POST",
-			credentials: "include",
+			headers: {
+				"Content-type": "application/json; charset=UTF-8",
+				'X-CSRFToken': localStorage.getItem('csrfToken')
+			},
 			body: JSON.stringify(data),
-			headers: {"Content-type": "application/json; charset=UTF-8"}
+			credentials: "include"
 		});
 		const result = await response.json();
 
@@ -23,7 +26,29 @@ export async function getRequest(endpoint) {
 	try {
 		const response = await fetch(API_URL + endpoint, {
 			method: "GET",
-			credentials: "include",
+			headers: {
+				'X-CSRFToken': localStorage.getItem('csrfToken')
+			},
+			credentials: "include"
+		});
+		const result = await response.json();
+		return { response, result };
+	} catch (error) {
+		return {
+			response: null,
+			result: { error: error.message }
+		};
+	}
+}
+
+export async function refreshToken() {
+	try {
+		const response = await fetch(API_URL + "/refresh/token/", {
+			method: "POST",
+			headers: {
+				'X-CSRFToken': localStorage.getItem('csrfToken')
+			},
+			credentials: "include"
 		});
 		const result = await response.json();
 		return { response, result };

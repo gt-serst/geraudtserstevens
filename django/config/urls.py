@@ -21,6 +21,7 @@ from app import views
 urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('', views.render_home),
+	path('api/csrftoken/', views.get_csrf, name='csrftoken'),
 	path('api/auth/register/', views.RegisterView.as_view(), name='register'),
 	path('api/auth/login/', views.LoginView.as_view(), name='login'),
 	path('api/auth/token/refresh/', views.CookieTokenRefreshView.as_view(), name='token_refresh'),

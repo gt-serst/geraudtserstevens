@@ -156,6 +156,7 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_HEADERS = [
     "content-type",
+	"X-CSRFToken"
 ]
 
 # JWT
@@ -167,11 +168,17 @@ SIMPLE_JWT = {
     "AUTH_COOKIE": "access_token",
 	"AUTH_COOKIE_REFRESH": "refresh_token",
     "AUTH_COOKIE_DOMAIN": None,
-    "AUTH_COOKIE_SECURE": False,
+    "AUTH_COOKIE_SECURE": False, # Set to true when HTTPS
     "AUTH_COOKIE_HTTP_ONLY": True,
     "AUTH_COOKIE_PATH": "/",
     "AUTH_COOKIE_SAMESITE": "Lax",
 }
+
+# CSRF
+CSRF_COOKIE_NAME = "csrftoken"
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SAMESITE = "Strict"
+CSRF_COOKIE_SECURE = False # Set to true when HTTPS
 
 # EMAIL
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

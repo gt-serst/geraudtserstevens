@@ -2,7 +2,7 @@ import '../styles/Register.css'
 import { useForm } from 'react-hook-form';
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
-import { fetchRequest } from "../api"
+import { postRequest } from "../api"
 const API_URL = "http://localhost:8000/api";
 
 function Register({ updateLoginStatus }) {
@@ -13,7 +13,7 @@ function Register({ updateLoginStatus }) {
 	async function onSubmit(data) {
 		const endpoint = "/auth/register/";
 
-		const { response, result } = await fetchRequest(endpoint, data);
+		const { response, result } = await postRequest(endpoint, data);
 
 		if (!response || !response.ok) {
 			setServerErrors(result);

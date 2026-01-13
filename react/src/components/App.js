@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Profile from './Profile'
 import Login from './Login'
 import Home from './Home'
+import { getCookie } from '../utils'
+const API_URL = "http://localhost:8000/api";
 
 function App() {
 	// const [users, setUsers] = useState([]);
@@ -39,9 +41,22 @@ function App() {
 	// }
 	const savedLoginStatus = localStorage.getItem("cart")
 	const [loginStatus, updateLoginStatus] = useState(savedLoginStatus ? localStorage.getItem("loginStatus") : false)
+
 	useEffect(() => {
 		localStorage.setItem('loginStatus', loginStatus)
 	}, [loginStatus])
+
+	useEffect(() => {
+		const fetchCsrf = async () => {
+			await fetch(API_URL + "/csrftoken/", {
+			credentials: "include",
+			});
+			localStorage.setItem('csrfToken', getCookie("csrftoken"));
+		};
+
+		fetchCsrf();
+	}, []);
+
 	return (
 		<div className="App">
 			{loginStatus ? (
