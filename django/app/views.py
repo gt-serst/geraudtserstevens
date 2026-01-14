@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .serializers import RegisterSerializer, LoginSerializer, SendMailSerializer
-from django.contrib.auth.models import User
+from .models import User
+from .serializers import RegisterSerializer, LoginSerializer, SendMailSerializer, UpdatePasswordSerializer, UpdateUsernameSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -82,11 +82,11 @@ class CookieTokenRefreshView(APIView):
 	"""
 	def post(self, request):
 		# Get the refresh token from the cookie
-		refresh_token = request.COOKIES.get(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'])
-		if not refresh_token:
-			return Response({"detail": "No refresh token"}, status=400)
+		# refresh_token = request.COOKIES.get(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'])
+		# if not refresh_token:
+		# 	return Response({"detail": "No refresh token"}, status=400)
 		try:
-			refresh = RefreshToken(refresh_token)
+			refresh = RefreshToken()
 			access_token = str(refresh.access_token)
 			response = Response({"access": access_token})
 			response.set_cookie(
@@ -153,6 +153,34 @@ class SendMailView(APIView):
 					{"error": "Error while sending the email"},
 					status=status.HTTP_500_INTERNAL_SERVER_ERROR
 					)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UpdateUsernameView(APIView):
+	"""
+	UpdateUsername view to update username.
+	"""
+	authentication_classes = [CustomAuthentication]
+	permission_classes = [IsAuthenticated]
+	def post(self, request):
+		user = request.user
+		serializer = UpdateUsernameSerializer(user, data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response({"message": "Nom d'utilisateur correctement mis à jour."}, status=status.HTTP_200_OK)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UpdatePasswordView(APIView):
+	"""
+	UpdatePassword view to update password.
+	"""
+	authentication_classes = [CustomAuthentication]
+	permission_classes = [IsAuthenticated]
+	def post(self, request):
+		user = request.user
+		serializer = UpdatePasswordSerializer(user, data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response({"message": "Mot de passe correctement mis à jour."}, status=status.HTTP_200_OK)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 """

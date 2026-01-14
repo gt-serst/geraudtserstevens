@@ -24,8 +24,10 @@ urlpatterns = [
 	path('api/csrftoken/', views.get_csrf, name='csrftoken'),
 	path('api/auth/register/', views.RegisterView.as_view(), name='register'),
 	path('api/auth/login/', views.LoginView.as_view(), name='login'),
-	path('api/auth/token/refresh/', views.CookieTokenRefreshView.as_view(), name='token_refresh'),
+	path('api/token/refresh/', views.CookieTokenRefreshView.as_view(), name='token_refresh'),
 	path('api/auth/logout/', views.LogoutView.as_view(), name='logout'),
 	path('api/account/profile/', views.ProfileView.as_view(), name='profile'),
-	path('api/contact/sendmail/', views.SendMailView.as_view(), name='sendmail')
+	path('api/contact/sendmail/', views.SendMailView.as_view(), name='sendmail'),
+	path('api/account/username/', views.UpdateUsernameView.as_view(), name='username'),
+	path('api/account/password/', views.UpdatePasswordView.as_view(), name='password')
 ]

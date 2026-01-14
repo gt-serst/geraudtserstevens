@@ -1,7 +1,7 @@
 from rest_framework import serializers, validators
-from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate
+from .models import User
 
 class RegisterSerializer(serializers.ModelSerializer):
 	"""
@@ -12,12 +12,10 @@ class RegisterSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
 		fields = ('id', 'username', 'password')
-	def __init__(self, *args, **kwargs):
-		# Overide the constructor to customize error message
-		super(RegisterSerializer, self).__init__(*args, **kwargs)
-		for validator in self.fields['username'].validators:
-			if isinstance(validator, validators.UniqueValidator):
-				validator.message = "Ce nom d'utilisateur existe déjà."
+	def validate_username(self, value):
+		if User.objects.filter(username=value).exists():
+			raise serializers.ValidationError("Ce nom d'utilisateur existe déjà.")
+		return value
 	def create(self, validated_data):
 		# Hash the password for security
 		validated_data['password'] = make_password(validated_data['password'])
@@ -37,7 +35,7 @@ class LoginSerializer(serializers.Serializer):
 			password=attrs['password']
 		)
 		if not user:
-			raise serializers.ValidationError("Les informations d'identification sont inc")
+			raise serializers.ValidationError("Les informations d'identification sont incorrectes.")
 		attrs['user'] = user
 		return attrs
 
@@ -46,4 +44,29 @@ class SendMailSerializer(serializers.Serializer):
 	subject = serializers.CharField(max_length=255)
 	message = serializers.CharField()
 	from_email = serializers.EmailField()
+
+class UpdateUsernameSerializer(serializers.ModelSerializer):
+	"""
+	Serializer to validate the new username sent from a user.
+	"""
+	class Meta:
+		model = User
+		fields = ("username",)
+	def validate_username(self, value):
+		if User.objects.filter(username=value).exists():
+			raise serializers.ValidationError("Ce nom d'utilisateur existe déjà.")
+		return value
+
+class UpdatePasswordSerializer(serializers.ModelSerializer):
+	"""
+	Serializer to validate the new password sent from a user.
+	"""
+	password = serializers.CharField(write_only=True, min_length=8, max_length=15)
+	class Meta:
+		model = User
+		fields = ("password",)
+	def update(self, instance, validated_data):
+		instance.set_password(validated_data["password"])
+		instance.save()
+		return instance
 

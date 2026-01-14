@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form"
 
 function Profile({ updateLoginStatus }) {
 	const navigate = useNavigate()
+	const [userInfo, setUserInfo] = useState(null)
+	const [serverErrors, setServerErrors] = useState(null)
 	const [serverResponse, setServerResponse] = useState(null)
 	const {
 		register: registerUsername,
@@ -42,49 +44,86 @@ function Profile({ updateLoginStatus }) {
 			// const response = await fetch("http://localhost:8000/api/account/profile/", {method: "GET", credentials: "include"})
 			// const result = await response.json()
 			else{
-				setServerResponse(result)
+				setUserInfo(result)
 			}
 		}
 		fetchProfile();
 	}, []);
+
 	async function handleClick(){
 		await postRequest("/auth/logout/")
 		updateLoginStatus(false)
 		navigate("/login")
 	}
-	const usernameOnSubmit = (data) => {
-		console.log(data)
+
+	async function usernameOnSubmit(data){
+		const endpoint = "/account/username/"
+		const { response, result } = await postRequest(endpoint, data)
+		if (!response || !response.ok){
+			setServerErrors(result)
+			setServerResponse(null)
+		}
+		else{
+			setServerResponse(result)
+			setServerErrors(null)
+		}
 	}
-	const passwordOnSubmit = (data) => {
-		console.log(data)
+
+	async function passwordOnSubmit(data){
+		const endpoint = "/account/password/"
+		const { response, result } = await postRequest(endpoint, data)
+		if (!response || !response.ok){
+			setServerErrors(result)
+			setServerResponse(null)
+		}
+		else{
+			setServerResponse(result)
+			setServerErrors(null)
+		}
 	}
+
 	return (
 		<div>
 			<h3>Ton profil</h3>
-			{serverResponse && (
+			{userInfo && (
 				<span>
-					{Object.entries(serverResponse).map(([field, messages]) => (
+					{Object.entries(userInfo).map(([field, messages]) => (
 						<p key={field}>{messages}</p>
 					))}
-				<div className="wb-update-box">
+				<div className="wb-update">
 					<form onSubmit={submitUsername(usernameOnSubmit)}>
-						<input type="text" placeholder="Nouveau nom d'utilisateur" className="wb-update-box-input" {...registerUsername("newUsername", { required: "New username is required.", maxLength: { value: 15, message: "Username must be at most 15 characters long."} })}></input>
+						<input type="text" placeholder="Nouveau nom d'utilisateur" className="wb-update-input" {...registerUsername("username", { required: "New username is required.", maxLength: { value: 15, message: "Username must be at most 15 characters long."} })}></input>
 						<input type="submit" value="Confirmer" className="wb-btn-submit"></input>
 					</form>
 					<form onSubmit={submitPassword(passwordOnSubmit)}>
-						<input type="password" placeholder="Nouveau mot de passe" className="wb-update-box-input" {...registerPassword("newPassword", { required: "New password is required.", minLength: {value: 8, message: "Password must be at least 8 characters long."}, maxLength: {value: 15, message: "Password must be at most 15 characters long."} })}></input>
+						<input type="password" placeholder="Nouveau mot de passe" className="wb-update-input" {...registerPassword("password", { required: "New password is required.", minLength: {value: 8, message: "Password must be at least 8 characters long."}, maxLength: {value: 15, message: "Password must be at most 15 characters long."} })}></input>
 						<input type="submit" value="Confirmer" className="wb-btn-submit"></input>
 					</form>
 				</div>
-				<div className="wb-error-container">
-					{usernameErrors.newUsername && (<span className="wb-error-box">{usernameErrors.newUsername.message}</span>)}
-					{passwordErrors.newPassword && (<span className="wb-error-box">{passwordErrors.newPassword.message}</span>)}
+				<div className="wb-alert-container">
+					{usernameErrors.username &&
+						(<span className="wb-error"><p>{usernameErrors.username.message}</p></span>)}
+					{passwordErrors.password &&
+						(<span className="wb-error"><p>{passwordErrors.password.message}</p></span>)}
+					{serverErrors &&
+						(<span className="wb-error">
+							{Object.entries(serverErrors).map(([field, message]) => (
+								<p key={field}>{message}</p>
+							))}
+						</span>)}
+					{serverResponse &&
+						(<span className="wb-success">
+							{Object.entries(serverResponse).map(([field, message]) => (
+								<p key={field}>{message}</p>
+							))}
+						</span>)
+					}
 					<button type="button" onClick={handleClick} className="wb-btn-logout">Se déconnecter</button>
 				</div>
 				</span>
 			)}
 			{/* {serverErrors && (
-				<span className="wb-error-box">
+				<span className="wb-error">
 						<p>{serverErrors.detail}</p>
 				</span>
 			)} */}

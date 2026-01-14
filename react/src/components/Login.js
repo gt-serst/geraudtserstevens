@@ -29,13 +29,15 @@ function Login({ updateLoginStatus }) {
 				<input type="password" placeholder="Mot de passe" {...register("password", { required: true }) }></input>
 				<input type="submit" value="Se connecter"></input>
 			</form>
-			{ serverErrors && (
-				<span className="wb-error-box">
-					{Object.entries(serverErrors).map(([field, messages]) => (
-						<p key={field}>{messages[0]}</p>
-					))}
-				</span>
-			)}
+			<div className="wb-alert-container">
+				{serverErrors && (
+					<span className="wb-error">
+						{Object.entries(serverErrors).map(([field, messages]) => (
+							<p key={field}>{messages[0]}</p>
+						))}
+					</span>
+				)}
+			</div>
 		</div>
 	)
 }

@@ -36,3 +36,30 @@
     transform: rotate(360deg);
   }
 }
+
+.wb-alert-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 0.75rem auto;
+}
+
+.wb-error {
+	font-size: 1rem;
+	padding: 0.5rem 1rem 0.5rem 1rem;
+	color: #721c24;
+	background-color: #f8d7da;
+	border: 1/16rem solid #f5c6cb;
+	border-radius: 0.25rem;
+	margin: 0.75rem auto;
+}
+
+.wb-success {
+	font-size: 1rem;
+	padding: 0.5rem 1rem 0.5rem 1rem;
+	color: #155724;
+	background-color: #d4edda;
+	border: 1/16rem solid #c3e6cb;
+	border-radius: 0.25rem;
+	margin: 0.75rem auto;
+}

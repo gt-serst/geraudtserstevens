@@ -2,12 +2,13 @@ import '../styles/App.css';
 import { useState, useEffect } from 'react';
 import Header from './Header'
 import Register from './Register'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Profile from './Profile'
 import Login from './Login'
 import Home from './Home'
 import { getCookie } from '../utils'
 const API_URL = "http://localhost:8000/api";
+
 
 function App() {
 	// const [users, setUsers] = useState([]);
@@ -39,8 +40,9 @@ function App() {
 	// 	setServerResponse(result)
 	// 	console.log(serverResponse)
 	// }
-	const savedLoginStatus = localStorage.getItem("cart")
-	const [loginStatus, updateLoginStatus] = useState(savedLoginStatus ? localStorage.getItem("loginStatus") : false)
+	const savedLoginStatus = localStorage.getItem("loginStatus")
+
+	const [loginStatus, updateLoginStatus] = useState(savedLoginStatus === "true");
 
 	useEffect(() => {
 		localStorage.setItem('loginStatus', loginStatus)
@@ -49,7 +51,7 @@ function App() {
 	useEffect(() => {
 		const fetchCsrf = async () => {
 			await fetch(API_URL + "/csrftoken/", {
-			credentials: "include",
+				credentials: "include",
 			});
 			localStorage.setItem('csrfToken', getCookie("csrftoken"));
 		};
@@ -59,39 +61,37 @@ function App() {
 
 	return (
 		<div className="App">
-			{loginStatus ? (
 			<BrowserRouter>
 				<nav>
 					<Link to="/">Accueil</Link> |{" "}
-					<Link to="/profile">Profil</Link> |{" "}
+					{loginStatus ? (
+						<>
+							<Link to="/profile">Profil</Link>
+						</>
+					) : (
+						<>
+							<Link to="/register">Inscription</Link> |{" "}
+							<Link to="/login">Connexion</Link>
+						</>
+					)}
 				</nav>
 				<Header />
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/profile" element={<Profile updateLoginStatus={updateLoginStatus}/>} />
-				</Routes>
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route
+							path="/login"
+							element={loginStatus ? <Navigate to="/profile" /> : <Login updateLoginStatus={updateLoginStatus} />}
+						/>
+						<Route
+							path="/register"
+							element={loginStatus ? <Navigate to="/profile" /> : <Register updateLoginStatus={updateLoginStatus} />}
+						/>
+						<Route
+							path="/profile"
+							element={loginStatus ? <Profile updateLoginStatus={updateLoginStatus} /> : <Navigate to="/login" />}
+						/>
+					</Routes>
 			</BrowserRouter>
-			) :
-			(
-				<BrowserRouter>
-				<nav>
-					<Link to="/">Accueil</Link> |{" "}
-					<Link to="/register">Inscription</Link> |{" "}
-					<Link to="/login">Connexion</Link> |{" "}
-				</nav>
-				<Header />
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/register" element={<Register updateLoginStatus={updateLoginStatus}/>} />
-					<Route path="/login" element={<Login updateLoginStatus={updateLoginStatus}/>} />
-				</Routes>
-			</BrowserRouter>
-			)}
-			{/* <ul>
-				{users.map((fields) => (
-					<li key={fields.id}>{fields.username}</li>
-				))}
-			</ul> */}
 		</div>
 	);
 }

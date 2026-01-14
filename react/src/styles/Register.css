@@ -3,16 +3,10 @@
 	flex-direction: column;
 	gap: 0.625rem;
 	width: 18.75rem;
-	margin: 1.25rem auto;
+	margin: 0.75rem auto;
 }
 
 input {
 	padding: 0.625rem;
-	font-size: 1rem;
-}
-
-.wb-error-box {
-	margin-top: 1.25rem;
-	color: red;
 	font-size: 1rem;
 }
