@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8000/ap";
+const API_URL = "http://localhost:8000/api";
 
 
 export async function postRequest(endpoint, data) {
@@ -16,7 +16,10 @@ export async function postRequest(endpoint, data) {
 
 		return { response, result };
 	} catch (error) {
-		throw new Error("Could not fetch project");
+		return {
+			response: null,
+			result: { error: error.message }
+		};
 	}
 }
 

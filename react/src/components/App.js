@@ -1,12 +1,12 @@
 import '../styles/App.css';
 import { useState, useEffect } from 'react';
-import Header from './Header'
 import Register from './Register'
-import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { Navigate, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Profile from './Profile'
 import Login from './Login'
 import Home from './Home'
 import ErrorPage from './ErrorPage';
+import Layout from "./Layout"
 import { getCookie } from '../utils'
 const API_URL = "http://localhost:8000/api";
 
@@ -60,45 +60,41 @@ function App() {
 		fetchCsrf();
 	}, []);
 
+	const router = createBrowserRouter([
+		{
+			path: "/",
+			element: <Layout loginStatus={loginStatus}/>,
+			errorElement: <ErrorPage />,
+			children: [
+				{
+					path: "/",
+					element: <Home />
+				},
+				{
+					path: "/login",
+					element: loginStatus
+					? <Navigate to="/profile" />
+					: <Login updateLoginStatus={updateLoginStatus} />
+				},
+				{
+					path: "/register",
+					element: loginStatus
+					? <Navigate to="/profile" />
+					: <Register updateLoginStatus={updateLoginStatus} />
+				},
+				{
+					path: "/profile",
+					element: loginStatus
+					? <Profile updateLoginStatus={updateLoginStatus} />
+					: <Navigate to="/login" />
+				}
+			],
+		},
+	]);
+
 	return (
 		<div className="App">
-			<BrowserRouter>
-				<nav>
-					<Link to="/">Accueil</Link> |{" "}
-					{loginStatus ? (
-						<>
-							<Link to="/profile">Profil</Link>
-						</>
-					) : (
-						<>
-							<Link to="/register">Inscription</Link> |{" "}
-							<Link to="/login">Connexion</Link>
-						</>
-					)}
-				</nav>
-				<Header />
-					<Routes>
-						<Route
-							path="/"
-							element={<Home />}
-							errorElement={<ErrorPage />} />
-						<Route
-							path="/login"
-							element={loginStatus ? <Navigate to="/profile" /> : <Login updateLoginStatus={updateLoginStatus} />}
-							errorElement={<ErrorPage />}
-						/>
-						<Route
-							path="/register"
-							element={loginStatus ? <Navigate to="/profile" /> : <Register updateLoginStatus={updateLoginStatus} />}
-							errorElement={<ErrorPage />}
-						/>
-						<Route
-							path="/profile"
-							element={loginStatus ? <Profile updateLoginStatus={updateLoginStatus} /> : <Navigate to="/login" />}
-							errorElement={<ErrorPage />}
-						/>
-					</Routes>
-			</BrowserRouter>
+			<RouterProvider router={router} />
 		</div>
 	);
 }
