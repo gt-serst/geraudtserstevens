@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Profile from './Profile'
 import Login from './Login'
 import Home from './Home'
+import ErrorPage from './ErrorPage';
 import { getCookie } from '../utils'
 const API_URL = "http://localhost:8000/api";
 
@@ -77,18 +78,24 @@ function App() {
 				</nav>
 				<Header />
 					<Routes>
-						<Route path="/" element={<Home />} />
+						<Route
+							path="/"
+							element={<Home />}
+							errorElement={<ErrorPage />} />
 						<Route
 							path="/login"
 							element={loginStatus ? <Navigate to="/profile" /> : <Login updateLoginStatus={updateLoginStatus} />}
+							errorElement={<ErrorPage />}
 						/>
 						<Route
 							path="/register"
 							element={loginStatus ? <Navigate to="/profile" /> : <Register updateLoginStatus={updateLoginStatus} />}
+							errorElement={<ErrorPage />}
 						/>
 						<Route
 							path="/profile"
 							element={loginStatus ? <Profile updateLoginStatus={updateLoginStatus} /> : <Navigate to="/login" />}
+							errorElement={<ErrorPage />}
 						/>
 					</Routes>
 			</BrowserRouter>

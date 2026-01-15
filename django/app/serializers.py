@@ -8,6 +8,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 	Serializer to validate the register information sent from a user.
 	"""
 	# Minimun and maximun password length required
+	username = serializers.CharField(max_length=15)
 	password = serializers.CharField(write_only=True, min_length=8, max_length=15)
 	class Meta:
 		model = User
@@ -49,6 +50,7 @@ class UpdateUsernameSerializer(serializers.ModelSerializer):
 	"""
 	Serializer to validate the new username sent from a user.
 	"""
+	username = serializers.CharField(max_length=15)
 	class Meta:
 		model = User
 		fields = ("username",)

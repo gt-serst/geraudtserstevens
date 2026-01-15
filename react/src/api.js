@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:8000/api";
+const API_URL = "http://localhost:8000/ap";
+
 
 export async function postRequest(endpoint, data) {
 	try {
@@ -15,22 +16,38 @@ export async function postRequest(endpoint, data) {
 
 		return { response, result };
 	} catch (error) {
-		return {
-			response: null,
-			result: { error: error.message }
-		};
+		throw new Error("Could not fetch project");
 	}
 }
 
 export async function getRequest(endpoint) {
 	try {
-		const response = await fetch(API_URL + endpoint, {
+		let response = await fetch(API_URL + endpoint, {
 			method: "GET",
 			headers: {
 				'X-CSRFToken': localStorage.getItem('csrfToken')
 			},
 			credentials: "include"
 		});
+		if (response.status === 401) {
+			const refresh = await refreshToken()
+			if (refresh.response && refresh.response.ok) {
+				response = await fetch(API_URL + endpoint, {
+					method: "GET",
+					headers: {
+						'X-CSRFToken': localStorage.getItem('csrfToken')
+					},
+					credentials: "include"
+				});
+			}
+			else {
+				await logOut();
+				return {
+					response: null,
+					result: { error: "Session expirée" }
+				};
+			}
+		}
 		const result = await response.json();
 		return { response, result };
 	} catch (error) {
@@ -45,9 +62,22 @@ export async function refreshToken() {
 	try {
 		const response = await fetch(API_URL + "/refresh/token/", {
 			method: "POST",
-			headers: {
-				'X-CSRFToken': localStorage.getItem('csrfToken')
-			},
+			credentials: "include"
+		});
+		const result = await response.json();
+		return { response, result };
+	} catch (error) {
+		return {
+			response: null,
+			result: { error: error.message }
+		};
+	}
+}
+
+export async function logOut(){
+	try {
+		const response = await fetch(API_URL + "/auth/logout/", {
+			method: "POST",
 			credentials: "include"
 		});
 		const result = await response.json();

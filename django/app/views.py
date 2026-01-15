@@ -5,7 +5,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework.permissions import IsAuthenticated
 from django.core.mail import send_mail
 from django.conf import settings
@@ -54,54 +53,50 @@ class LoginView(APIView):
 			refresh = RefreshToken.for_user(user)
 			response = Response({"user": {"id": user.id, "username": user.username}})
 			response.set_cookie(
-				key=settings.SIMPLE_JWT["AUTH_COOKIE"],
+				key=settings.ACCESS_COOKIE_NAME,
 				value=refresh.access_token,
-				domain=settings.SIMPLE_JWT["AUTH_COOKIE_DOMAIN"],
-				path=settings.SIMPLE_JWT["AUTH_COOKIE_PATH"],
-				expires=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
-				secure=settings.SIMPLE_JWT["AUTH_COOKIE_SECURE"],
-				httponly=settings.SIMPLE_JWT["AUTH_COOKIE_HTTP_ONLY"],
-				samesite=settings.SIMPLE_JWT["AUTH_COOKIE_SAMESITE"],
+				expires=settings.ACCESS_COOKIE_AGE,
+				httponly=settings.ACCESS_COOKIE_HTTPONLY,
+				samesite=settings.ACCESS_COOKIE_SAMESITE,
+				secure=settings.ACCESS_COOKIE_SECURE,
+				path=settings.ACCESS_COOKIE_PATH
 			)
 			response.set_cookie(
-				key=settings.SIMPLE_JWT["AUTH_COOKIE_REFRESH"],
+				key=settings.REFRESH_COOKIE_NAME,
 				value=refresh,
-				domain=settings.SIMPLE_JWT["AUTH_COOKIE_DOMAIN"],
-				path=settings.SIMPLE_JWT["AUTH_COOKIE_PATH"],
-				expires=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
-				secure=settings.SIMPLE_JWT["AUTH_COOKIE_SECURE"],
-				httponly=settings.SIMPLE_JWT["AUTH_COOKIE_HTTP_ONLY"],
-				samesite=settings.SIMPLE_JWT["AUTH_COOKIE_SAMESITE"],
+				expires=settings.REFRESH_COOKIE_AGE,
+				httponly=settings.REFRESH_COOKIE_HTTPONLY,
+				samesite=settings.REFRESH_COOKIE_SAMESITE,
+				secure=settings.REFRESH_COOKIE_SECURE,
+				path=settings.REFRESH_COOKIE_PATH
 			)
 			return response
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class CookieTokenRefreshView(APIView):
+class CookieRefreshView(APIView):
 	"""
 		Token view to refresh an access token from a user.
 	"""
 	def post(self, request):
 		# Get the refresh token from the cookie
-		# refresh_token = request.COOKIES.get(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'])
-		# if not refresh_token:
-		# 	return Response({"detail": "No refresh token"}, status=400)
+		refresh_token = request.COOKIES.get(settings.REFRESH_COOKIE_NAME)
+		if not refresh_token:
+			return Response({"detail": "No refresh token"}, status=400)
 		try:
-			refresh = RefreshToken()
-			access_token = str(refresh.access_token)
-			response = Response({"access": access_token})
+			refresh = RefreshToken(refresh_token)
+			response = Response({"detail": "Access token refreshed"})
 			response.set_cookie(
-				key=settings.SIMPLE_JWT["AUTH_COOKIE"],
-				value=access_token,
-				domain=settings.SIMPLE_JWT["AUTH_COOKIE_DOMAIN"],
-				path=settings.SIMPLE_JWT["AUTH_COOKIE_PATH"],
-				expires=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
-				secure=settings.SIMPLE_JWT["AUTH_COOKIE_SECURE"],
-				httponly=settings.SIMPLE_JWT["AUTH_COOKIE_HTTP_ONLY"],
-				samesite=settings.SIMPLE_JWT["AUTH_COOKIE_SAMESITE"],
+				key=settings.ACCESS_COOKIE_NAME,
+				value=refresh.access_token,
+				expires=settings.ACCESS_COOKIE_AGE,
+				httponly=settings.ACCESS_COOKIE_HTTPONLY,
+				samesite=settings.ACCESS_COOKIE_SAMESITE,
+				secure=settings.ACCESS_COOKIE_SECURE,
+				path=settings.ACCESS_COOKIE_PATH
 			)
 			return response
 		except Exception:
-			raise InvalidToken("Invalid refresh token")
+			return Response({"detail": "Invalid refresh token"}, status=401)
 
 class ProfileView(APIView):
 	"""
@@ -125,12 +120,13 @@ class LogoutView(APIView):
 	"""
 	def post(self, request):
 		try:
-			refresh_token = request.COOKIES.get(settings.SIMPLE_JWT["AUTH_COOKIE_REFRESH"])
+			refresh_token = request.COOKIES.get(settings.REFRESH_COOKIE_NAME)
 			refresh = RefreshToken(refresh_token)
 			# Set the refresh token in blacklist
 			refresh.blacklist()
-			response = Response(status=status.HTTP_205_RESET_CONTENT)
-			response.delete_cookie(settings.SIMPLE_JWT["AUTH_COOKIE"])
+			response = Response(status=status.HTTP_200_OK)
+			response.delete_cookie(settings.ACCESS_COOKIE_NAME)
+			response.delete_cookie(settings.REFRESH_COOKIE_NAME)
 			return response
 		except Exception as e:
 			return Response(status=status.HTTP_400_BAD_REQUEST)

@@ -159,23 +159,23 @@ CORS_ALLOW_HEADERS = [
 	"X-CSRFToken",
 	"Access-Control-Allow-Origin"
 ]
+# ACCESS COOKIE
+ACCESS_COOKIE_AGE = timedelta(minutes=5)
+ACCESS_COOKIE_NAME = "access"
+ACCESS_COOKIE_HTTPONLY = True
+ACCESS_COOKIE_SAMESITE = "Lax"
+ACCESS_COOKIE_SECURE = False # Set to true when HTTPS
+ACCESS_COOKIE_PATH = "/"
 
-# JWT
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    'BLACKLIST_AFTER_ROTATION': True,
+# REFRESH COOKIE
+REFRESH_COOKIE_AGE = timedelta(days=1)
+REFRESH_COOKIE_NAME = "refresh"
+REFRESH_COOKIE_HTTPONLY = True
+REFRESH_COOKIE_SAMESITE = "Lax"
+REFRESH_COOKIE_SECURE = False # Set to true when HTTPS
+REFRESH_COOKIE_PATH = "/"
 
-    "AUTH_COOKIE": "access_token",
-	"AUTH_COOKIE_REFRESH": "refresh_token",
-    "AUTH_COOKIE_DOMAIN": None,
-    "AUTH_COOKIE_SECURE": False, # Set to true when HTTPS
-    "AUTH_COOKIE_HTTP_ONLY": True,
-    "AUTH_COOKIE_PATH": "/",
-    "AUTH_COOKIE_SAMESITE": "Lax",
-}
-
-# CSRF
+# CSRF COOKIE
 CSRF_COOKIE_NAME = "csrftoken"
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SAMESITE = "Strict"

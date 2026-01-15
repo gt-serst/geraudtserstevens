@@ -34,18 +34,18 @@ function Register({ updateLoginStatus }) {
 		<div>
 			<h2>Inscription</h2>
 			<form className="wb-form" onSubmit={handleSubmit(onSubmit)}>
-				<input type="text" placeholder="Nom d'utilisateur" {...register("username", { required: "Username is required.", maxLength: { value: 15, message: "Username must be at most 15 characters long."} })}></input>
-				<input type="password" placeholder="Mot de passe" {...register("password", { required: "Password is required.", minLength: {value: 8, message: "Password must be at least 8 characters long."}, maxLength: {value: 15, message: "Password must be at most 15 characters long."} })}></input>
+				<input type="text" placeholder="Nom d'utilisateur" {...register("username", { required: true })}></input>
+				<input type="password" placeholder="Mot de passe" {...register("password", { required: true })}></input>
 				<input type="submit" value="S'inscrire"></input>
 			</form>
 			<div className="wb-alert-container">
-				{errors.username &&
+				{/* {errors.username &&
 					(<span className="wb-error"><p>{errors.username.message}</p></span>)}
 				{errors.password &&
-					(<span className="wb-error"><p>{errors.password.message}</p></span>)}
+					(<span className="wb-error"><p>{errors.password.message}</p></span>)} */}
 				{serverErrors && (
 					<span className="wb-error">
-						{Object.entries(serverErrors).map(([field, messages]) => (
+					{Object.entries(serverErrors).map(([field, messages]) => (
 							<p key={field}>{messages[0]}</p>
 						))}
 					</span>

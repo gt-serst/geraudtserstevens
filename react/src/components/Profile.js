@@ -1,4 +1,4 @@
-import { postRequest, getRequest } from "../api";
+import { postRequest, getRequest, logOut } from "../api";
 import { useState, useEffect } from "react"
 import "../styles/Profile.css"
 import { useNavigate } from "react-router-dom";
@@ -51,7 +51,7 @@ function Profile({ updateLoginStatus }) {
 	}, []);
 
 	async function handleClick(){
-		await postRequest("/auth/logout/")
+		await logOut()
 		updateLoginStatus(false)
 		navigate("/login")
 	}
@@ -92,19 +92,19 @@ function Profile({ updateLoginStatus }) {
 					))}
 				<div className="wb-update">
 					<form onSubmit={submitUsername(usernameOnSubmit)}>
-						<input type="text" placeholder="Nouveau nom d'utilisateur" className="wb-update-input" {...registerUsername("username", { required: "New username is required.", maxLength: { value: 15, message: "Username must be at most 15 characters long."} })}></input>
+						<input type="text" placeholder="Nouveau nom d'utilisateur" className="wb-update-input" {...registerUsername("username", { required: true })}></input>
 						<input type="submit" value="Confirmer" className="wb-btn-submit"></input>
 					</form>
 					<form onSubmit={submitPassword(passwordOnSubmit)}>
-						<input type="password" placeholder="Nouveau mot de passe" className="wb-update-input" {...registerPassword("password", { required: "New password is required.", minLength: {value: 8, message: "Password must be at least 8 characters long."}, maxLength: {value: 15, message: "Password must be at most 15 characters long."} })}></input>
+						<input type="password" placeholder="Nouveau mot de passe" className="wb-update-input" {...registerPassword("password", { required: true })}></input>
 						<input type="submit" value="Confirmer" className="wb-btn-submit"></input>
 					</form>
 				</div>
 				<div className="wb-alert-container">
-					{usernameErrors.username &&
+					{/* {usernameErrors.username &&
 						(<span className="wb-error"><p>{usernameErrors.username.message}</p></span>)}
 					{passwordErrors.password &&
-						(<span className="wb-error"><p>{passwordErrors.password.message}</p></span>)}
+						(<span className="wb-error"><p>{passwordErrors.password.message}</p></span>)} */}
 					{serverErrors &&
 						(<span className="wb-error">
 							{Object.entries(serverErrors).map(([field, message]) => (
