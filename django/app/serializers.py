@@ -8,14 +8,28 @@ class RegisterSerializer(serializers.ModelSerializer):
 	Serializer to validate the register information sent from a user.
 	"""
 	# Minimun and maximun password length required
-	username = serializers.CharField(max_length=15)
-	password = serializers.CharField(write_only=True, min_length=8, max_length=15)
+	username = serializers.CharField(
+		max_length=15,
+		error_messages={
+			"max_length": "assurez-vous que ce champ ne contient pas plus de 15 caractères."
+		}
+	)
+	password = serializers.CharField(
+		write_only=True,
+		min_length=8,
+		max_length=15,
+		error_messages={
+			"min_length": "assurez-vous que ce champ ne contient pas moins de 8 caractères.",
+			"max_length": "assurez-vous que ce champ ne contient pas plus de 15 caractères."
+		}
+	)
+
 	class Meta:
 		model = User
 		fields = ('id', 'username', 'password')
 	def validate_username(self, value):
 		if User.objects.filter(username=value).exists():
-			raise serializers.ValidationError("Ce nom d'utilisateur existe déjà.")
+			raise serializers.ValidationError("cette valeur existe déjà.")
 		return value
 	def create(self, validated_data):
 		# Hash the password for security
@@ -42,28 +56,54 @@ class LoginSerializer(serializers.Serializer):
 
 class SendMailSerializer(serializers.Serializer):
 	# Maximum subject length required
-	subject = serializers.CharField(max_length=255)
+	subject = serializers.CharField(
+		max_length=255,
+		error_messages={
+			"max_length":"assurez-vous que ce champ ne contient pas plus de 255 caractères."
+		}
+	)
 	message = serializers.CharField()
 	from_email = serializers.EmailField()
+	# def validate(self, data):
+		# if len(data["subject"]) > 255:
+			# raise serializers.ValidationError("Assurez-vous que ce champ ne contient pas plus de 255 caractères.")
+		# return data
+
 
 class UpdateUsernameSerializer(serializers.ModelSerializer):
 	"""
 	Serializer to validate the new username sent from a user.
 	"""
-	username = serializers.CharField(max_length=15)
+	username = serializers.CharField(
+		max_length=15,
+		error_messages={
+			"max_length":"assurez-vous que ce champ ne contient pas plus de 15 caractères."
+		}
+	)
+
 	class Meta:
 		model = User
 		fields = ("username",)
 	def validate_username(self, value):
+		# if len(value) > 15:
+		# 	raise serializers.ValidationError("Assurez-vous que ce champ ne contient pas plus de 15 caractères.")
 		if User.objects.filter(username=value).exists():
-			raise serializers.ValidationError("Ce nom d'utilisateur existe déjà.")
+			raise serializers.ValidationError("cette valeur existe déjà.")
 		return value
 
 class UpdatePasswordSerializer(serializers.ModelSerializer):
 	"""
 	Serializer to validate the new password sent from a user.
 	"""
-	password = serializers.CharField(write_only=True, min_length=8, max_length=15)
+	password = serializers.CharField(
+		write_only=True,
+		min_length=8,
+		max_length=15,
+		error_messages={
+			"min_length": "assurez-vous que ce champ ne contient pas moins de 8 caractères.",
+			"max_length": "assurez-vous que ce champ ne contient pas plus de 15 caractères."
+		}
+	)
 	class Meta:
 		model = User
 		fields = ("password",)

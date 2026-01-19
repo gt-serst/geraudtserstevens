@@ -3,6 +3,7 @@ const API_URL = "http://localhost:8000/api";
 
 export async function postRequest(endpoint, data) {
 	try {
+		console.log(data)
 		const response = await fetch(API_URL + endpoint, {
 			method: "POST",
 			headers: {

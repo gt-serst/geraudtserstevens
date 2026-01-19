@@ -83,45 +83,44 @@ function Profile({ updateLoginStatus }) {
 	}
 
 	return (
-		<div>
+		<div className="wb-profile-container">
 			<h3>Ton profil</h3>
 			{userInfo && (
 				<span>
 					{Object.entries(userInfo).map(([field, messages]) => (
 						<p key={field}>{messages}</p>
 					))}
-				<div className="wb-update">
-					<form onSubmit={submitUsername(usernameOnSubmit)}>
-						<input type="text" placeholder="Nouveau nom d'utilisateur" className="wb-update-input" {...registerUsername("username", { required: true })}></input>
-						<input type="submit" value="Confirmer" className="wb-btn-submit"></input>
-					</form>
-					<form onSubmit={submitPassword(passwordOnSubmit)}>
-						<input type="password" placeholder="Nouveau mot de passe" className="wb-update-input" {...registerPassword("password", { required: true })}></input>
-						<input type="submit" value="Confirmer" className="wb-btn-submit"></input>
-					</form>
-				</div>
-				<div className="wb-alert-container">
-					{/* {usernameErrors.username &&
-						(<span className="wb-error"><p>{usernameErrors.username.message}</p></span>)}
-					{passwordErrors.password &&
-						(<span className="wb-error"><p>{passwordErrors.password.message}</p></span>)} */}
-					{serverErrors &&
-						(<span className="wb-error">
-							{Object.entries(serverErrors).map(([field, message]) => (
-								<p key={field}>{message}</p>
-							))}
-						</span>)}
-					{serverResponse &&
-						(<span className="wb-success">
-							{Object.entries(serverResponse).map(([field, message]) => (
-								<p key={field}>{message}</p>
-							))}
-						</span>)
-					}
-					<button type="button" onClick={handleClick} className="wb-btn-logout">Se déconnecter</button>
-				</div>
-				</span>
-			)}
+			</span>)}
+			<div className="wb-profile-update-container">
+				<form onSubmit={submitUsername(usernameOnSubmit)}>
+					<input type="text" placeholder="Nouveau nom d'utilisateur" className="wb-update-input" {...registerUsername("username", { required: true })}></input>
+					<input type="submit" value="Confirmer" className="wb-btn-submit"></input>
+				</form>
+				<form onSubmit={submitPassword(passwordOnSubmit)}>
+					<input type="password" placeholder="Nouveau mot de passe" className="wb-update-input" {...registerPassword("password", { required: true })}></input>
+					<input type="submit" value="Confirmer" className="wb-btn-submit"></input>
+				</form>
+				<button type="button" onClick={handleClick} className="wb-btn-logout">Se déconnecter</button>
+			</div>
+			<div className="wb-alert-container">
+				{/* {usernameErrors.username &&
+					(<span className="wb-error"><p>{usernameErrors.username.message}</p></span>)}
+				{passwordErrors.password &&
+					(<span className="wb-error"><p>{passwordErrors.password.message}</p></span>)} */}
+				{serverErrors &&
+					(<span className="wb-error">
+						{Object.entries(serverErrors).map(([field, message]) => (
+							<p key={field}>{String(field).charAt(0).toUpperCase() + String(field).slice(1)}: {message}</p>
+						))}
+					</span>)}
+				{serverResponse &&
+					(<span className="wb-success">
+						{Object.entries(serverResponse).map(([field, message]) => (
+							<p key={field}>{message}</p>
+						))}
+					</span>)
+				}
+			</div>
 			{/* {serverErrors && (
 				<span className="wb-error">
 						<p>{serverErrors.detail}</p>

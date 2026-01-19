@@ -22,7 +22,7 @@ function Login({ updateLoginStatus }) {
 	}
 
 	return(
-		<div>
+		<div className="wb-login-container">
 			<h2>Connexion</h2>
 			<form className="wb-form" onSubmit={ handleSubmit(onSubmit) }>
 				<input type="text" placeholder="Nom d'utilisateur" {...register("username", { required: true }) }></input>

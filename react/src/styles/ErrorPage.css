@@ -1,4 +1,4 @@
-.error-page{
+.wb-error-container {
 	height: 100vh;
 	display: flex;
 	justify-content: center;
@@ -6,6 +6,6 @@
 	flex-direction: column;
 }
 
-.error-page p:last-child {
+.wb-error-container p:last-child {
 	color: grey;
 }

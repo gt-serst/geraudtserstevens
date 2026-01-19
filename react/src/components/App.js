@@ -7,6 +7,7 @@ import Login from './Login'
 import Home from './Home'
 import ErrorPage from './ErrorPage';
 import Layout from "./Layout"
+import Contact from "./Contact"
 import { getCookie } from '../utils'
 const API_URL = "http://localhost:8000/api";
 
@@ -87,6 +88,10 @@ function App() {
 					element: loginStatus
 					? <Profile updateLoginStatus={updateLoginStatus} />
 					: <Navigate to="/login" />
+				},
+				{
+					path: "/contact",
+					element : <Contact />
 				}
 			],
 		},

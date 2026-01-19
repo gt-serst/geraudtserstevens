@@ -19,19 +19,24 @@ function Register({ updateLoginStatus }) {
 			setServerErrors(result);
 		}
 		else {
-			await fetch(API_URL + "/auth/login/", {
+			const response = await fetch(API_URL + "/auth/login/", {
 				method: "POST",
 				credentials: "include",
 				body: JSON.stringify(data),
 				headers: { "Content-Type": "application/json" }
-		});
-		updateLoginStatus(true)
-		navigate("/profile");
+			});
+			if (!response || !response.ok) {
+				setServerErrors(result);
+			}
+			else {
+				updateLoginStatus(true)
+				navigate("/profile");
+			}
 		}
 	}
 
 	return (
-		<div>
+		<div className="wb-register-container">
 			<h2>Inscription</h2>
 			<form className="wb-form" onSubmit={handleSubmit(onSubmit)}>
 				<input type="text" placeholder="Nom d'utilisateur" {...register("username", { required: true })}></input>
@@ -46,7 +51,7 @@ function Register({ updateLoginStatus }) {
 				{serverErrors && (
 					<span className="wb-error">
 					{Object.entries(serverErrors).map(([field, messages]) => (
-							<p key={field}>{messages[0]}</p>
+							<p key={field}>{String(field).charAt(0).toUpperCase() + String(field).slice(1)}: {messages[0]}</p>
 						))}
 					</span>
 				)}

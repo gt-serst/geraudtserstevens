@@ -1,10 +1,10 @@
-.wb-header {
+.wb-header-container {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 }
 
 .wb-logo {
-	height: 10rem;
-	width: 10rem;
+	height: 5rem;
+	width: 5rem;
 }

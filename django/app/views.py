@@ -143,10 +143,10 @@ class SendMailView(APIView):
 					recipient_list=[settings.EMAIL_HOST_USER],
 					fail_silently=False
 				)
-				return Response({"message": "Email sent successfully"}, status=status.HTTP_200_OK)
+				return Response({"message": "Email envoyé avec succès."}, status=status.HTTP_200_OK)
 			except Exception:
 				return Response(
-					{"error": "Error while sending the email"},
+					{"error": "Erreur lors de l'envoi de l'email"},
 					status=status.HTTP_500_INTERNAL_SERVER_ERROR
 					)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -178,58 +178,3 @@ class UpdatePasswordView(APIView):
 			serializer.save()
 			return Response({"message": "Mot de passe correctement mis à jour."}, status=status.HTTP_200_OK)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-"""
-class CookieStrategy {
-    // Main authentication cookie - balanced security and UX
-    setAuthCookie(res, token) {
-        res.cookie('auth', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'lax',  // Good default
-            maxAge: 7 * 24 * 60 * 60 * 1000,  // 1 week
-            path: '/'
-        });
-    }
-
-    // High-security operations cookie - maximum protection
-    setSecureActionCookie(res, token) {
-        res.cookie('secure_action', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'strict',  // Maximum security
-            maxAge: 15 * 60 * 1000,  // 15 minutes only
-            path: '/account'  // Restricted path
-        });
-    }
-
-    // Cross-domain SSO cookie - needed for integrations
-    setSSOCookie(res, token) {
-        res.cookie('sso', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'none',  // Required for cross-site
-            maxAge: 60 * 60 * 1000,  // 1 hour
-            domain: '.sso-provider.com'
-        });
-
-        // Additional CSRF protection since we're using None
-        res.cookie('csrf', generateCSRFToken(), {
-            secure: true,
-            sameSite: 'strict',  // CSRF token can be strict!
-            maxAge: 60 * 60 * 1000
-        });
-    }
-
-    // Remember me cookie - long-lived but limited scope
-    setRememberMeCookie(res, token) {
-        res.cookie('remember', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'lax',
-            maxAge: 30 * 24 * 60 * 60 * 1000,  // 30 days
-            path: '/auth'  // Only for auth endpoints
-        });
-    }
-}
-"""

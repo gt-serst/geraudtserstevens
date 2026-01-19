@@ -1,0 +1,28 @@
+.wb-contact-container {
+	width: 40rem;
+	margin: 0.75rem auto;
+}
+
+.wb-contact-form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.625rem;
+}
+
+.wb-contact-input {
+	width: 10rem;
+	padding: 0.625rem;
+	font-size: 1rem;
+}
+
+.wb-contact-message {
+	width: auto;
+	height: 5rem;
+	padding: 0.625rem;
+	font-size: 1rem;
+}
+
+.wb-contact-btn-submit {
+	margin: auto;
+	width: 10rem;
+}

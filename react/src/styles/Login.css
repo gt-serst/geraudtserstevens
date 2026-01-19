@@ -1,9 +1,12 @@
+.wb-login-container {
+	width: 20rem;
+	margin: 0.75rem auto;
+}
+
 .wb-form {
 	display: flex;
 	flex-direction: column;
 	gap: 0.625rem;
-	width: 18.75rem;
-	margin: 0.75rem auto;
 }
 
 input {

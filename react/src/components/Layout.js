@@ -8,14 +8,15 @@ function Layout(props){
 				<Link to="/">Accueil</Link> |{" "}
 				{props.loginStatus ? (
 					<>
-						<Link to="/profile">Profil</Link>
+						<Link to="/profile">Profil</Link> |{" "}
 					</>
 					) : (
-					<>
+						<>
 						<Link to="/register">Inscription</Link> |{" "}
-						<Link to="/login">Connexion</Link>
+						<Link to="/login">Connexion</Link> |{" "}
 					</>
 				)}
+				<Link to="/contact">Contact</Link>
 			</nav>
 			<Header />
 			<Outlet />
