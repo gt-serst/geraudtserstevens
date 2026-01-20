@@ -13,3 +13,8 @@ input {
 	padding: 0.625rem;
 	font-size: 1rem;
 }
+
+.wb-register-btn-submit {
+	width: 10rem;
+	margin: auto;
+}

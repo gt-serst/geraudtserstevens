@@ -41,7 +41,7 @@ function Register({ updateLoginStatus }) {
 			<form className="wb-form" onSubmit={handleSubmit(onSubmit)}>
 				<input type="text" placeholder="Nom d'utilisateur" {...register("username", { required: true })}></input>
 				<input type="password" placeholder="Mot de passe" {...register("password", { required: true })}></input>
-				<input type="submit" value="S'inscrire"></input>
+				<input className="wb-register-btn-submit" type="submit" value="S'inscrire"></input>
 			</form>
 			<div className="wb-alert-container">
 				{/* {errors.username &&

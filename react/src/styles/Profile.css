@@ -1,3 +1,10 @@
+form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 0.625rem;
+}
+
 .wb-profile-container {
 	width: 40rem;
 	margin: 0.75rem auto;
@@ -6,6 +13,7 @@
 input {
 	padding: 0.625rem;
 	font-size: 1rem;
+	margin: auto;
 }
 
 button {
@@ -25,12 +33,11 @@ button {
 }
 
 .wb-btn-submit {
-	margin-left: 1rem;
-	width: 6rem;
+	width: 10rem;
+	margin: auto;
 }
 
 .wb-btn-logout{
 	width: 10rem;
 	margin: auto;
-	/* margin-top: 0.625rem; */
 }

@@ -27,7 +27,7 @@ function Login({ updateLoginStatus }) {
 			<form className="wb-form" onSubmit={ handleSubmit(onSubmit) }>
 				<input type="text" placeholder="Nom d'utilisateur" {...register("username", { required: true }) }></input>
 				<input type="password" placeholder="Mot de passe" {...register("password", { required: true }) }></input>
-				<input type="submit" value="Se connecter"></input>
+				<input className="wb-login-btn-submit" type="submit" value="Se connecter"></input>
 			</form>
 			<div className="wb-alert-container">
 				{serverErrors && (

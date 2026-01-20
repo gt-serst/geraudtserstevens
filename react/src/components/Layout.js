@@ -16,6 +16,7 @@ function Layout(props){
 						<Link to="/login">Connexion</Link> |{" "}
 					</>
 				)}
+				<Link to="/projects">Projets</Link> |{" "}
 				<Link to="/contact">Contact</Link>
 			</nav>
 			<Header />

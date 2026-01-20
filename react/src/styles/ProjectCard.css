@@ -1,0 +1,24 @@
+.wb-project-card-container {
+	width: 10rem;
+	height: auto;
+	border-radius: 0.4rem;
+	box-shadow: 5px 5px 15px #e1e1e3;
+	background-color: white;
+}
+
+.wb-project-card-logo {
+	height: 5rem;
+	width: 10rem;
+	border-radius: 0.4rem 0.4rem 0rem 0rem;
+}
+
+.wb-project-card-header {
+	margin:0px;
+	font-size:1.4em;
+	font-weight:700;
+}
+
+.wb-project-card-p {
+	font-size:12px;
+	padding: 0 0.626rem 0.626rem 0.626rem;
+}

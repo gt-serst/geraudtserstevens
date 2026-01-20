@@ -21,9 +21,6 @@ function Contact(){
 			setServerResponse(result)
 			setServerErrors(null)
 		}
-		console.log(serverErrors)
-		console.log(serverResponse)
-
 	}
 
 	return (

@@ -1,0 +1,10 @@
+.wb-projects-container {
+	width: 40rem;
+	margin: 0.75rem auto;
+}
+
+.wb-projects-projects-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.625rem;
+}
