@@ -9,6 +9,7 @@ import ErrorPage from './ErrorPage';
 import Layout from "./Layout"
 import Contact from "./Contact"
 import Projects from "./Projects"
+import Project from "./Project"
 import { getCookie } from '../utils'
 const API_URL = "http://localhost:8000/api";
 
@@ -93,6 +94,10 @@ function App() {
 				{
 					path: "/projects",
 					element : <Projects />
+				},
+				{
+					path: "/project/:id",
+					element: <Project />
 				},
 				{
 					path: "/contact",

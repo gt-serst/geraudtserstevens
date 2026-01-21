@@ -1,9 +1,10 @@
 import "../styles/ProjectCard.css"
+import { NavLink } from "react-router-dom";
 
 function ProjectCard({ id, title, description, cover}) {
 	return (
 		<div className="wb-project-card-container">
-			<a href={"/project/"+id}><img className="wb-project-card-logo" src={cover} alt={title+"cover"}></img></a>
+			<NavLink to={"/project/" + id}><img className="wb-project-card-logo" src={cover} alt={title+"cover"}></img></NavLink>
 			<h3 className="wb-project-card-header">{title}</h3>
 			<p className="wb-project-card-p">{description}</p>
 		</div>
