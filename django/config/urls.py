@@ -29,5 +29,7 @@ urlpatterns = [
 	path('api/account/profile/', views.ProfileView.as_view(), name='profile'),
 	path('api/contact/sendmail/', views.SendMailView.as_view(), name='sendmail'),
 	path('api/account/username/', views.UpdateUsernameView.as_view(), name='username'),
-	path('api/account/password/', views.UpdatePasswordView.as_view(), name='password')
+	path('api/account/password/', views.UpdatePasswordView.as_view(), name='password'),
+	path("api/project/<int:project_id>/", views.ProjectView.as_view(), name='project'),
+	path("api/projects/", views.ProjectsView.as_view(), name='projects')
 ]

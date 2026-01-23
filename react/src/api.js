@@ -1,16 +1,16 @@
 const API_URL = "http://localhost:8000/api";
 
 
-export async function postRequest(endpoint, data) {
+export async function postRequest(endpoint, ...data) {
 	try {
-		console.log(data)
+		console.log(data[0])
 		const response = await fetch(API_URL + endpoint, {
 			method: "POST",
 			headers: {
 				"Content-type": "application/json; charset=UTF-8",
 				'X-CSRFToken': localStorage.getItem('csrfToken')
 			},
-			body: JSON.stringify(data),
+			body: JSON.stringify(data[0]),
 			credentials: "include"
 		});
 		const result = await response.json();

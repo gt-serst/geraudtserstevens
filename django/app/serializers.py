@@ -1,7 +1,7 @@
 from rest_framework import serializers, validators
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate
-from .models import User
+from .models import Project, User
 
 class RegisterSerializer(serializers.ModelSerializer):
 	"""
@@ -112,3 +112,7 @@ class UpdatePasswordSerializer(serializers.ModelSerializer):
 		instance.save()
 		return instance
 
+class ProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = "__all__"
