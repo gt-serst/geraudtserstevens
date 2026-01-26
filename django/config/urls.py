@@ -33,7 +33,8 @@ urlpatterns = [
 	path('api/account/username/', views.UpdateUsernameView.as_view(), name='username'),
 	path('api/account/password/', views.UpdatePasswordView.as_view(), name='password'),
 	path("api/project/<int:project_id>/", views.ProjectView.as_view(), name='project'),
-	path("api/projects/", views.ProjectsView.as_view(), name='projects')
+	path("api/projects/", views.ProjectsView.as_view(), name='projects'),
+	path("api/projectimages/<int:project_id>/", views.ProjectImagesView.as_view(), name='projectimages')
 ]
 
 if settings.DEBUG:

@@ -19,7 +19,6 @@ function Projects(){
 				else{
 					setProjectsList(result)
 				}
-				console.log(projectsList)
 			}
 			fetchProject();
 		}, [])

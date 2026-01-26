@@ -1,7 +1,7 @@
 from rest_framework import serializers, validators
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate
-from .models import Project, User
+from .models import User, Project, ProjectImage
 
 class RegisterSerializer(serializers.ModelSerializer):
 	"""
@@ -116,3 +116,8 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = "__all__"
+
+class ProjectImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectImage
+        fields = ("image",)

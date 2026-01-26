@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import Project, User
-from .serializers import ProjectSerializer, RegisterSerializer, LoginSerializer, SendMailSerializer, UpdatePasswordSerializer, UpdateUsernameSerializer
+from .models import User, Project, ProjectImage
+from .serializers import RegisterSerializer, LoginSerializer, SendMailSerializer, UpdatePasswordSerializer, UpdateUsernameSerializer, ProjectSerializer, ProjectImageSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -192,15 +192,26 @@ class ProjectView(APIView):
 				status=status.HTTP_404_NOT_FOUND
 			)
 
+class ProjectImagesView(APIView):
+	def get(self, request, project_id):
+		try:
+			project = Project.objects.get(id=project_id)
+			images = ProjectImage.objects.filter(project=project)
+			serializer = ProjectImageSerializer(images, many=True)
+			return Response(serializer.data, status=status.HTTP_200_OK)
+
+		except Project.DoesNotExist:
+			return Response(
+				{"error": "pas de projet correspondant à cet id."},
+				status=status.HTTP_404_NOT_FOUND
+			)
+
 class ProjectsView(APIView):
 	def get(self, request):
 		try:
-			response = []
 			projects = Project.objects.all()
-			for project in projects:
-				serializer = ProjectSerializer(project)
-				response.append(serializer.data)
-			return Response(response, status=status.HTTP_200_OK)
+			serializer = ProjectSerializer(projects, many=True)
+			return Response(serializer.data, status=status.HTTP_200_OK)
 
 		except Project.DoesNotExist:
 			return Response(
