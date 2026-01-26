@@ -24,7 +24,7 @@ function Project() {
 
 	return (
 		<div className="wb-project-container">
-			{ projectInfo && (
+			{projectInfo && (
 				<div>
 					<ReactMarkdown>{projectInfo.content}</ReactMarkdown>
 				</div>

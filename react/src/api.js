@@ -26,6 +26,7 @@ export async function postRequest(endpoint, ...data) {
 
 export async function getRequest(endpoint) {
 	try {
+		console.log(API_URL + endpoint)
 		let response = await fetch(API_URL + endpoint, {
 			method: "GET",
 			headers: {
@@ -33,6 +34,7 @@ export async function getRequest(endpoint) {
 			},
 			credentials: "include"
 		});
+		console.log(response)
 		if (response.status === 401) {
 			const refresh = await refreshToken()
 			if (refresh.response && refresh.response.ok) {

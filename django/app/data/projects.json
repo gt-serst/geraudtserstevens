@@ -2,32 +2,32 @@
   {
     "title": "Lorem Project One",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "cover": "cover_project_one.jpg",
+    "cover": "projects/covers/project_cover_1.jpg",
     "images": [
-      "image_one_1.jpg",
-      "image_one_2.jpg",
-      "image_one_3.jpg"
+      "projects/images/project_image_1.jpg",
+      "projects/images/project_image_2.jpg",
+      "projects/images/project_image_3.jpg"
     ],
     "content": "## Lorem Project One\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\n### Section One\n\n- Lorem ipsum dolor sit amet\n- Consectetur adipiscing elit\n- Sed do eiusmod tempor\n\n### Section Two\n\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\n> Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n\n### Conclusion\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
   },
   {
     "title": "Lorem Project Two",
     "description": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem.",
-    "cover": "cover_project_two.jpg",
+    "cover": "projects/covers/project_cover_2.jpg",
     "images": [
-      "image_two_1.jpg",
-      "image_two_2.jpg"
+      "projects/images/project_image_4.jpg",
+      "projects/images/project_image_5.jpg"
     ],
     "content": "## Lorem Project Two\n\nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.\n\n### Section One\n\nNemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.\n\n### Section Two\n\nNeque porro quisquam est, qui dolorem ipsum quia dolor sit amet.\n\n1. Lorem ipsum\n2. Dolor sit amet\n3. Consectetur adipiscing elit\n\n### Final Notes\n\nAt vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium."
   },
   {
     "title": "Lorem Project Three",
     "description": "At vero eos et accusamus et iusto odio dignissimos ducimus.",
-    "cover": "cover_project_three.jpg",
+    "cover": "projects/covers/project_cover_3.jpg",
     "images": [
-      "image_three_1.jpg",
-      "image_three_2.jpg",
-      "image_three_3.jpg"
+      "projects/images/project_image_6.jpg",
+      "projects/images/project_image_7.jpg",
+      "projects/images/project_image_8.jpg"
     ],
     "content": "## Lorem Project Three\n\nAt vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium.\n\n### Overview\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.\n\n### Details\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\n\n### Summary\n\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
   }
