@@ -16,7 +16,7 @@ function Project() {
 			const endpoint = "/project/" + id + "/"
 			const { response, result } = await getRequest(endpoint)
 			if (!response || !response.ok){
-				setServerErrors(result)
+				setServerErrors(response)
 			}
 			else{
 				setProjectInfo(result)
@@ -29,8 +29,9 @@ function Project() {
 		async function fetchImages() {
 			const endpoint = "/projectimages/" + id + "/"
 			const { response, result } = await getRequest(endpoint)
+			console.log(response)
 			if (!response || !response.ok){
-				setServerErrors(result)
+				setServerErrors(response)
 			}
 			else{
 				setImagesList(result)
@@ -53,13 +54,14 @@ function Project() {
 				)
 			))}
 			{serverErrors && (
-				<div className="wb-alert-container">
-					<span className="wb-error">
-						{Object.entries(serverErrors).map(([field, message]) => (
-							<p key={field}>{String(field).charAt(0).toUpperCase() + String(field).slice(1)}: {message}</p>
-						))}
-					</span>
-				</div>
+				console.log(serverErrors)
+				// <div className="wb-alert-container">
+				// 	<span className="wb-error">
+				// 		{Object.entries(serverErrors).map(([field, message]) => (
+				// 			<p key={field}>{String(field).charAt(0).toUpperCase() + String(field).slice(1)}: {message}</p>
+				// 		))}
+				// 	</span>
+				// </div>
 			)}
 		</div>
 	)
