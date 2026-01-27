@@ -4,91 +4,66 @@ import "../styles/Profile.css"
 import { useNavigate } from "react-router-dom";
 import "../styles/Profile.css"
 import { useForm } from "react-hook-form"
-import AlertBanner from "./AlertBanner"
-import ErrorPage from "./ErrorPage"
-import Toast from "./Toast"
+import FeedbackDispatcher from "./FeedbackDispatcher";
 
 function Profile({ updateLoginStatus }) {
+
 	const navigate = useNavigate()
 	const [userInfo, setUserInfo] = useState(null)
-	// const [serverErrors, setServerErrors] = useState(null)
-	const [serverResponse, setServerResponse] = useState(null)
+	const [response, setResponse] = useState(null)
+
 	const {
 		register: registerUsername,
 		handleSubmit: submitUsername,
-		// formState: { errors: usernameErrors }
 	} = useForm()
+
 	const {
 		register: registerPassword,
 		handleSubmit: submitPassword,
-		// formState: { errors: passwordErrors }
 	} = useForm()
-	// const [serverErrors, setServerErrors] = useState(null)
 
-	// useEffect(() => {
-	// 	const fetchProfile = async () => {
-	// 		const endpoint = "/account/profile/"
-
-	// 		const result = await getRequest(endpoint)
-	// 		console.log(result)
-	// 		setServerResponse(result)
-	// 	}
-	// 	fetchProfile()
-	// }, [serverResponse]);
 	useEffect(() => {
 		async function fetchProfile() {
 			const endpoint = "/account/profile/"
-			const { response, result } = await getRequest(endpoint)
-			if (!response || !response.ok){
-				// setServerErrors(result)
+			const responseObject = await getRequest(endpoint)
+
+			setResponse(responseObject)
+
+			if (responseObject && responseObject.type === "SUCCESS") {
+				setUserInfo(responseObject.data)
+			}
+			else {
 				updateLoginStatus(false)
 				navigate("/login")
-			}
-			// const response = await fetch("http://localhost:8000/api/account/profile/", {method: "GET", credentials: "include"})
-			// const result = await response.json()
-			else{
-				setUserInfo(result)
 			}
 		}
 		fetchProfile();
 	}, []);
 
 	async function handleClick(){
-		await logOut()
-		updateLoginStatus(false)
-		navigate("/login")
+		const responseObject = await logOut()
+
+		setResponse(responseObject)
+
+		console.log(responseObject)
+		// if (responseObject && responseObject.type === "SUCCESS") {
+		// 	updateLoginStatus(false)
+		// 	navigate("/login")
+		// }
 	}
 
 	async function usernameOnSubmit(data){
+		setResponse(null)
 		const endpoint = "/account/username/"
 		const responseObject = await postRequest(endpoint, data)
-		console.log(responseObject)
-		setServerResponse(responseObject)
-		console.log(serverResponse)
-		// if (!response || !response.ok){
-		// 	setServerErrors(result)
-		// 	setServerResponse(null)
-		// }
-		// else{
-		// 	setServerResponse(result)
-		// 	setServerErrors(null)
-		// }
+		setResponse(responseObject)
 	}
 
 	async function passwordOnSubmit(data){
+		setResponse(null)
 		const endpoint = "/account/password/"
 		const responseObject = await postRequest(endpoint, data)
-		console.log(responseObject)
-		setServerResponse(responseObject)
-		console.log(serverResponse)
-		// if (!response || !response.ok){
-		// 	setServerErrors(result)
-		// 	setServerResponse(null)
-		// }
-		// else{
-		// 	setServerResponse(result)
-		// 	setServerErrors(null)
-		// }
+		setResponse(responseObject)
 	}
 
 	return (
@@ -111,32 +86,7 @@ function Profile({ updateLoginStatus }) {
 				</form>
 				<button type="button" onClick={handleClick} className="wb-btn-logout">Se déconnecter</button>
 			</div>
-			{/* <div className="wb-alert-container"> */}
-				{/* {usernameErrors.username &&
-					(<span className="wb-error"><p>{usernameErrors.username.message}</p></span>)}
-				{passwordErrors.password &&
-					(<span className="wb-error"><p>{passwordErrors.password.message}</p></span>)} */}
-				{/* {serverErrors &&
-					(<span className="wb-error">
-						{Object.entries(serverErrors).map(([field, message]) => (
-							<p key={field}>{String(field).charAt(0).toUpperCase() + String(field).slice(1)}: {message}</p>
-						))}
-					</span>)} */}
-				{serverResponse && (serverResponse.type === "AUTH" || serverResponse.type === "FORM") &&
-					<AlertBanner errorObject={serverResponse}/>
-				}
-				{serverResponse && (serverResponse.type === "SYSTEM") &&
-					<ErrorPage errorObject={serverResponse}/>
-				}
-				{serverResponse && (serverResponse.type === "SUCCESS") &&
-					<Toast successObject={serverResponse}/>
-				}
-			{/* </div> */}
-			{/* {serverErrors && (
-				<span className="wb-error">
-						<p>{serverErrors.detail}</p>
-				</span>
-			)} */}
+			<FeedbackDispatcher response={response} />
 		</div>
 	)
 }

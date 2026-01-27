@@ -11,7 +11,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 	username = serializers.CharField(
 		max_length=15,
 		error_messages={
-			"max_length": "Assurez-vous que le nom d'utilisateur ne contient pas plus de 15 caractères."
+			"max_length": "Le nom d'utilisateur doit contenir au plus 15 caractères."
 		}
 	)
 	password = serializers.CharField(
@@ -19,8 +19,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 		min_length=8,
 		max_length=15,
 		error_messages={
-			"min_length": "Assurez-vous que le mot de passe ne contient pas moins de 8 caractères.",
-			"max_length": "Assurez-vous que le mot de passe ne contient pas plus de 15 caractères."
+			"min_length": "Le mot de passe doit contenir au moins 8 caractères.",
+			"max_length": "Le mot de passe doit contenir au plus 15 caractères."
 		}
 	)
 
@@ -59,7 +59,7 @@ class SendMailSerializer(serializers.Serializer):
 	subject = serializers.CharField(
 		max_length=255,
 		error_messages={
-			"max_length":"Assurez-vous que le sujet ne contient pas plus de 255 caractères."
+			"max_length":"Le sujet doit contenir au plus 255 caractères."
 		}
 	)
 	message = serializers.CharField()
@@ -77,7 +77,7 @@ class UpdateUsernameSerializer(serializers.ModelSerializer):
 	username = serializers.CharField(
 		max_length=15,
 		error_messages={
-			"max_length":"Assurez-vous que le nom d'utilisateur ne contient pas plus de 15 caractères."
+			"max_length":"Le nom d'utilisateur doit contenir au plus 15 caractères."
 		}
 	)
 
@@ -100,8 +100,8 @@ class UpdatePasswordSerializer(serializers.ModelSerializer):
 		min_length=8,
 		max_length=15,
 		error_messages={
-			"min_length": "Assurez-vous que le mot de passe ne contient pas moins de 8 caractères.",
-			"max_length": "Assurez-vous que le mot de passe ne contient pas plus de 15 caractères."
+			"min_length": "Le mot de passe doit contenir au moins 8 caractères.",
+			"max_length": "Le mot de passe doit contenir au plus 15 caractères."
 		}
 	)
 	class Meta:

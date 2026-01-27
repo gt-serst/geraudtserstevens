@@ -3,32 +3,28 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { postRequest } from "../api"
-const API_URL = "http://localhost:8000/api";
+import FeedbackDispatcher from './FeedbackDispatcher';
 
 function Register({ updateLoginStatus }) {
+
 	const navigate = useNavigate();
-	const [serverErrors, setServerErrors] = useState(null);
-	const { register, handleSubmit, formState: { errors } } = useForm();
+	const [response, setResponse] = useState(null);
+	const { register, handleSubmit } = useForm();
 
 	async function onSubmit(data) {
-		const endpoint = "/auth/register/";
+		setResponse(null)
+		const register_endpoint = "/auth/register/";
+		const responseObject = await postRequest(register_endpoint, data);
 
-		const { response, result } = await postRequest(endpoint, data);
+		setResponse(responseObject)
 
-		if (!response || !response.ok) {
-			setServerErrors(result);
-		}
-		else {
-			const response = await fetch(API_URL + "/auth/login/", {
-				method: "POST",
-				credentials: "include",
-				body: JSON.stringify(data),
-				headers: { "Content-Type": "application/json" }
-			});
-			if (!response || !response.ok) {
-				setServerErrors(result);
-			}
-			else {
+		if (response && response.type === "SUCCESS") {
+			const login_endpoint = "/auth/login/"
+			const responseObject = await postRequest(login_endpoint, data);
+
+			setResponse(responseObject)
+
+			if (response && response.type === "SUCCESS") {
 				updateLoginStatus(true)
 				navigate("/profile");
 			}
@@ -43,19 +39,7 @@ function Register({ updateLoginStatus }) {
 				<input type="password" placeholder="Mot de passe" {...register("password", { required: true })}></input>
 				<input className="wb-register-btn-submit" type="submit" value="S'inscrire"></input>
 			</form>
-			<div className="wb-alert-container">
-				{/* {errors.username &&
-					(<span className="wb-error"><p>{errors.username.message}</p></span>)}
-				{errors.password &&
-					(<span className="wb-error"><p>{errors.password.message}</p></span>)} */}
-				{serverErrors && (
-					<span className="wb-error">
-					{Object.entries(serverErrors).map(([field, messages]) => (
-							<p key={field}>{String(field).charAt(0).toUpperCase() + String(field).slice(1)}: {messages[0]}</p>
-						))}
-					</span>
-				)}
-			</div>
+			<FeedbackDispatcher response={response} />
 		</div>
 	)
 }

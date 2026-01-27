@@ -15,35 +15,7 @@ const API_URL = "http://localhost:8000/api";
 
 
 function App() {
-	// const [users, setUsers] = useState([]);
-	// const url = "http://localhost:8000/api/auth/register/";
-	// useEffect(() => {
-	// 	const fetchUsers = async () => {
-	// 		try {
-	// 			const response = await fetch(url);
-	// 			if (!response.ok) {
-	// 				throw new Error(`Response status: ${response.status}`);
-	// 			}
-
-	// 			const result = await response.json();
-	// 			setUsers(result);
-	// 			console.log(result);
-	// 		} catch (error) {
-	// 			console.error(error.message);
-	// 		}
-	// 	};
-
-	// 	fetchUsers();
-	// }, []);
-	// const [serverResponse, setServerResponse] = useState(null)
-	// async function getUserInfo(accessToken) {
-	// 	const endpoint = "/account/profile/"
-
-	// 	const result = await getRequest(endpoint, accessToken)
-	// 	console.log(result)
-	// 	setServerResponse(result)
-	// 	console.log(serverResponse)
-	// }
+	
 	const savedLoginStatus = localStorage.getItem("loginStatus")
 
 	const [loginStatus, updateLoginStatus] = useState(savedLoginStatus === "true");

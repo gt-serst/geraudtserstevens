@@ -1,25 +1,27 @@
-import { useParams } from 'react-router-dom';
+import { resolvePath, useParams } from 'react-router-dom';
 import ReactMarkdown from "react-markdown";
 import { useState, useEffect } from 'react';
 import { getRequest } from '../api';
 import "../styles/Project.css"
+import FeedbackDispatcher from './FeedbackDispatcher';
 const IMG_URL = "http://localhost:8000"
 
 function Project() {
 	const { id } = useParams();
 	const [projectInfo, setProjectInfo] = useState()
 	const [imagesList, setImagesList] = useState()
-	const [serverErrors, setServerErrors] = useState()
+	const [response, setResponse] = useState()
 
 	useEffect(() => {
 		async function fetchProject() {
+
 			const endpoint = "/project/" + id + "/"
-			const { response, result } = await getRequest(endpoint)
-			if (!response || !response.ok){
-				setServerErrors(response)
-			}
-			else{
-				setProjectInfo(result)
+			const responseObject = await getRequest(endpoint)
+
+			setResponse(responseObject)
+
+			if (responseObject && responseObject.type === "SUCCESS") {
+				setProjectInfo(responseObject.data)
 			}
 		}
 		fetchProject();
@@ -28,13 +30,12 @@ function Project() {
 	useEffect(() => {
 		async function fetchImages() {
 			const endpoint = "/projectimages/" + id + "/"
-			const { response, result } = await getRequest(endpoint)
-			console.log(response)
-			if (!response || !response.ok){
-				setServerErrors(response)
-			}
-			else{
-				setImagesList(result)
+			const responseObject = await getRequest(endpoint)
+
+			setResponse(responseObject)
+
+			if (responseObject && responseObject.type === "SUCCESS") {
+				setImagesList(responseObject.data)
 			}
 		}
 		fetchImages();
@@ -48,21 +49,14 @@ function Project() {
 					<ReactMarkdown>{projectInfo.content}</ReactMarkdown>
 				</div>
 			)}
-			{imagesList && (
-				imagesList.map((image) => (
-					<img className="wb-project-cover" src={IMG_URL + image.image} alt={image.id + "_image"}></img>
-				)
-			))}
-			{serverErrors && (
-				console.log(serverErrors)
-				// <div className="wb-alert-container">
-				// 	<span className="wb-error">
-				// 		{Object.entries(serverErrors).map(([field, message]) => (
-				// 			<p key={field}>{String(field).charAt(0).toUpperCase() + String(field).slice(1)}: {message}</p>
-				// 		))}
-				// 	</span>
-				// </div>
-			)}
+			<ul>
+				{imagesList && (
+					imagesList.map((image, index) => (
+						<span key={index}><img className="wb-project-cover" src={IMG_URL + image.image} alt={image.id + "_image"}></img></span>
+					)
+				))}
+			</ul>
+			<FeedbackDispatcher response={response} />
 		</div>
 	)
 }

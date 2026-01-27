@@ -4,7 +4,6 @@ const API_URL = "http://localhost:8000/api";
 
 export async function postRequest(endpoint, ...data) {
 	try {
-		console.log(data[0])
 		const response = await fetch(API_URL + endpoint, {
 			method: "POST",
 			headers: {
@@ -15,19 +14,13 @@ export async function postRequest(endpoint, ...data) {
 			credentials: "include"
 		});
 		return responseHandler(response)
-		// return { response, result };
 	} catch (error) {
 		return responseHandler(error)
-		// return {
-		// 	response: null,
-		// 	result: { error: error.message }
-		// };
 	}
 }
 
 export async function getRequest(endpoint) {
 	try {
-		console.log(API_URL + endpoint)
 		let response = await fetch(API_URL + endpoint, {
 			method: "GET",
 			headers: {
@@ -35,33 +28,28 @@ export async function getRequest(endpoint) {
 			},
 			credentials: "include"
 		});
-		console.log(response)
-		if (response.status === 401) {
-			const refresh = await refreshToken()
-			if (refresh.response && refresh.response.ok) {
-				response = await fetch(API_URL + endpoint, {
-					method: "GET",
-					headers: {
-						'X-CSRFToken': localStorage.getItem('csrfToken')
-					},
-					credentials: "include"
-				});
-			}
-			else {
-				await logOut();
-				return {
-					response: null,
-					result: { error: "Session expirée" }
-				};
-			}
-		}
-		const result = await response.json();
-		return { response, result };
+		// if (response.status === 401) {
+		// 	const refresh = await refreshToken()
+		// 	if (refresh.response && refresh.response.ok) {
+		// 		response = await fetch(API_URL + endpoint, {
+		// 			method: "GET",
+		// 			headers: {
+		// 				'X-CSRFToken': localStorage.getItem('csrfToken')
+		// 			},
+		// 			credentials: "include"
+		// 		});
+		// 	}
+		// 	else {
+		// 		await logOut();
+		// 		return {
+		// 			response: null,
+		// 			result: { error: "Session expirée" }
+		// 		};
+		// 	}
+		// }
+		return responseHandler(response)
 	} catch (error) {
-		return {
-			response: null,
-			result: { error: error.message }
-		};
+		return responseHandler(error)
 	}
 }
 
@@ -87,12 +75,8 @@ export async function logOut(){
 			method: "POST",
 			credentials: "include"
 		});
-		const result = await response.json();
-		return { response, result };
+		return responseHandler(response)
 	} catch (error) {
-		return {
-			response: null,
-			result: { error: error.message }
-		};
+		return responseHandler(error)
 	}
 }

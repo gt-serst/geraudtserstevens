@@ -22,7 +22,6 @@ let responseObject = {
 }
 
 export async function responseHandler(response){
-	console.log(response)
 	if (!response) {
 		responseObject.type = "SYSTEM"
 	}
@@ -49,7 +48,11 @@ export async function responseHandler(response){
 			responseObject.type = "SUCCESS"
 		}
 	}
-	responseObject.data = await response.json()
+	if (response.headers.get('content-type') === "application/json") {
+		responseObject.data = await response.json()
+	}
+	else if (response.headers.get('content-type') === "text/plain")
+		responseObject.data = await response.text()
 	responseObject.statusText = response.statusText
 	responseObject.status = response.status
 	return responseObject

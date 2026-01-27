@@ -3,17 +3,18 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { postRequest } from "../api";
 import "../styles/Login.css"
+import FeedbackDispatcher from "./FeedbackDispatcher";
 
 function Login({ updateLoginStatus }) {
 	const navigate = useNavigate()
-	const [serverErrors, setServerErrors] = useState(null)
+	const [response, setResponse] = useState(null)
 	const { register, handleSubmit } = useForm()
 
 	async function onSubmit(data) {
 		const endpoint = "/auth/login/"
 		const responseObject = await postRequest(endpoint, data)
-		console.log(responseObject)
-		if (responseObject.type === "SUCCESS"){
+		setResponse(responseObject)
+		if (responseObject && responseObject.type === "SUCCESS"){
 			updateLoginStatus(true)
 			navigate("/profile/")
 		}
@@ -27,15 +28,7 @@ function Login({ updateLoginStatus }) {
 				<input type="password" placeholder="Mot de passe" {...register("password", { required: true }) }></input>
 				<input className="wb-login-btn-submit" type="submit" value="Se connecter"></input>
 			</form>
-			<div className="wb-alert-container">
-				{serverErrors && (
-					<span className="wb-error">
-						{Object.entries(serverErrors).map(([field, messages]) => (
-							<p key={field}>{messages[0]}</p>
-						))}
-					</span>
-				)}
-			</div>
+			<FeedbackDispatcher response={response} />
 		</div>
 	)
 }

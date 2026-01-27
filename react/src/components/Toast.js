@@ -1,13 +1,16 @@
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from "react"
+
 
 function Toast({successObject}) {
 
-	const notify = () => toast.success(Object.values(successObject.data)[0][0]);
+	useEffect(() => {
+	if (!successObject || !successObject.data) return
+		toast.success(Object.values(successObject.data).flat()[0])
+	}, [successObject])
 
 	return (
 	<div>
-		<button onClick={notify}>Notify!</button>
 		<ToastContainer
 			position="bottom-right"
 			theme="colored"
