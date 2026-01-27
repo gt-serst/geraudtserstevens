@@ -4,21 +4,24 @@ import "../styles/Profile.css"
 import { useNavigate } from "react-router-dom";
 import "../styles/Profile.css"
 import { useForm } from "react-hook-form"
+import AlertBanner from "./AlertBanner"
+import ErrorPage from "./ErrorPage"
+import Toast from "./Toast"
 
 function Profile({ updateLoginStatus }) {
 	const navigate = useNavigate()
 	const [userInfo, setUserInfo] = useState(null)
-	const [serverErrors, setServerErrors] = useState(null)
+	// const [serverErrors, setServerErrors] = useState(null)
 	const [serverResponse, setServerResponse] = useState(null)
 	const {
 		register: registerUsername,
 		handleSubmit: submitUsername,
-		formState: { errors: usernameErrors }
+		// formState: { errors: usernameErrors }
 	} = useForm()
 	const {
 		register: registerPassword,
 		handleSubmit: submitPassword,
-		formState: { errors: passwordErrors }
+		// formState: { errors: passwordErrors }
 	} = useForm()
 	// const [serverErrors, setServerErrors] = useState(null)
 
@@ -58,28 +61,34 @@ function Profile({ updateLoginStatus }) {
 
 	async function usernameOnSubmit(data){
 		const endpoint = "/account/username/"
-		const { response, result } = await postRequest(endpoint, data)
-		if (!response || !response.ok){
-			setServerErrors(result)
-			setServerResponse(null)
-		}
-		else{
-			setServerResponse(result)
-			setServerErrors(null)
-		}
+		const responseObject = await postRequest(endpoint, data)
+		console.log(responseObject)
+		setServerResponse(responseObject)
+		console.log(serverResponse)
+		// if (!response || !response.ok){
+		// 	setServerErrors(result)
+		// 	setServerResponse(null)
+		// }
+		// else{
+		// 	setServerResponse(result)
+		// 	setServerErrors(null)
+		// }
 	}
 
 	async function passwordOnSubmit(data){
 		const endpoint = "/account/password/"
-		const { response, result } = await postRequest(endpoint, data)
-		if (!response || !response.ok){
-			setServerErrors(result)
-			setServerResponse(null)
-		}
-		else{
-			setServerResponse(result)
-			setServerErrors(null)
-		}
+		const responseObject = await postRequest(endpoint, data)
+		console.log(responseObject)
+		setServerResponse(responseObject)
+		console.log(serverResponse)
+		// if (!response || !response.ok){
+		// 	setServerErrors(result)
+		// 	setServerResponse(null)
+		// }
+		// else{
+		// 	setServerResponse(result)
+		// 	setServerErrors(null)
+		// }
 	}
 
 	return (
@@ -102,25 +111,27 @@ function Profile({ updateLoginStatus }) {
 				</form>
 				<button type="button" onClick={handleClick} className="wb-btn-logout">Se déconnecter</button>
 			</div>
-			<div className="wb-alert-container">
+			{/* <div className="wb-alert-container"> */}
 				{/* {usernameErrors.username &&
 					(<span className="wb-error"><p>{usernameErrors.username.message}</p></span>)}
 				{passwordErrors.password &&
 					(<span className="wb-error"><p>{passwordErrors.password.message}</p></span>)} */}
-				{serverErrors &&
+				{/* {serverErrors &&
 					(<span className="wb-error">
 						{Object.entries(serverErrors).map(([field, message]) => (
 							<p key={field}>{String(field).charAt(0).toUpperCase() + String(field).slice(1)}: {message}</p>
 						))}
-					</span>)}
-				{serverResponse &&
-					(<span className="wb-success">
-						{Object.entries(serverResponse).map(([field, message]) => (
-							<p key={field}>{message}</p>
-						))}
-					</span>)
+					</span>)} */}
+				{serverResponse && (serverResponse.type === "AUTH" || serverResponse.type === "FORM") &&
+					<AlertBanner errorObject={serverResponse}/>
 				}
-			</div>
+				{serverResponse && (serverResponse.type === "SYSTEM") &&
+					<ErrorPage errorObject={serverResponse}/>
+				}
+				{serverResponse && (serverResponse.type === "SUCCESS") &&
+					<Toast successObject={serverResponse}/>
+				}
+			{/* </div> */}
 			{/* {serverErrors && (
 				<span className="wb-error">
 						<p>{serverErrors.detail}</p>

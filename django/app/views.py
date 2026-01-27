@@ -162,7 +162,7 @@ class UpdateUsernameView(APIView):
 		serializer = UpdateUsernameSerializer(user, data=request.data)
 		if serializer.is_valid():
 			serializer.save()
-			return Response({"message": "Nom d'utilisateur correctement mis à jour."}, status=status.HTTP_200_OK)
+			return Response({"message": ["Nom d'utilisateur correctement mis à jour."]}, status=status.HTTP_200_OK)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UpdatePasswordView(APIView):
@@ -188,7 +188,7 @@ class ProjectView(APIView):
 
 		except Project.DoesNotExist:
 			return Response(
-				{"error": "pas de projet correspondant à cet id."},
+				{"error": "Ce projet n'existe pas."},
 				status=status.HTTP_404_NOT_FOUND
 			)
 
@@ -202,7 +202,7 @@ class ProjectImagesView(APIView):
 
 		except Project.DoesNotExist:
 			return Response(
-				{"error": "pas de projet correspondant à cet id."},
+				{"error": "Ce projet n'existe pas."},
 				status=status.HTTP_404_NOT_FOUND
 			)
 
@@ -215,6 +215,6 @@ class ProjectsView(APIView):
 
 		except Project.DoesNotExist:
 			return Response(
-				{"error": "pas de projet existants."},
+				{"error": "Pas de projet existant."},
 				status=status.HTTP_404_NOT_FOUND
 			)

@@ -1,16 +1,20 @@
 import { useRouteError } from "react-router-dom";
 import "../styles/ErrorPage.css"
 
-export default function ErrorPage() {
+export default function ErrorPage(errorObject) {
+
 	const error = useRouteError();
-	console.error(error);
+
+	if (error) {
+		errorObject = error
+	}
 
 	return (
 		<div className="wb-error-container">
 			<h1>Oops!</h1>
 			<p>Sorry, an unexpected error has occurred.</p>
 			<p>
-				<i>{error.statusText || error.message}</i>
+				<i>{errorObject.statusText | errorObject.status}</i>
 			</p>
 		</div>
 	);

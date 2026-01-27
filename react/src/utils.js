@@ -13,3 +13,44 @@ export function getCookie(name) {
 	}
 	return cookieValue;
 }
+
+let responseObject = {
+	type: "AUTH" | "FORM" | "SYSTEM" | "SUCCESS",
+	statusText: undefined,
+	status: undefined,
+	data: undefined
+}
+
+export async function responseHandler(response){
+	console.log(response)
+	if (!response) {
+		responseObject.type = "SYSTEM"
+	}
+	else{
+		if (!response.ok){
+			switch (response.status) {
+				case 401:
+					responseObject.type = "AUTH"
+					break
+				case 400:
+					responseObject.type = "FORM"
+					break
+				case 404:
+					responseObject.type = "SYSTEM"
+					break
+				case 500:
+					responseObject.type = "SYSTEM"
+					break
+				default:
+					responseObject.type = "SYSTEM"
+			}
+		}
+		else {
+			responseObject.type = "SUCCESS"
+		}
+	}
+	responseObject.data = await response.json()
+	responseObject.statusText = response.statusText
+	responseObject.status = response.status
+	return responseObject
+}

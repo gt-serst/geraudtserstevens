@@ -11,11 +11,9 @@ function Login({ updateLoginStatus }) {
 
 	async function onSubmit(data) {
 		const endpoint = "/auth/login/"
-		const { response, result } = await postRequest(endpoint, data)
-		if (!response || !response.ok){
-			setServerErrors(result)
-		}
-		else{
+		const responseObject = await postRequest(endpoint, data)
+		console.log(responseObject)
+		if (responseObject.type === "SUCCESS"){
 			updateLoginStatus(true)
 			navigate("/profile/")
 		}

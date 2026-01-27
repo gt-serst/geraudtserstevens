@@ -1,3 +1,4 @@
+import { responseHandler } from "./utils"
 const API_URL = "http://localhost:8000/api";
 
 
@@ -13,14 +14,14 @@ export async function postRequest(endpoint, ...data) {
 			body: JSON.stringify(data[0]),
 			credentials: "include"
 		});
-		const result = await response.json();
-
-		return { response, result };
+		return responseHandler(response)
+		// return { response, result };
 	} catch (error) {
-		return {
-			response: null,
-			result: { error: error.message }
-		};
+		return responseHandler(error)
+		// return {
+		// 	response: null,
+		// 	result: { error: error.message }
+		// };
 	}
 }
 
