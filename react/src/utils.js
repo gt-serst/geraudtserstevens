@@ -15,7 +15,7 @@ export function getCookie(name) {
 }
 
 let responseObject = {
-	type: "AUTH" | "FORM" | "SYSTEM" | "SUCCESS",
+	type: "AUTH" | "FORM" | "SYSTEM" | "SUCCESS" | "SILENT",
 	statusText: undefined,
 	status: undefined,
 	data: undefined

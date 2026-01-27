@@ -6,8 +6,7 @@ function FeedbackDispatcher({ response }) {
 	if (!response) return null
 
 	switch (response.type) {
-		case "FORM":
-		case "AUTH":
+		case "FORM" || "AUTH":
 			return <AlertBanner errorObject={response} />
 
 		case "SUCCESS":

@@ -6,6 +6,12 @@ from django.core.files import File
 
 class Command(BaseCommand):
 	def handle(self, *args, **kwargs):
+		projects_already_loaded = Project.objects.all()
+
+		if projects_already_loaded:
+			self.stdout.write(self.style.SUCCESS("Projects already loaded."))
+			return
+
 		with open("app/data/projects.json") as f:
 			projects = json.load(f)
 

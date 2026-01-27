@@ -12,22 +12,26 @@ function Register({ updateLoginStatus }) {
 	const { register, handleSubmit } = useForm();
 
 	async function onSubmit(data) {
+
 		setResponse(null)
+
 		const register_endpoint = "/auth/register/";
 		const responseObject = await postRequest(register_endpoint, data);
 
 		setResponse(responseObject)
 
-		if (response && response.type === "SUCCESS") {
+		if (responseObject && responseObject.type === "SUCCESS") {
+
 			const login_endpoint = "/auth/login/"
 			const responseObject = await postRequest(login_endpoint, data);
 
-			setResponse(responseObject)
-
-			if (response && response.type === "SUCCESS") {
+			if (responseObject && responseObject.type === "SUCCESS") {
 				updateLoginStatus(true)
 				navigate("/profile");
 			}
+
+			setResponse(responseObject)
+
 		}
 	}
 

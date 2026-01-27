@@ -51,7 +51,7 @@ class LoginView(APIView):
 			user = serializer.validated_data['user']
 			# Generate a refresh token for the user
 			refresh = RefreshToken.for_user(user)
-			response = Response({"user": {"id": user.id, "username": user.username}})
+			response = Response({"message": "Utilisateur connecté avec succès."}, status=status.HTTP_200_OK)
 			response.set_cookie(
 				key=settings.ACCESS_COOKIE_NAME,
 				value=refresh.access_token,
@@ -124,7 +124,7 @@ class LogoutView(APIView):
 			refresh = RefreshToken(refresh_token)
 			# Set the refresh token in blacklist
 			refresh.blacklist()
-			response = Response(status=status.HTTP_200_OK)
+			response = Response({"message": "Utilisateur déconnecté avec succès."}, status=status.HTTP_200_OK)
 			response.delete_cookie(settings.ACCESS_COOKIE_NAME)
 			response.delete_cookie(settings.REFRESH_COOKIE_NAME)
 			return response
@@ -162,7 +162,7 @@ class UpdateUsernameView(APIView):
 		serializer = UpdateUsernameSerializer(user, data=request.data)
 		if serializer.is_valid():
 			serializer.save()
-			return Response({"message": ["Nom d'utilisateur correctement mis à jour."]}, status=status.HTTP_200_OK)
+			return Response({"message": "Nom d'utilisateur correctement mis à jour."}, status=status.HTTP_200_OK)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UpdatePasswordView(APIView):

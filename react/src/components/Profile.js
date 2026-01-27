@@ -24,45 +24,59 @@ function Profile({ updateLoginStatus }) {
 
 	useEffect(() => {
 		async function fetchProfile() {
+
+			setResponse(null)
+
 			const endpoint = "/account/profile/"
 			const responseObject = await getRequest(endpoint)
 
-			setResponse(responseObject)
 
 			if (responseObject && responseObject.type === "SUCCESS") {
+				responseObject.type = "SILENT"
 				setUserInfo(responseObject.data)
 			}
 			else {
 				updateLoginStatus(false)
 				navigate("/login")
 			}
+
+			setResponse(responseObject)
+
 		}
 		fetchProfile();
 	}, []);
 
 	async function handleClick(){
+
+		setResponse(null)
+
 		const responseObject = await logOut()
 
 		setResponse(responseObject)
 
-		console.log(responseObject)
-		// if (responseObject && responseObject.type === "SUCCESS") {
-		// 	updateLoginStatus(false)
-		// 	navigate("/login")
-		// }
+		if (responseObject && responseObject.type === "SUCCESS") {
+			updateLoginStatus(false)
+			navigate("/login")
+		}
 	}
 
 	async function usernameOnSubmit(data){
+
 		setResponse(null)
+
 		const endpoint = "/account/username/"
 		const responseObject = await postRequest(endpoint, data)
+
 		setResponse(responseObject)
 	}
 
 	async function passwordOnSubmit(data){
+
 		setResponse(null)
+
 		const endpoint = "/account/password/"
 		const responseObject = await postRequest(endpoint, data)
+
 		setResponse(responseObject)
 	}
 
@@ -74,7 +88,8 @@ function Profile({ updateLoginStatus }) {
 					{Object.entries(userInfo).map(([field, messages]) => (
 						<p key={field}>{messages}</p>
 					))}
-			</span>)}
+				</span>
+			)}
 			<div className="wb-profile-update-container">
 				<form onSubmit={submitUsername(usernameOnSubmit)}>
 					<input type="text" placeholder="Nouveau nom d'utilisateur" className="wb-update-input" {...registerUsername("username", { required: true })}></input>

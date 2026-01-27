@@ -11,9 +11,12 @@ function Login({ updateLoginStatus }) {
 	const { register, handleSubmit } = useForm()
 
 	async function onSubmit(data) {
+
 		const endpoint = "/auth/login/"
 		const responseObject = await postRequest(endpoint, data)
+
 		setResponse(responseObject)
+
 		if (responseObject && responseObject.type === "SUCCESS"){
 			updateLoginStatus(true)
 			navigate("/profile/")

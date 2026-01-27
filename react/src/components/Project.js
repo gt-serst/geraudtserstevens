@@ -18,11 +18,14 @@ function Project() {
 			const endpoint = "/project/" + id + "/"
 			const responseObject = await getRequest(endpoint)
 
-			setResponse(responseObject)
 
 			if (responseObject && responseObject.type === "SUCCESS") {
+				responseObject.type = "SILENT"
 				setProjectInfo(responseObject.data)
 			}
+
+			setResponse(responseObject)
+
 		}
 		fetchProject();
 	}, [id])
