@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import User, Project, ProjectImage
 from .serializers import RegisterSerializer, LoginSerializer, SendMailSerializer, UpdatePasswordSerializer, UpdateUsernameSerializer, ProjectSerializer, ProjectImageSerializer
 from rest_framework.views import APIView
@@ -11,16 +11,16 @@ from django.conf import settings
 from .authenticate import CustomAuthentication
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import JsonResponse
-from .errors import custom_errors_handler
+
+
+# Create your views here.
 
 @ensure_csrf_cookie
 def get_csrf(request):
 	"""
-	Generate and stock the CSRF cookie
+		Generate and stock the CSRF cookie
 	"""
-	return JsonResponse({"detail": "CSRF cookie set"})
-
-# Create your views here.
+	return JsonResponse({"message": "CSRF cookie set"})
 
 def render_home(request):
 	response = render(request, 'test/login.html')
@@ -37,10 +37,9 @@ class RegisterView(APIView):
 
 	def post(self, request):
 		serializer = RegisterSerializer(data=request.data)
-		if serializer.is_valid():
+		if serializer.is_valid(raise_exception=True):
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
-		return Response(custom_errors_handler(serializer.errors), status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
 	"""
@@ -48,7 +47,7 @@ class LoginView(APIView):
 	"""
 	def post(self, request):
 		serializer = LoginSerializer(data=request.data)
-		if serializer.is_valid():
+		if serializer.is_valid(raise_exception=True):
 			user = serializer.validated_data['user']
 			# Generate a refresh token for the user
 			refresh = RefreshToken.for_user(user)
@@ -72,7 +71,6 @@ class LoginView(APIView):
 				path=settings.REFRESH_COOKIE_PATH
 			)
 			return response
-		return Response(custom_errors_handler(serializer.errors), status=status.HTTP_400_BAD_REQUEST)
 
 class CookieRefreshView(APIView):
 	"""
@@ -82,10 +80,10 @@ class CookieRefreshView(APIView):
 		# Get the refresh token from the cookie
 		refresh_token = request.COOKIES.get(settings.REFRESH_COOKIE_NAME)
 		if not refresh_token:
-			return Response({"detail": "No refresh token"}, status=400)
+			return Response({"message": "Pas de refresh token."}, status=400)
 		try:
 			refresh = RefreshToken(refresh_token)
-			response = Response({"detail": "Access token refreshed"})
+			response = Response({"message": "Access token rafraichit."})
 			response.set_cookie(
 				key=settings.ACCESS_COOKIE_NAME,
 				value=refresh.access_token,
@@ -97,27 +95,23 @@ class CookieRefreshView(APIView):
 			)
 			return response
 		except Exception:
-			return Response({"detail": "Invalid refresh token"}, status=401)
+			return Response({"message": "Refresh token invalide."}, status=401)
 
 class ProfileView(APIView):
 	"""
-	Profile view to authorize a user to see his profile information if his token is valid.
+		Profile view to authorize a user to see his profile information if his token is valid.
 	"""
 	authentication_classes = [CustomAuthentication]
 	permission_classes = [IsAuthenticated]
 	def get(self, request):
 		# The following line verify that the token is valid
 		user = request.user
-		return Response({
-			"id" : user.id,
-			"username": user.username,
-			"date_joined": user.date_joined
-		})
+		return Response({"id" : user.id, "username": user.username, "date_joined": user.date_joined})
 
 class LogoutView(APIView):
 	"""
-	Logout view to deconnect a user with the site and blacklist his token. The access token will take five minutes to expirate but the refresh token
-	could not generate an access token anynmore.
+		Logout view to deconnect a user with the site and blacklist his token. The access token will take five minutes to expirate but the refresh token
+		could not generate an access token anynmore.
 	"""
 	def post(self, request):
 		try:
@@ -129,13 +123,13 @@ class LogoutView(APIView):
 			response.delete_cookie(settings.ACCESS_COOKIE_NAME)
 			response.delete_cookie(settings.REFRESH_COOKIE_NAME)
 			return response
-		except Exception as e:
-			return Response(status=status.HTTP_400_BAD_REQUEST)
+		except Exception:
+			return Response({"message": "Erreur lors de la déconnexion de l'utilisateur."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class SendMailView(APIView):
 	def post(self, request):
 		serializer = SendMailSerializer(data=request.data)
-		if serializer.is_valid():
+		if serializer.is_valid(raise_exception=True):
 			try:
 				send_mail(
 					subject=serializer.validated_data['subject'],
@@ -146,76 +140,61 @@ class SendMailView(APIView):
 				)
 				return Response({"message": "Email envoyé avec succès."}, status=status.HTTP_200_OK)
 			except Exception:
-				return Response(
-					{"message": "Erreur lors de l'envoi de l'email."},
-					status=status.HTTP_500_INTERNAL_SERVER_ERROR
-					)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+				return Response({"message": "Erreur lors de l'envoi de l'email."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class UpdateUsernameView(APIView):
 	"""
-	UpdateUsername view to update username.
+		UpdateUsername view to update username.
 	"""
 	authentication_classes = [CustomAuthentication]
 	permission_classes = [IsAuthenticated]
 	def post(self, request):
 		user = request.user
 		serializer = UpdateUsernameSerializer(user, data=request.data)
-		if serializer.is_valid():
+		if serializer.is_valid(raise_exception=True):
 			serializer.save()
 			return Response({"message": "Nom d'utilisateur correctement mis à jour.", "username": user.username}, status=status.HTTP_200_OK)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UpdatePasswordView(APIView):
 	"""
-	UpdatePassword view to update password.
+		UpdatePassword view to update password.
 	"""
 	authentication_classes = [CustomAuthentication]
 	permission_classes = [IsAuthenticated]
 	def post(self, request):
 		user = request.user
 		serializer = UpdatePasswordSerializer(user, data=request.data)
-		if serializer.is_valid():
+		if serializer.is_valid(raise_exception=True):
 			serializer.save()
 			return Response({"message": "Mot de passe correctement mis à jour."}, status=status.HTTP_200_OK)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ProjectView(APIView):
 	def get(self, request, project_id):
 		try:
-			project = Project.objects.get(id=project_id)
-			serializer = ProjectSerializer(project)
-			return Response(serializer.data, status=status.HTTP_200_OK)
-
+			project = Project.objects.get(pk=project_id)
 		except Project.DoesNotExist:
-			return Response(
-				{"message": "Ce projet n'existe pas."},
-				status=status.HTTP_404_NOT_FOUND
-			)
+			return Response({"message": "Projet introuvable."}, status=status.HTTP_404_NOT_FOUND)
+		serializer = ProjectSerializer(project)
+		return Response(serializer.data, status=status.HTTP_200_OK)
 
 class ProjectImagesView(APIView):
 	def get(self, request, project_id):
 		try:
-			project = Project.objects.get(id=project_id)
-			images = ProjectImage.objects.filter(project=project)
-			serializer = ProjectImageSerializer(images, many=True)
-			return Response(serializer.data, status=status.HTTP_200_OK)
-
+			project = Project.objects.get(pk=project_id)
 		except Project.DoesNotExist:
-			return Response(
-				{"message": "Ce projet n'existe pas."},
-				status=status.HTTP_404_NOT_FOUND
-			)
+			return Response({"message": "Projet introuvable."}, status=status.HTTP_404_NOT_FOUND)
+		try:
+			images = ProjectImage.objects.filter(fk=project_id)
+		except ProjectImage.DoesNotExist:
+			return Response({"message": "Images introuvables."}, status=status.HTTP_404_NOT_FOUND)
+		serializer = ProjectImageSerializer(images, many=True)
+		return Response(serializer.data, status=status.HTTP_200_OK)
 
 class ProjectsView(APIView):
 	def get(self, request):
 		try:
 			projects = Project.objects.all()
-			serializer = ProjectSerializer(projects, many=True)
-			return Response(serializer.data, status=status.HTTP_200_OK)
-
 		except Project.DoesNotExist:
-			return Response(
-				{"message": "Pas de projet existant."},
-				status=status.HTTP_404_NOT_FOUND
-			)
+			return Response({"message": "Projets introuvables."}, status=status.HTTP_404_NOT_FOUND)
+		serializer = ProjectSerializer(projects, many=True)
+		return Response(serializer.data, status=status.HTTP_200_OK)

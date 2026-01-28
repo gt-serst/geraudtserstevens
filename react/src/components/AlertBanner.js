@@ -1,11 +1,11 @@
 import "../styles/AlertBanner.css"
 
-function AlertBanner({errorObject}) {
+function AlertBanner({data}) {
 
 	return (
 		<div className="wb-alert-container">
 			<span className="wb-error">
-				{errorObject.message}
+				{data.message}
 			</span>
 		</div>
 	)

@@ -5,7 +5,7 @@ from .models import User, Project, ProjectImage
 
 class RegisterSerializer(serializers.ModelSerializer):
 	"""
-	Serializer to validate the register information sent from a user.
+		Serializer to validate the register information sent from a user.
 	"""
 	# Minimun and maximun password length required
 	username = serializers.CharField(
@@ -38,7 +38,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class LoginSerializer(serializers.Serializer):
 	"""
-	Serializer to validate the credentials sent from a user.
+		Serializer to validate the credentials sent from a user.
 	"""
 	username = serializers.CharField()
 	password = serializers.CharField(write_only=True)
@@ -64,15 +64,10 @@ class SendMailSerializer(serializers.Serializer):
 	)
 	message = serializers.CharField()
 	from_email = serializers.EmailField()
-	# def validate(self, data):
-		# if len(data["subject"]) > 255:
-			# raise serializers.ValidationError("Assurez-vous que ce champ ne contient pas plus de 255 caractères.")
-		# return data
-
 
 class UpdateUsernameSerializer(serializers.ModelSerializer):
 	"""
-	Serializer to validate the new username sent from a user.
+		Serializer to validate the new username sent from a user.
 	"""
 	username = serializers.CharField(
 		max_length=15,
@@ -80,20 +75,17 @@ class UpdateUsernameSerializer(serializers.ModelSerializer):
 			"max_length":"Le nom d'utilisateur doit contenir au plus 15 caractères."
 		}
 	)
-
 	class Meta:
 		model = User
 		fields = ("username",)
 	def validate_username(self, value):
-		# if len(value) > 15:
-		# 	raise serializers.ValidationError("Assurez-vous que ce champ ne contient pas plus de 15 caractères.")
 		if User.objects.filter(username=value).exists():
 			raise serializers.ValidationError("Nom d'utilisateur déjà existant.")
 		return value
 
 class UpdatePasswordSerializer(serializers.ModelSerializer):
 	"""
-	Serializer to validate the new password sent from a user.
+		Serializer to validate the new password sent from a user.
 	"""
 	password = serializers.CharField(
 		write_only=True,
@@ -113,11 +105,11 @@ class UpdatePasswordSerializer(serializers.ModelSerializer):
 		return instance
 
 class ProjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Project
-        fields = "__all__"
+	class Meta:
+		model = Project
+		fields = "__all__"
 
 class ProjectImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProjectImage
-        fields = ("image",)
+	class Meta:
+		model = ProjectImage
+		fields = ("image",)

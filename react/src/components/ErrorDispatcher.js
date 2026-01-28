@@ -26,18 +26,23 @@ export function useFeedback(response) {
 	}, [response])
 }
 
-function ErrorDispatcher(response) {
-	if (!response) return null
+function ErrorDispatcher({response}) {
 
+
+	if (!response)
+		return null;
+
+	const data = response.data
 	switch (response.type) {
-		case "FORM" || "AUTH":
-			return <AlertBanner errorObject={response} />
+		case "AUTH":
+		case "FORM":
+			return <AlertBanner data={data} />
 
 		case "SYSTEM":
-			return <FatalError errorObject={response} />
+			return <FatalError response={response} />
 
 		default:
-			return null
+			return null;
 	}
 }
 

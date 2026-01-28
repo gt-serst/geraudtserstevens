@@ -95,7 +95,9 @@ function Profile({ updateLoginStatus }) {
 				</form>
 				<button type="button" onClick={handleClick} className="wb-btn-logout">Se déconnecter</button>
 			</div>
-			<ErrorDispatcher response={response} />
+			{response &&
+				<ErrorDispatcher response={response} />
+			}
 		</div>
 	)
 }
