@@ -2,7 +2,10 @@ from rest_framework.views import exception_handler
 from rest_framework.response import Response
 
 def custom_exception_handler(exc, context):
+	# Call the standard error response from REST framework
 	response = exception_handler(exc, context)
+
+	print("custom_exception_handler")
 
 	if response is not None:
 		data = response.data

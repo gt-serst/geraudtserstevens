@@ -55,6 +55,7 @@ export async function responseHandler(response){
 		responseObject.data = await response.text()
 	responseObject.statusText = response.statusText
 	responseObject.status = response.status
+	console.log(responseObject)
 	// const normalizedResponseObject = {
 	// 	type: responseObject.type,
 	// 	status: responseObject.status,

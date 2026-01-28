@@ -11,6 +11,7 @@ from django.conf import settings
 from .authenticate import CustomAuthentication
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import JsonResponse
+from .errors import custom_errors_handler
 
 @ensure_csrf_cookie
 def get_csrf(request):
@@ -39,7 +40,7 @@ class RegisterView(APIView):
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		return Response(custom_errors_handler(serializer.errors), status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
 	"""
@@ -71,7 +72,7 @@ class LoginView(APIView):
 				path=settings.REFRESH_COOKIE_PATH
 			)
 			return response
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		return Response(custom_errors_handler(serializer.errors), status=status.HTTP_400_BAD_REQUEST)
 
 class CookieRefreshView(APIView):
 	"""
@@ -146,7 +147,7 @@ class SendMailView(APIView):
 				return Response({"message": "Email envoyé avec succès."}, status=status.HTTP_200_OK)
 			except Exception:
 				return Response(
-					{"error": "Erreur lors de l'envoi de l'email"},
+					{"message": "Erreur lors de l'envoi de l'email."},
 					status=status.HTTP_500_INTERNAL_SERVER_ERROR
 					)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -188,7 +189,7 @@ class ProjectView(APIView):
 
 		except Project.DoesNotExist:
 			return Response(
-				{"error": "Ce projet n'existe pas."},
+				{"message": "Ce projet n'existe pas."},
 				status=status.HTTP_404_NOT_FOUND
 			)
 
@@ -202,7 +203,7 @@ class ProjectImagesView(APIView):
 
 		except Project.DoesNotExist:
 			return Response(
-				{"error": "Ce projet n'existe pas."},
+				{"message": "Ce projet n'existe pas."},
 				status=status.HTTP_404_NOT_FOUND
 			)
 
@@ -215,6 +216,6 @@ class ProjectsView(APIView):
 
 		except Project.DoesNotExist:
 			return Response(
-				{"error": "Pas de projet existant."},
+				{"message": "Pas de projet existant."},
 				status=status.HTTP_404_NOT_FOUND
 			)

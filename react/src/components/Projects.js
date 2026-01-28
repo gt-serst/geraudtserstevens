@@ -2,7 +2,7 @@ import ProjectCard from "./ProjectCard"
 import { useState, useEffect } from "react"
 import { getRequest } from "../api"
 import "../styles/Projects.css"
-import ErrorDispatcher from "./FeedbacErrorDispatcherkDispatcher"
+import ErrorDispatcher from "./ErrorDispatcher"
 
 
 function Projects(){
