@@ -3,7 +3,8 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { postRequest } from "../api";
 import "../styles/Login.css"
-import ErrorDispatcher, { useFeedback } from "./ErrorDispatcher";
+import ErrorDispatcher from "./ErrorDispatcher";
+import { FeedbackProvider } from "../utils";
 
 function Login({ updateLoginStatus }) {
 	const navigate = useNavigate()
@@ -19,11 +20,10 @@ function Login({ updateLoginStatus }) {
 
 		if (responseObject && responseObject.type === "SUCCESS"){
 			updateLoginStatus(true)
+			FeedbackProvider(responseObject);
 			navigate("/profile/")
 		}
 	}
-
-	useFeedback(response);
 
 	return(
 		<div className="wb-login-container">

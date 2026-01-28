@@ -184,7 +184,7 @@ class ProjectImagesView(APIView):
 		except Project.DoesNotExist:
 			return Response({"message": "Projet introuvable."}, status=status.HTTP_404_NOT_FOUND)
 		try:
-			images = ProjectImage.objects.filter(fk=project_id)
+			images = ProjectImage.objects.filter(project=project)
 		except ProjectImage.DoesNotExist:
 			return Response({"message": "Images introuvables."}, status=status.HTTP_404_NOT_FOUND)
 		serializer = ProjectImageSerializer(images, many=True)

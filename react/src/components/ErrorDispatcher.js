@@ -1,38 +1,13 @@
 import AlertBanner from "./AlertBanner"
 import FatalError from "./FatalError"
-import { toast } from 'react-toastify';
-import { useEffect } from "react"
-
-export function useFeedback(response) {
-	useEffect(() => {
-		if (!response) return;
-
-		switch (response.type) {
-			case "FORM" || "AUTH":
-				toast.warning(response.message)
-				break;
-
-			case "SUCCESS":
-				toast.success(response.message)
-				break;
-
-			case "SYSTEM":
-				toast.error(response.message)
-				break;
-
-			default:
-				break;
-		}
-	}, [response])
-}
 
 function ErrorDispatcher({response}) {
 
-
-	if (!response)
-		return null;
+	if (!response || response.type === "SILENT") return;
 
 	const data = response.data
+	if (!data) return;
+
 	switch (response.type) {
 		case "AUTH":
 		case "FORM":
@@ -42,7 +17,7 @@ function ErrorDispatcher({response}) {
 			return <FatalError response={response} />
 
 		default:
-			return null;
+			return;
 	}
 }
 

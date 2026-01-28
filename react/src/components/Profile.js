@@ -4,7 +4,8 @@ import "../styles/Profile.css"
 import { useNavigate } from "react-router-dom";
 import "../styles/Profile.css"
 import { useForm } from "react-hook-form"
-import ErrorDispatcher, { useFeedback } from "./ErrorDispatcher";
+import ErrorDispatcher from "./ErrorDispatcher";
+import { FeedbackProvider } from "../utils";
 
 function Profile({ updateLoginStatus }) {
 
@@ -24,7 +25,7 @@ function Profile({ updateLoginStatus }) {
 			const responseObject = await getRequest(endpoint)
 
 			if (responseObject && responseObject.type === "SUCCESS") {
-				setResponse({ ...responseObject, type: "SILENT" })
+				setResponse(responseObject)
 				setUser(responseObject.data)
 			}
 			else {
@@ -35,6 +36,7 @@ function Profile({ updateLoginStatus }) {
 		fetchProfile();
 	}, []);
 
+
 	async function usernameOnSubmit(data){
 
 		setResponse(null)
@@ -43,6 +45,7 @@ function Profile({ updateLoginStatus }) {
 		const responseObject = await postRequest(endpoint, data)
 
 		if (responseObject && responseObject.type === "SUCCESS") {
+			FeedbackProvider(responseObject)
 			setUser({ ...user, username: responseObject.data.username })
 		}
 
@@ -56,6 +59,10 @@ function Profile({ updateLoginStatus }) {
 		const endpoint = "/account/password/"
 		const responseObject = await postRequest(endpoint, data)
 
+		if (responseObject && responseObject.type === "SUCCESS") {
+			FeedbackProvider(responseObject)
+		}
+
 		setResponse(responseObject)
 	}
 
@@ -66,13 +73,12 @@ function Profile({ updateLoginStatus }) {
 
 		if (responseObject && responseObject.type === "SUCCESS") {
 			updateLoginStatus(false)
+			FeedbackProvider(responseObject)
 			navigate("/login")
 		}
 
 		setResponse(responseObject)
 	}
-
-	useFeedback(response)
 
 	return (
 		<div className="wb-profile-container">

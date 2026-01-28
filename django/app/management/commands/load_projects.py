@@ -9,8 +9,10 @@ class Command(BaseCommand):
 		projects_already_loaded = Project.objects.all()
 
 		if projects_already_loaded:
-			self.stdout.write(self.style.SUCCESS("Projects already loaded."))
-			return
+			project_images = ProjectImage.objects.all()
+			project_images.delete()
+			projects_already_loaded.delete()
+			self.stdout.write(self.style.SUCCESS("Old projects deleted successfully."))
 
 		with open("app/data/projects.json") as f:
 			projects = json.load(f)

@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 export function getCookie(name) {
 	let cookieValue = null;
 	if (document.cookie && document.cookie !== '') {
@@ -56,4 +58,30 @@ export async function responseHandler(response){
 	responseObject.statusText = response.statusText
 	responseObject.status = response.status
 	return responseObject
+}
+
+export function FeedbackProvider(response) {
+
+	if (!response || response.type === "SILENT") return;
+
+	const data = response.data
+	if (!data) return;
+
+	switch (response.type) {
+		case "AUTH":
+		case "FORM":
+			toast.warning(data.message)
+			break;
+
+		case "SUCCESS":
+			toast.success(data.message)
+			break;
+
+		case "SYSTEM":
+			toast.error(data.message)
+			break;
+
+		default:
+			break;
+	}
 }
