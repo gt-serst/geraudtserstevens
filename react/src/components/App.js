@@ -11,11 +11,12 @@ import Contact from "./Contact"
 import Projects from "./Projects"
 import Project from "./Project"
 import { getCookie } from '../utils'
+import { ToastContainer } from 'react-toastify';
 const API_URL = "http://localhost:8000/api";
 
 
 function App() {
-	
+
 	const savedLoginStatus = localStorage.getItem("loginStatus")
 
 	const [loginStatus, updateLoginStatus] = useState(savedLoginStatus === "true");
@@ -81,6 +82,10 @@ function App() {
 
 	return (
 		<div className="App">
+			<ToastContainer
+				position="bottom-right"
+				theme="colored"
+			/>
 			<RouterProvider router={router} />
 		</div>
 	);

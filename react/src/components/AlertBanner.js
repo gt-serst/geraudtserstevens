@@ -5,7 +5,7 @@ function AlertBanner({errorObject}) {
 	return (
 		<div className="wb-alert-container">
 			<span className="wb-error">
-				{Object.values(errorObject.data).flat()[0]}
+				{errorObject.message}
 			</span>
 		</div>
 	)

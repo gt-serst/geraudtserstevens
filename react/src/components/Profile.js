@@ -4,23 +4,16 @@ import "../styles/Profile.css"
 import { useNavigate } from "react-router-dom";
 import "../styles/Profile.css"
 import { useForm } from "react-hook-form"
-import FeedbackDispatcher from "./FeedbackDispatcher";
+import ErrorDispatcher, { useFeedback } from "./ErrorDispatcher";
 
 function Profile({ updateLoginStatus }) {
 
 	const navigate = useNavigate()
-	const [userInfo, setUserInfo] = useState(null)
+	const [user, setUser] = useState(null)
 	const [response, setResponse] = useState(null)
 
-	const {
-		register: registerUsername,
-		handleSubmit: submitUsername,
-	} = useForm()
-
-	const {
-		register: registerPassword,
-		handleSubmit: submitPassword,
-	} = useForm()
+	const {register: registerUsername, handleSubmit: submitUsername} = useForm()
+	const {register: registerPassword, handleSubmit: submitPassword} = useForm()
 
 	useEffect(() => {
 		async function fetchProfile() {
@@ -30,35 +23,17 @@ function Profile({ updateLoginStatus }) {
 			const endpoint = "/account/profile/"
 			const responseObject = await getRequest(endpoint)
 
-
 			if (responseObject && responseObject.type === "SUCCESS") {
-				responseObject.type = "SILENT"
-				setUserInfo(responseObject.data)
+				setResponse({ ...responseObject, type: "SILENT" })
+				setUser(responseObject.data)
 			}
 			else {
 				updateLoginStatus(false)
 				navigate("/login")
 			}
-
-			setResponse(responseObject)
-
 		}
 		fetchProfile();
 	}, []);
-
-	async function handleClick(){
-
-		setResponse(null)
-
-		const responseObject = await logOut()
-
-		setResponse(responseObject)
-
-		if (responseObject && responseObject.type === "SUCCESS") {
-			updateLoginStatus(false)
-			navigate("/login")
-		}
-	}
 
 	async function usernameOnSubmit(data){
 
@@ -66,6 +41,10 @@ function Profile({ updateLoginStatus }) {
 
 		const endpoint = "/account/username/"
 		const responseObject = await postRequest(endpoint, data)
+
+		if (responseObject && responseObject.type === "SUCCESS") {
+			setUser({ ...user, username: responseObject.data.username })
+		}
 
 		setResponse(responseObject)
 	}
@@ -80,15 +59,30 @@ function Profile({ updateLoginStatus }) {
 		setResponse(responseObject)
 	}
 
+	async function handleClick(){
+
+		const responseObject = await logOut()
+
+
+		if (responseObject && responseObject.type === "SUCCESS") {
+			updateLoginStatus(false)
+			navigate("/login")
+		}
+
+		setResponse(responseObject)
+	}
+
+	useFeedback(response)
+
 	return (
 		<div className="wb-profile-container">
 			<h3>Ton profil</h3>
-			{userInfo && (
-				<span>
-					{Object.entries(userInfo).map(([field, messages]) => (
-						<p key={field}>{messages}</p>
-					))}
-				</span>
+			{user && (
+				<div>
+					<p>{user.id}</p>
+					<p>{user.username}</p>
+					<p>{user.date_joined}</p>
+				</div>
 			)}
 			<div className="wb-profile-update-container">
 				<form onSubmit={submitUsername(usernameOnSubmit)}>
@@ -101,7 +95,7 @@ function Profile({ updateLoginStatus }) {
 				</form>
 				<button type="button" onClick={handleClick} className="wb-btn-logout">Se déconnecter</button>
 			</div>
-			<FeedbackDispatcher response={response} />
+			<ErrorDispatcher response={response} />
 		</div>
 	)
 }

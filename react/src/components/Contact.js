@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import "../styles/Contact.css"
 import { postRequest } from "../api"
-import FeedbackDispatcher from "./FeedbackDispatcher"
+import ErrorDispatcher from "./ErrorDispatcher"
 
 function Contact(){
 	const { register, handleSubmit } = useForm()
@@ -24,7 +24,7 @@ function Contact(){
 				<textarea className="wb-contact-message" placeholder="Message" {...register("message", {required: true})}></textarea>
 				<input className="wb-contact-btn-submit" type="submit" value="Envoyer"></input>
 			</form>
-			<FeedbackDispatcher response={response} />
+			<ErrorDispatcher response={response} />
 		</div>
 	)
 }

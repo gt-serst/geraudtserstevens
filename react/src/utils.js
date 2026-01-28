@@ -55,5 +55,14 @@ export async function responseHandler(response){
 		responseObject.data = await response.text()
 	responseObject.statusText = response.statusText
 	responseObject.status = response.status
+	// const normalizedResponseObject = {
+	// 	type: responseObject.type,
+	// 	status: responseObject.status,
+	// 	statusText: responseObject.statusText,
+	// 	data: {
+	// 		message: Object.values(responseObject.data)?.[0]?.[0] ?? "Une erreur est survenue.",
+	// 		payload: Object.values(responseObject.data) ?? null
+	// 	}
+	// };
 	return responseObject
 }

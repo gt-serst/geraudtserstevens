@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import { useState, useEffect } from 'react';
 import { getRequest } from '../api';
 import "../styles/Project.css"
-import FeedbackDispatcher from './FeedbackDispatcher';
+import ErrorDispatcher from './ErrorDispatcher';
 const IMG_URL = "http://localhost:8000"
 
 function Project() {
@@ -59,7 +59,7 @@ function Project() {
 					)
 				))}
 			</ul>
-			<FeedbackDispatcher response={response} />
+			<ErrorDispatcher response={response} />
 		</div>
 	)
 }

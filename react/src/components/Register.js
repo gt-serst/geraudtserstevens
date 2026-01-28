@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { postRequest } from "../api"
-import FeedbackDispatcher from './FeedbackDispatcher';
+import ErrorDispatcher from './ErrorDispatcher';
 
 function Register({ updateLoginStatus }) {
 
@@ -43,7 +43,7 @@ function Register({ updateLoginStatus }) {
 				<input type="password" placeholder="Mot de passe" {...register("password", { required: true })}></input>
 				<input className="wb-register-btn-submit" type="submit" value="S'inscrire"></input>
 			</form>
-			<FeedbackDispatcher response={response} />
+			<ErrorDispatcher response={response} />
 		</div>
 	)
 }

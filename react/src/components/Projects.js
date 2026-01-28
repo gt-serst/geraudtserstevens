@@ -2,7 +2,7 @@ import ProjectCard from "./ProjectCard"
 import { useState, useEffect } from "react"
 import { getRequest } from "../api"
 import "../styles/Projects.css"
-import FeedbackDispatcher from "./FeedbackDispatcher"
+import ErrorDispatcher from "./FeedbacErrorDispatcherkDispatcher"
 
 
 function Projects(){
@@ -35,7 +35,7 @@ function Projects(){
 					)
 				))}
 			</ul>
-			<FeedbackDispatcher response={response} />
+			<ErrorDispatcher response={response} />
 		</div>
 
 	)
