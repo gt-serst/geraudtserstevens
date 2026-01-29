@@ -16,14 +16,16 @@ export function getCookie(name) {
 	return cookieValue;
 }
 
-let responseObject = {
-	type: "AUTH" | "FORM" | "SYSTEM" | "SUCCESS" | "SILENT",
-	statusText: undefined,
-	status: undefined,
-	data: undefined
-}
-
 export async function responseHandler(response){
+
+	const responseObject = {
+		type: "SYSTEM",
+		statusText: undefined,
+		status: undefined,
+		data: undefined,
+		message: undefined,
+	}
+
 	if (!response) {
 		responseObject.type = "SYSTEM"
 	}
@@ -31,14 +33,13 @@ export async function responseHandler(response){
 		if (!response.ok){
 			switch (response.status) {
 				case 401:
+				case 403:
 					responseObject.type = "AUTH"
 					break
 				case 400:
 					responseObject.type = "FORM"
 					break
 				case 404:
-					responseObject.type = "SYSTEM"
-					break
 				case 500:
 					responseObject.type = "SYSTEM"
 					break
@@ -50,10 +51,11 @@ export async function responseHandler(response){
 			responseObject.type = "SUCCESS"
 		}
 	}
-	if (response.headers.get('content-type') === "application/json") {
+	const contentType = response.headers.get('content-type')
+	if (contentType && contentType.includes("application/json")) {
 		responseObject.data = await response.json()
 	}
-	else if (response.headers.get('content-type') === "text/plain")
+	else if (contentType && contentType.includes("text/plain"))
 		responseObject.data = await response.text()
 	responseObject.statusText = response.statusText
 	responseObject.status = response.status

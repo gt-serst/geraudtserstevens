@@ -1,21 +1,42 @@
 import { responseHandler } from "./utils"
 const API_URL = "http://localhost:8000/api";
 
+const errorObject = {
+	type: "SYSTEM",
+	status: 0,
+	statusText: "Network Error",
+	message: "Impossible de contacter le serveur"
+}
 
-export async function postRequest(endpoint, ...data) {
+export async function postRequest(endpoint, data) {
 	try {
-		const response = await fetch(API_URL + endpoint, {
+		let response = await fetch(API_URL + endpoint, {
 			method: "POST",
 			headers: {
 				"Content-type": "application/json; charset=UTF-8",
 				'X-CSRFToken': localStorage.getItem('csrfToken')
 			},
-			body: JSON.stringify(data[0]),
+			body: JSON.stringify(data),
 			credentials: "include"
 		});
+		if (response.status === 401) {
+			const refreshResponse = await refreshToken()
+			if (!refreshResponse || !refreshResponse.ok) {
+				return logOut()
+			}
+			response = await fetch(API_URL + endpoint, {
+				method: "POST",
+				headers: {
+					"Content-type": "application/json; charset=UTF-8",
+					'X-CSRFToken': localStorage.getItem('csrfToken')
+				},
+				body: JSON.stringify(data),
+				credentials: "include"
+			});
+		}
 		return responseHandler(response)
 	} catch (error) {
-		return responseHandler(error)
+		return errorObject
 	}
 }
 
@@ -28,44 +49,34 @@ export async function getRequest(endpoint) {
 			},
 			credentials: "include"
 		});
-		// if (response.status === 401) {
-		// 	const refresh = await refreshToken()
-		// 	if (refresh.response && refresh.response.ok) {
-		// 		response = await fetch(API_URL + endpoint, {
-		// 			method: "GET",
-		// 			headers: {
-		// 				'X-CSRFToken': localStorage.getItem('csrfToken')
-		// 			},
-		// 			credentials: "include"
-		// 		});
-		// 	}
-		// 	else {
-		// 		await logOut();
-		// 		return {
-		// 			response: null,
-		// 			result: { error: "Session expirée" }
-		// 		};
-		// 	}
-		// }
+		if (response.status === 401) {
+			const refreshResponse = await refreshToken()
+			if (!refreshResponse || !refreshResponse.ok) {
+				return logOut()
+			}
+			response = await fetch(API_URL + endpoint, {
+				method: "GET",
+				headers: {
+					'X-CSRFToken': localStorage.getItem('csrfToken')
+				},
+				credentials: "include"
+			});
+		}
 		return responseHandler(response)
 	} catch (error) {
-		return responseHandler(error)
+		return errorObject
 	}
 }
 
 export async function refreshToken() {
 	try {
-		const response = await fetch(API_URL + "/refresh/token/", {
+		const response = await fetch(API_URL + "/auth/refreshtoken/", {
 			method: "POST",
 			credentials: "include"
 		});
-		const result = await response.json();
-		return { response, result };
+		return response
 	} catch (error) {
-		return {
-			response: null,
-			result: { error: error.message }
-		};
+		return errorObject
 	}
 }
 
@@ -77,6 +88,6 @@ export async function logOut(){
 		});
 		return responseHandler(response)
 	} catch (error) {
-		return responseHandler(error)
+		return errorObject
 	}
 }

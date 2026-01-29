@@ -161,7 +161,7 @@ CORS_ALLOW_HEADERS = [
 	"Access-Control-Allow-Origin"
 ]
 # ACCESS COOKIE
-ACCESS_COOKIE_AGE = timedelta(minutes=5)
+ACCESS_COOKIE_AGE = timedelta(minutes=1)
 ACCESS_COOKIE_NAME = "access"
 ACCESS_COOKIE_HTTPONLY = True
 ACCESS_COOKIE_SAMESITE = "Lax"

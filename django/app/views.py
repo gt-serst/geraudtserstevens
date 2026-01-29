@@ -72,9 +72,9 @@ class LoginView(APIView):
 			)
 			return response
 
-class CookieRefreshView(APIView):
+class RefreshTokenView(APIView):
 	"""
-		Token view to refresh an access token from a user.
+		RefreshToken view to refresh an access token from a user.
 	"""
 	def post(self, request):
 		# Get the refresh token from the cookie
