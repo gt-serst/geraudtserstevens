@@ -1,4 +1,5 @@
 import Header from "./Header"
+import Footer from "./Footer"
 import { Link, Outlet } from "react-router-dom"
 
 function Layout(props){
@@ -21,6 +22,7 @@ function Layout(props){
 			</nav>
 			<Header />
 			<Outlet />
+			<Footer />
 		</div>
 	)
 }

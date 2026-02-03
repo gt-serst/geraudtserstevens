@@ -82,6 +82,7 @@ function Profile({ updateLoginStatus }) {
 
 	return (
 		<div className="wb-profile-container">
+			<div className="center-column">
 			<h3>Ton profil</h3>
 			{user && (
 				<div>
@@ -104,6 +105,7 @@ function Profile({ updateLoginStatus }) {
 			{response &&
 				<ErrorDispatcher response={response} />
 			}
+			</div>
 		</div>
 	)
 }

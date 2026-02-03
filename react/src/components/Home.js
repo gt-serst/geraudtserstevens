@@ -1,6 +1,8 @@
 function Home(){
 	return(
-		<h2>Welcome Home!</h2>
+		<div className="center-column">
+			<h2>Welcome Home!</h2>
+		</div>
 	)
 }
 

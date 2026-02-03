@@ -5,7 +5,7 @@ const errorObject = {
 	type: "SYSTEM",
 	status: 0,
 	statusText: "Network Error",
-	message: "Impossible de contacter le serveur"
+	message: "Impossible de contacter le serveur."
 }
 
 export async function postRequest(endpoint, data) {
