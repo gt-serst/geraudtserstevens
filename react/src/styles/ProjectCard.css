@@ -1,48 +1,15 @@
-/* .wb-project-card-container {
-	width: 10rem;
-	height: auto;
-	border-radius: 0.4rem;
-	box-shadow: 5px 5px 15px #e1e1e3;
-	background-color: white;
-}
-
-.wb-project-card-logo {
-	height: 5rem;
-	width: 10rem;
-	border-radius: 0.4rem 0.4rem 0rem 0rem;
-}
-
 .wb-project-card-header {
-	margin:0px;
-	font-size:1.4em;
-	font-weight:700;
-}
-
-.wb-project-card-p {
-	font-size:12px;
-	padding: 0 0.626rem 0.626rem 0.626rem;
-} */
-
-body {
-	background-color:#f2f2f2;
-	font-family: 'RobotoDraft', 'Roboto', sans-serif;
-}
-
-* {
-	box-sizing: border-box;
-}
-
-h5 {
 	margin: 0rem;
 	font-size: 1.4rem;
 	font-weight: 700;
 }
 
-p {
+.wb-project-card-p {
 	font-size: 0.75rem;
 }
 
 .property-card {
+	box-sizing: border-box;
 	height: 18rem;
 	width: 14rem;
 	display: flex;
@@ -64,7 +31,6 @@ p {
 }
 
 .property-description {
-	/* background-color: #FAFAFC; */
 	background-color: darkslategray;
 	height: 12rem;
 	width: 14rem;

@@ -30,9 +30,9 @@ function Login({ updateLoginStatus }) {
 			<div className="center-column">
 			<h2>Connexion</h2>
 				<form className="wb-form" onSubmit={ handleSubmit(onSubmit) }>
-					<input type="text" placeholder="Nom d'utilisateur" {...register("username", { required: true }) }></input>
-					<input type="password" placeholder="Mot de passe" {...register("password", { required: true }) }></input>
-					<input className="wb-login-btn-submit" type="submit" value="Se connecter"></input>
+					<input className="wb-input" type="text" placeholder="Nom d'utilisateur" {...register("username", { required: true }) }></input>
+					<input className="wb-input" type="password" placeholder="Mot de passe" {...register("password", { required: true }) }></input>
+					<input className="wb-btn" type="submit" value="Se connecter"></input>
 				</form>
 			</div>
 			<ErrorDispatcher response={response} />

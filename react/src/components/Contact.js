@@ -24,10 +24,10 @@ function Contact(){
 			<div className="center-column">
 			<h2>Contact</h2>
 			<form className="wb-contact-form" onSubmit={handleSubmit(onSubmit)}>
-				<input className="wb-contact-input" type="email" placeholder="Email" {...register("from_email", {required: true})}></input>
-				<input className="wb-contact-input" type="text" placeholder="Sujet "{...register("subject", {required: true})}></input>
-				<textarea className="wb-contact-message" placeholder="Message" {...register("message", {required: true})}></textarea>
-				<input className="wb-contact-btn-submit" type="submit" value="Envoyer"></input>
+				<input className="wb-input" type="email" placeholder="Email" {...register("from_email", {required: true})}></input>
+				<input className="wb-input" type="text" placeholder="Sujet "{...register("subject", {required: true})}></input>
+				<textarea className="wb-input" placeholder="Message" {...register("message", {required: true})}></textarea>
+				<input className="wb-btn" type="submit" value="Envoyer"></input>
 			</form>
 			<ErrorDispatcher response={response} />
 			</div>
