@@ -1,0 +1,31 @@
+.wb-navbar-container {
+	display: flex;
+	justify-content: space-between;
+}
+
+.wb-navbar-button {
+	display: flex;
+	cursor: pointer;
+	width: 2.4rem;
+	height: 2.4rem;
+	background: rgba(255,255,255,0.1);
+	border: none;
+	border-radius: 0.5rem;
+	margin: 1.2rem;
+}
+
+.wb-navbar-button:hover {
+	background: rgba(255,255,255,0.3);
+}
+
+.wb-hamburger {
+	margin:auto;
+	width: 1.2rem;
+	height: 1.2rem;
+}
+
+.wb-logo {
+	width: 5rem;
+	height: 5rem;
+	margin: 1.25rem;
+}

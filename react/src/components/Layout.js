@@ -1,26 +1,11 @@
-import Header from "./Header"
 import Footer from "./Footer"
-import { Link, Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom"
+import Navbar from "./Navbar"
 
-function Layout(props){
+function Layout({loginStatus}){
 	return (
 		<div>
-			<nav>
-				<Link to="/">Accueil</Link> |{" "}
-				{props.loginStatus ? (
-					<>
-						<Link to="/profile">Profil</Link> |{" "}
-					</>
-					) : (
-						<>
-						<Link to="/register">Inscription</Link> |{" "}
-						<Link to="/login">Connexion</Link> |{" "}
-					</>
-				)}
-				<Link to="/projects">Projets</Link> |{" "}
-				<Link to="/contact">Contact</Link>
-			</nav>
-			<Header />
+			<Navbar loginStatus={loginStatus}/>
 			<Outlet />
 			<Footer />
 		</div>
