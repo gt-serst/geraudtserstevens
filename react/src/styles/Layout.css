@@ -1,0 +1,16 @@
+.wb-layout-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.wb-layout-main {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.wb-logo {
+	width: 4rem;
+	height: 4rem;
+	margin: 1.25rem;
+}

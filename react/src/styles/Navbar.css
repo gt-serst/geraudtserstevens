@@ -24,8 +24,35 @@
 	height: 1.2rem;
 }
 
-.wb-logo {
-	width: 5rem;
-	height: 5rem;
-	margin: 1.25rem;
+.wb-navbar-window {
+	background: rgba(255,255,255,0.05);
+	width: 10rem;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.wb-navbar-link {
+	display: flex;
+	flex-direction: column;
+}
+
+.wb-navbar-single-link {
+	color: white;
+	text-decoration: none;
+	margin: 0.625rem;
+	background: transparent;
+}
+
+.wb-navbar-single-link:focus {
+	background: rgba(255,255,255,0.1);
+	border-radius: 0.5rem;
+	padding: 0.625rem;
+}
+
+.wb-navbar-single-link:hover {
+	background: rgba(255,255,255,0.1);
+	border-radius: 0.5rem;
+	padding: 0.625rem;
 }

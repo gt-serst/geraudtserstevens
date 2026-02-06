@@ -28,13 +28,13 @@ function Projects(){
 	return (
 		<div className="wb-projects-container">
 			<h2>Projets</h2>
-			<ul className="center">
+			<div className="center">
 				{projectsList && (
 					projectsList.map((project) => (
 						<span key={project.id}><ProjectCard id={project.id} title={project.title} description={project.description} cover={project.cover}/></span>
 					)
 				))}
-			</ul>
+			</div>
 			<ErrorDispatcher response={response} />
 		</div>
 

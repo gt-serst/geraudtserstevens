@@ -82,31 +82,31 @@ function Profile({ updateLoginStatus }) {
 
 	return (
 		<div className="wb-profile-container">
-			<div className="center-column">
 			<h3>Ton profil</h3>
-			{user && (
-				<div>
-					<p className="wb-profile-info">{user.id}</p>
-					<p className="wb-profile-info">{user.username}</p>
-					<p className="wb-profile-info">{user.date_joined}</p>
+			<div className="center-column">
+				{user && (
+					<div>
+						<p className="wb-profile-info">{user.id}</p>
+						<p className="wb-profile-info">{user.username}</p>
+						<p className="wb-profile-info">{user.date_joined}</p>
+					</div>
+				)}
+				<div className="wb-profile-update-container">
+					<form onSubmit={submitUsername(usernameOnSubmit)}>
+						<input className="wb-input" type="text" placeholder="Nouveau nom d'utilisateur" {...registerUsername("username", { required: true })}></input>
+						<input className="wb-btn" type="submit" value="Confirmer"></input>
+					</form>
 				</div>
-			)}
-			<div className="wb-profile-update-container">
-				<form onSubmit={submitUsername(usernameOnSubmit)}>
-					<input className="wb-input" type="text" placeholder="Nouveau nom d'utilisateur" {...registerUsername("username", { required: true })}></input>
-					<input className="wb-btn" type="submit" value="Confirmer"></input>
-				</form>
-			</div>
-			<div className="wb-profile-update-container">
-				<form onSubmit={submitPassword(passwordOnSubmit)}>
-					<input className="wb-input" type="password" placeholder="Nouveau mot de passe" {...registerPassword("password", { required: true })}></input>
-					<input className="wb-btn" type="submit" value="Confirmer"></input>
-				</form>
-			</div>
-			<button className="wb-btn" type="button" onClick={handleClick}>Se déconnecter</button>
-			{response &&
-				<ErrorDispatcher response={response} />
-			}
+				<div className="wb-profile-update-container">
+					<form onSubmit={submitPassword(passwordOnSubmit)}>
+						<input className="wb-input" type="password" placeholder="Nouveau mot de passe" {...registerPassword("password", { required: true })}></input>
+						<input className="wb-btn" type="submit" value="Confirmer"></input>
+					</form>
+				</div>
+				<button className="wb-btn" type="button" onClick={handleClick}>Se déconnecter</button>
+				{response &&
+					<ErrorDispatcher response={response} />
+				}
 			</div>
 		</div>
 	)

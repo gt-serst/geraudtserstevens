@@ -39,15 +39,15 @@ function Register({ updateLoginStatus }) {
 
 	return (
 		<div className="wb-register-container">
-			<div className="center-column">
 			<h2>Inscription</h2>
+			<div className="center-column">
 				<form className="wb-form" onSubmit={handleSubmit(onSubmit)}>
 					<input className="wb-input" type="text" placeholder="Nom d'utilisateur" {...register("username", { required: true })}></input>
 					<input className="wb-input" type="password" placeholder="Mot de passe" {...register("password", { required: true })}></input>
 					<input className="wb-btn" type="submit" value="S'inscrire"></input>
 				</form>
+				<ErrorDispatcher response={response} />
 			</div>
-			<ErrorDispatcher response={response} />
 		</div>
 	)
 }

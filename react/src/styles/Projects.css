@@ -1,6 +1,9 @@
-.wb-projects-container {
-	width: 40rem;
-	margin: 0.75rem auto;
+.wb-projects-list {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  flex-direction: row;
+  gap: 0.625rem;
 }
 
 @media (max-width: 768px) {
