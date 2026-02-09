@@ -1,6 +1,7 @@
 .wb-navbar-container {
 	display: flex;
 	justify-content: space-between;
+	position: fixed;
 }
 
 .wb-navbar-button {
@@ -27,32 +28,47 @@
 .wb-navbar-window {
 	background: rgba(255,255,255,0.05);
 	width: 10rem;
+	/* transition-property: width;
+	transition-duration: 1s; */
 	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	/* align-items: flex-start; */
+	/* position: fixed; */
+}
+/*
+.wb-navbar-window:active {
+	transition-property: width;
+	transition-duration: 1s;
+} */
+
+/* .wb-navbar-window:hover {
+	width: 10rem;
+	transition-property: width;
+	transition-duration: 1s;
+} */
+
+.wb-navbar-link {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 }
 
-.wb-navbar-link {
-	display: flex;
-	flex-direction: column;
-}
-
 .wb-navbar-single-link {
 	color: white;
 	text-decoration: none;
-	margin: 0.625rem;
+	margin-left: 0.625rem;
+	padding: 0.625rem;
 	background: transparent;
 }
 
 .wb-navbar-single-link:focus {
 	background: rgba(255,255,255,0.1);
-	border-radius: 0.5rem;
-	padding: 0.625rem;
+	/* border-radius: 0.5rem; */
+	/* padding: 0.625rem; */
 }
 
 .wb-navbar-single-link:hover {
 	background: rgba(255,255,255,0.1);
 	border-radius: 0.5rem;
-	padding: 0.625rem;
 }
