@@ -59,6 +59,11 @@
   gap: 0.625rem;
 }
 
+h2 {
+  padding: 1.25rem;
+  margin: 0rem;
+}
+
 form {
   width: 20rem;
 }

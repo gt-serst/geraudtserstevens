@@ -27,8 +27,8 @@ function Projects(){
 
 	return (
 		<div className="wb-projects-container">
-			<h2>Projets</h2>
 			<div className="center">
+			<h2>Projets</h2>
 				{projectsList && (
 					projectsList.map((project) => (
 						<span key={project.id}><ProjectCard id={project.id} title={project.title} description={project.description} cover={project.cover}/></span>

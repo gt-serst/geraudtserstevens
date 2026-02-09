@@ -1,9 +1,15 @@
-.wb-projects-list {
+/* .wb-projects-list {
 	display: flex;
 	justify-content: center;
 	align-items: center;
   flex-direction: row;
   gap: 0.625rem;
+} */
+
+.wb-projects-projectslist {
+	display: flex;
+	flex-direction: row;
+	gap: 0.625rem;
 }
 
 @media (max-width: 768px) {

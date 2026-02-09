@@ -2,6 +2,9 @@
 	display: flex;
 	justify-content: space-between;
 	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1000;
 }
 
 .wb-navbar-button {
@@ -13,6 +16,7 @@
 	border: none;
 	border-radius: 0.5rem;
 	margin: 1.2rem;
+	z-index:2000;
 }
 
 .wb-navbar-button:hover {
@@ -26,49 +30,52 @@
 }
 
 .wb-navbar-window {
-	background: rgba(255,255,255,0.05);
-	width: 10rem;
-	/* transition-property: width;
-	transition-duration: 1s; */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 15rem;
 	height: 100vh;
+	overflow: hidden;
+	background: rgba(255,255,255,0.05);
 	display: flex;
 	flex-direction: column;
-	/* align-items: flex-start; */
-	/* position: fixed; */
+	transform: translateX(-100%);
+	transition: transform 0.4s ease;
 }
-/*
-.wb-navbar-window:active {
-	transition-property: width;
-	transition-duration: 1s;
-} */
 
-/* .wb-navbar-window:hover {
-	width: 10rem;
-	transition-property: width;
-	transition-duration: 1s;
-} */
+.wb-navbar-window.active {
+	transform: translateX(0);
+}
 
 .wb-navbar-link {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
+	margin-top: 5rem;
 }
 
 .wb-navbar-single-link {
 	color: white;
+	font-size: 1.5rem;
 	text-decoration: none;
-	margin-left: 0.625rem;
+	margin: 0.625rem;
 	padding: 0.625rem;
 	background: transparent;
 }
 
-.wb-navbar-single-link:focus {
-	background: rgba(255,255,255,0.1);
-	/* border-radius: 0.5rem; */
-	/* padding: 0.625rem; */
-}
-
-.wb-navbar-single-link:hover {
+/* .wb-navbar-single-link:focus {
 	background: rgba(255,255,255,0.1);
 	border-radius: 0.5rem;
+} */
+
+/* .wb-navbar-single-link:hover {
+	background: rgba(255,255,255,0.1);
+	border-radius: 0.5rem;
+} */
+
+/* .wb-navbar-single-link:focus {
+	text-decoration: underline;
+} */
+.wb-navbar-single-link:hover {
+	text-decoration: underline;
 }

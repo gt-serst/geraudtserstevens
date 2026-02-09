@@ -4,40 +4,32 @@ import hamburger from "../assets/hamburger.png"
 import { useState } from "react"
 
 function Navbar({loginStatus}) {
-	const [isDisplayed, setIsDisplayed] = useState(false)
+	const [isOpen, setIsOpen] = useState(false)
 
-	function handleClick(){
-		if (isDisplayed) {
-			setIsDisplayed(false)
-		}
-		else {
-			setIsDisplayed(true)
-		}
-	}
+	const toggle = () => setIsOpen(!isOpen);
+	const hide = () => setIsOpen(false);
+	const show = () => setIsOpen(true);
 
 	return (
 		<div className="wb-navbar-container">
-			{isDisplayed ? (
-			<div className="wb-navbar-window">
-				<button className="wb-navbar-button" onClick={handleClick}><img className="wb-hamburger" src={hamburger} alt="hamburger"/></button>
+			<button className="wb-navbar-button" onClick={toggle} onBlur={hide}><img className="wb-hamburger" src={hamburger} alt="hamburger"/></button>
+			<div className={`wb-navbar-window ${isOpen ? "active" : ""}`}>
 				<nav className="wb-navbar-link">
-					<Link className="wb-navbar-single-link" to="/">Accueil</Link>
+					<Link className="wb-navbar-single-link" onClick={toggle} onBlur={hide} onFocus={show} to="/">ACCUEIL</Link>
 					{loginStatus ? (
 						<>
-							<Link className="wb-navbar-single-link" to="/profile">Profil</Link>
+							<Link className="wb-navbar-single-link" onClick={toggle} onBlur={hide} onFocus={show} to="/profile">PROFIL</Link>
 						</>
 						) : (
 							<>
-							<Link className="wb-navbar-single-link" to="/register">Inscription</Link>
-							<Link className="wb-navbar-single-link" to="/login">Connexion</Link>
+							<Link className="wb-navbar-single-link" onClick={toggle} onBlur={hide} onFocus={show} to="/register">INSCRIPTION</Link>
+							<Link className="wb-navbar-single-link" onClick={toggle} onBlur={hide} onFocus={show} to="/login">CONNEXION</Link>
 						</>
 					)}
-					<Link className="wb-navbar-single-link" to="/projects">Projets</Link>
-					<Link className="wb-navbar-single-link" to="/contact">Contact</Link>
+					<Link className="wb-navbar-single-link" onClick={toggle} onBlur={hide} onFocus={show} to="/projects">PROJETS</Link>
+					<Link className="wb-navbar-single-link" onClick={toggle} onBlur={hide} onFocus={show} to="/contact">CONTACT</Link>
 				</nav>
 			</div>
-			):
-			<button className="wb-navbar-button" onClick={handleClick}><img className="wb-hamburger" src={hamburger} alt="hamburger"/></button>}
 		</div>
 	)
 }

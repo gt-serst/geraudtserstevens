@@ -1,0 +1,10 @@
+.wb-home-logo {
+	width: 6rem;
+	height: 6rem;
+	transition: transform 2s;
+}
+
+.wb-home-logo:hover {
+	transform: scale(2) rotate(360deg);
+}
+
