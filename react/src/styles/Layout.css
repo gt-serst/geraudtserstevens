@@ -7,3 +7,10 @@
 	height: 4rem;
 	margin: 1.25rem;
 }
+
+.wb-layout-outlet{
+	height:100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

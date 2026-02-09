@@ -82,8 +82,8 @@ function Profile({ updateLoginStatus }) {
 
 	return (
 		<div className="wb-profile-container">
-			<div className="center-column">
 			<h2>Ton profil</h2>
+			<div className="center-column">
 				{user && (
 					<div>
 						<p className="wb-profile-info">{user.id}</p>

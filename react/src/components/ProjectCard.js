@@ -6,7 +6,7 @@ function ProjectCard({id, title, description, cover}) {
 
 	return (
 		<div className="center">
-				<div className="property-card">
+			<div className="property-card">
 				<NavLink to={"/project/" + id}>
 					<div className="property-image" style={{backgroundImage: 'url(' + IMAGE_URL + cover + ')', backgroundSize: "cover", backgroundRepeat:"no-repeat"}}>
 						<div className="property-image-title">

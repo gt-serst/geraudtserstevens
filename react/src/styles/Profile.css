@@ -1,3 +1,7 @@
+.wb-profile-container {
+	position: relative;
+}
+
 .wb-profile-info {
 	font-size: 1rem;
 }

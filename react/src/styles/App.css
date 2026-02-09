@@ -41,17 +41,13 @@
 }
 
 .center {
-	height:100vh;
-	width:100%;
 	display: flex;
 	justify-content: center;
-	align-items: center;
+  flex-wrap: wrap;
 	gap: 0.625rem;
 }
 
 .center-column {
-	height:100vh;
-	width:100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -65,7 +61,7 @@ h2 {
 }
 
 form {
-  width: 20rem;
+  width: 40rem;
 }
 
 .wb-btn {
@@ -87,11 +83,14 @@ form {
 
 .wb-input {
   width: 100%;
-  border: 0.0625rem solid rgba(255, 255, 255, 0.5);
+  height: 7.5rem;
+  /* border: 0.0625rem solid rgba(255, 255, 255, 0.5); */
+  /* border-radius: 0.5rem; */
   color: white;
-  border-radius: 0.5rem;
+  border: none;
+  border-bottom: 0.0625rem solid white;
   background: transparent;
-  font-size: 1rem;
+  font-size: 3rem;
   padding: 0.625rem;
   margin-bottom:0.625rem;
 }
@@ -103,4 +102,5 @@ form {
 
 ::placeholder {
    color: rgba(255,255,255,0.35);
+   font-size: 3rem;
 }

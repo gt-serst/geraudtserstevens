@@ -6,9 +6,11 @@ import "../styles/Layout.css"
 
 function Layout({loginStatus}){
 	return (
-		<div className="wb-layout-container">
+		<div>
 			<Navbar loginStatus={loginStatus}/>
-			<Outlet className="wb-layout-content" />
+			<div className="wb-layout-outlet">
+			<Outlet />
+			</div>
 			<NavLink to="/"><img className="wb-layout-logo" src={logo} alt="logo"/></NavLink>
 			<Footer />
 		</div>

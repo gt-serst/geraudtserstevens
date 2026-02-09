@@ -2,7 +2,11 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 0.75rem auto;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	margin-top: 0.625rem;
 }
 
 .wb-error {

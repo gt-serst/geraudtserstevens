@@ -45,7 +45,7 @@ function Project() {
 	}, [id])
 
 	return (
-		<div className="wb-project-container">
+		<div>
 			{projectInfo && (
 				<div>
 					<img className="wb-project-cover" src={IMG_URL + projectInfo.cover} alt={projectInfo.title + "_cover"}></img>

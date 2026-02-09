@@ -26,9 +26,9 @@ function Projects(){
 		}, [])
 
 	return (
-		<div className="wb-projects-container">
-			<div className="center">
+		<div>
 			<h2>Projets</h2>
+			<div className="center">
 				{projectsList && (
 					projectsList.map((project) => (
 						<span key={project.id}><ProjectCard id={project.id} title={project.title} description={project.description} cover={project.cover}/></span>
@@ -37,7 +37,6 @@ function Projects(){
 			</div>
 			<ErrorDispatcher response={response} />
 		</div>
-
 	)
 }
 
