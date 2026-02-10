@@ -12,6 +12,7 @@ function Profile({ updateLoginStatus }) {
 	const navigate = useNavigate()
 	const [user, setUser] = useState(null)
 	const [response, setResponse] = useState(null)
+	const [isActive, setIsActive] = useState(false);
 
 	const {register: registerUsername, handleSubmit: submitUsername} = useForm()
 	const {register: registerPassword, handleSubmit: submitPassword} = useForm()
@@ -84,24 +85,35 @@ function Profile({ updateLoginStatus }) {
 		<div className="wb-profile-container">
 			<h2>PROFIL</h2>
 			<div className="center-column">
-				{user && (
-					<div>
-						<p className="wb-profile-info">{user.id}</p>
-						<p className="wb-profile-info">{user.username}</p>
-						<p className="wb-profile-info">{user.date_joined}</p>
+				<h2 className="wb-home-title" >No game currently, will come soon...</h2>
+				<div className="accordion">
+					<div className="accordion-item">
+						<div className="accordion-title" onClick={() => setIsActive(!isActive)}>
+							<div>TES INFORMATIONS</div>
+							 <div>{isActive ? "-" : "+"}</div>
+						</div>
+						<div className="accordion-content">
+							{isActive && user && (
+								<div>
+									<p className="wb-profile-info">{user.id}</p>
+									<p className="wb-profile-info">{user.username}</p>
+									<p className="wb-profile-info">{user.date_joined}</p>
+								</div>
+							)}
+							{/* <div className="wb-profile-update-container">
+								<form onSubmit={submitUsername(usernameOnSubmit)}>
+									<input className="wb-input" type="text" placeholder="Nouveau nom d'utilisateur" {...registerUsername("username", { required: true })}></input>
+									<input className="wb-btn" type="submit" value="Confirmer"></input>
+								</form>
+							</div>
+							<div className="wb-profile-update-container">
+								<form onSubmit={submitPassword(passwordOnSubmit)}>
+									<input className="wb-input" type="password" placeholder="Nouveau mot de passe" {...registerPassword("password", { required: true })}></input>
+									<input className="wb-btn" type="submit" value="Confirmer"></input>
+								</form>
+							</div> */}
+						</div>
 					</div>
-				)}
-				<div className="wb-profile-update-container">
-					<form onSubmit={submitUsername(usernameOnSubmit)}>
-						<input className="wb-input" type="text" placeholder="Nouveau nom d'utilisateur" {...registerUsername("username", { required: true })}></input>
-						<input className="wb-btn" type="submit" value="Confirmer"></input>
-					</form>
-				</div>
-				<div className="wb-profile-update-container">
-					<form onSubmit={submitPassword(passwordOnSubmit)}>
-						<input className="wb-input" type="password" placeholder="Nouveau mot de passe" {...registerPassword("password", { required: true })}></input>
-						<input className="wb-btn" type="submit" value="Confirmer"></input>
-					</form>
 				</div>
 				{/* <button className="wb-btn" type="button" onClick={handleClick}>Se déconnecter</button> */}
 				{response &&

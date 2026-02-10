@@ -5,6 +5,7 @@ import { postRequest } from "../api";
 import "../styles/Login.css"
 import ErrorDispatcher from "./ErrorDispatcher";
 import { FeedbackProvider } from "../utils";
+import { NavLink } from "react-router-dom";
 
 function Login({ updateLoginStatus }) {
 	const navigate = useNavigate()
@@ -34,6 +35,7 @@ function Login({ updateLoginStatus }) {
 					<input className="wb-input" type="password" placeholder="Mot de passe" {...register("password", { required: true }) }></input>
 					<input className="wb-btn" type="submit" value="Se connecter"></input>
 				</form>
+				<NavLink className="wb-login-navlink" to={"/register/"}>Pas encore de compte?</NavLink>
 			</div>
 			<ErrorDispatcher response={response} />
 		</div>

@@ -58,17 +58,17 @@ function Navbar({loginStatus, updateLoginStatus}) {
 			<div className={`wb-navbar-window ${isOpen ? "active" : ""}`}>
 				<nav className="wb-navbar-link">
 					<Link className="wb-navbar-single-link" onClick={toggle} to="/">ACCUEIL</Link>
+					<Link className="wb-navbar-single-link" onClick={toggle} to="/projects">PROJETS</Link>
 					{loginStatus ? (
 						<>
 							<Link className="wb-navbar-single-link" onClick={toggle} to="/profile">PROFIL</Link>
 						</>
 						) : (
-							<>
-							<Link className="wb-navbar-single-link" onClick={toggle} to="/register">INSCRIPTION</Link>
+						<>
+							{/* <Link className="wb-navbar-single-link" onClick={toggle} to="/register">INSCRIPTION</Link> */}
 							<Link className="wb-navbar-single-link" onClick={toggle} to="/login">CONNEXION</Link>
 						</>
 					)}
-					<Link className="wb-navbar-single-link" onClick={toggle} to="/projects">PROJETS</Link>
 					<Link className="wb-navbar-single-link" onClick={toggle} to="/contact">CONTACT</Link>
 					{loginStatus && (
 						<>
