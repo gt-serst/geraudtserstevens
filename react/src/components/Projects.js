@@ -27,7 +27,7 @@ function Projects(){
 
 	return (
 		<div>
-			<h2>Projets</h2>
+			<h2>PROJETS</h2>
 			<div className="center">
 				{projectsList && (
 					projectsList.map((project) => (

@@ -38,7 +38,7 @@ function App() {
 	const router = createBrowserRouter([
 		{
 			path: "/",
-			element: <Layout loginStatus={loginStatus}/>,
+			element: <Layout loginStatus={loginStatus} updateLoginStatus={updateLoginStatus}/>,
 			errorElement: <ErrorPage />,
 			children: [
 				{

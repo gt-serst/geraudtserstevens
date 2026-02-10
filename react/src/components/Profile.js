@@ -66,23 +66,23 @@ function Profile({ updateLoginStatus }) {
 		setResponse(responseObject)
 	}
 
-	async function handleClick(){
+	// async function handleClick(){
 
-		const responseObject = await logOut()
+	// 	const responseObject = await logOut()
 
 
-		if (responseObject && responseObject.type === "SUCCESS") {
-			updateLoginStatus(false)
-			FeedbackProvider(responseObject)
-			navigate("/login")
-		}
+	// 	if (responseObject && responseObject.type === "SUCCESS") {
+	// 		updateLoginStatus(false)
+	// 		FeedbackProvider(responseObject)
+	// 		navigate("/login")
+	// 	}
 
-		setResponse(responseObject)
-	}
+	// 	setResponse(responseObject)
+	// }
 
 	return (
 		<div className="wb-profile-container">
-			<h2>Ton profil</h2>
+			<h2>PROFIL</h2>
 			<div className="center-column">
 				{user && (
 					<div>
@@ -103,7 +103,7 @@ function Profile({ updateLoginStatus }) {
 						<input className="wb-btn" type="submit" value="Confirmer"></input>
 					</form>
 				</div>
-				<button className="wb-btn" type="button" onClick={handleClick}>Se déconnecter</button>
+				{/* <button className="wb-btn" type="button" onClick={handleClick}>Se déconnecter</button> */}
 				{response &&
 					<ErrorDispatcher response={response} />
 				}

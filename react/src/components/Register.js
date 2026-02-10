@@ -39,7 +39,7 @@ function Register({ updateLoginStatus }) {
 
 	return (
 		<div className="wb-register-container">
-			<h2>Inscription</h2>
+			<h2>INSCRIPTION</h2>
 			<div className="center-column">
 				<form className="wb-form" onSubmit={handleSubmit(onSubmit)}>
 					<input className="wb-input" type="text" placeholder="Nom d'utilisateur" {...register("username", { required: true })}></input>

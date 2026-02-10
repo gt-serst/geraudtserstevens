@@ -1,8 +1,10 @@
 .App {
   text-align: center;
-  background-color: rgb(47, 79, 79);
+  /* background-color: rgb(47, 79, 79); */
+  background: rgb(1, 34, 35);
   color: aliceblue;
   font-size: 1rem;
+  z-index: -1;
 }
 
 .App-logo {
@@ -61,36 +63,49 @@ h2 {
 }
 
 form {
-  width: 40rem;
+  width: 30rem;
 }
 
 .wb-btn {
-  width: 20rem;
+  width: 100%;
   cursor: pointer;
   border-radius: 0.5rem;
   border: none;
-  background: rgba(255,255,255,0.3);
-  border: 0.0625rem solid rgba(255, 255, 255, 0.4);
+  /* background: rgba(255,255,255,0.3); */
+  background: rgb(1, 34, 35);
+  /* background-color: rgb(47, 79, 79); */
+  /* border: 0.0625rem solid rgba(255, 255, 255, 0.4); */
+  /* border: 0.0625rem solid rgb(47, 79, 79); */
+  border: 0.0625rem solid white;
   color: #fff;
   font-size: 1rem;
   font-weight: 550;
   padding: 0.625rem;
+  background: linear-gradient(to left, rgb(1, 34, 35) 50%, white 50%) right;
+  background-size: 200%;
+  transition: .5s ease-out;
 }
 
 .wb-btn:hover {
-  background: rgba(255, 255, 255, 0.4);
+  /* background: rgba(255, 255, 255, 0.4); */
+  /* background: rgb(1, 34, 35);
+  border: 0.0625rem solid white; */
+  /* background-color: white; */
+  color: black;
+  background-position: left;
 }
 
 .wb-input {
   width: 100%;
-  height: 7.5rem;
+  height: 5rem;
   /* border: 0.0625rem solid rgba(255, 255, 255, 0.5); */
   /* border-radius: 0.5rem; */
   color: white;
   border: none;
+  /* border-right: 0.0625rem solid white; */
   border-bottom: 0.0625rem solid white;
   background: transparent;
-  font-size: 3rem;
+  font-size: 2rem;
   padding: 0.625rem;
   margin-bottom:0.625rem;
 }
@@ -102,5 +117,5 @@ form {
 
 ::placeholder {
    color: rgba(255,255,255,0.35);
-   font-size: 3rem;
+   font-size: 2rem;
 }

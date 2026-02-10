@@ -4,30 +4,67 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	z-index: 1000;
+	z-index: 1;
 }
 
 .wb-navbar-button {
+	width: 2.4rem;
+	height: 2.4rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	position: relative;
+	margin: 1.2rem;
+	z-index: 2;
+}
+
+.wb-navbar-button .bar {
+	width: 1.875rem;
+	height: 0.1875rem;
+	background-color: #ffffff;
+	position: absolute;
+	transition: all 0.3s ease;
+}
+
+.wb-navbar-button .bar:nth-child(1) {
+	transform: translateY(-0.5rem);
+}
+.wb-navbar-button .bar:nth-child(3) {
+	transform: translateY(0.5rem);
+}
+
+.wb-navbar-button.active .bar:nth-child(1) {
+	transform: rotate(45deg);
+}
+.wb-navbar-button.active .bar:nth-child(2) {
+	opacity: 0;
+}
+.wb-navbar-button.active .bar:nth-child(3) {
+	transform: rotate(-45deg);
+}
+
+/* .wb-navbar-button {
 	display: flex;
 	cursor: pointer;
 	width: 2.4rem;
 	height: 2.4rem;
-	background: rgba(255,255,255,0.1);
+	background: rgb(1, 34, 35);
 	border: none;
 	border-radius: 0.5rem;
 	margin: 1.2rem;
-	z-index:2000;
-}
+	z-index: 2;
+} */
 
-.wb-navbar-button:hover {
-	background: rgba(255,255,255,0.3);
-}
+/* .wb-navbar-button:hover {
+	background: rgba(255, 255, 255, 0.3);
+} */
 
-.wb-hamburger {
+/* .wb-hamburger {
 	margin:auto;
 	width: 1.2rem;
 	height: 1.2rem;
-}
+} */
 
 .wb-navbar-window {
 	position: fixed;
@@ -36,7 +73,9 @@
 	width: 15rem;
 	height: 100vh;
 	overflow: hidden;
-	background: rgba(255,255,255,0.05);
+	/* background: rgba(255,255,255,0.05); */
+	/* background: rgb(1, 34, 35); */
+	background-color: rgb(47, 79, 79);
 	display: flex;
 	flex-direction: column;
 	transform: translateX(-100%);
@@ -79,4 +118,17 @@
 
 .wb-navbar-single-link:hover {
 	text-decoration: underline;
+}
+
+.wb-logout-btn {
+	background: transparent;
+	border: none;
+	margin: 0.625rem;
+	padding: 0.625rem;
+	cursor: pointer;
+}
+
+.wb-logout-logo {
+	width: 2rem;
+	height: 2rem;
 }

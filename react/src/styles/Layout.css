@@ -2,14 +2,14 @@
 	position: fixed;
 	top: 0;
 	right: 0;
-	z-index: 1000;
+	z-index: 1;
 	width: 4rem;
 	height: 4rem;
 	margin: 1.25rem;
 }
 
 .wb-layout-outlet{
-	height:100vh;
+	min-height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;

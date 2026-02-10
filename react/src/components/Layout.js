@@ -4,12 +4,12 @@ import { Outlet, NavLink } from "react-router-dom"
 import Navbar from "./Navbar"
 import "../styles/Layout.css"
 
-function Layout({loginStatus}){
+function Layout({loginStatus, updateLoginStatus}){
 	return (
 		<div>
-			<Navbar loginStatus={loginStatus}/>
+			<Navbar loginStatus={loginStatus} updateLoginStatus={updateLoginStatus}/>
 			<div className="wb-layout-outlet">
-			<Outlet />
+				<Outlet />
 			</div>
 			<NavLink to="/"><img className="wb-layout-logo" src={logo} alt="logo"/></NavLink>
 			<Footer />

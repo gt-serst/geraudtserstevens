@@ -21,7 +21,7 @@ function Contact(){
 
 	return (
 		<div className="wb-contact-container">
-			<h2>Contact</h2>
+			<h2>CONTACT</h2>
 			<div className="center-column">
 				<form className="wb-contact-form" onSubmit={handleSubmit(onSubmit)}>
 					<input className="wb-input" type="email" placeholder="Email" {...register("from_email", {required: true})}></input>
