@@ -7,10 +7,10 @@
 }
 
 .accordion {
+	margin-top: 5rem;
 	width: 100%;
-	height: 10rem;
-	padding: 1.25rem;
-	margin: 2rem auto;
+	padding: 0.625rem;
+	border-bottom: 0.1rem solid white;
 }
 
 .accordion-title {
@@ -18,14 +18,35 @@
 	justify-content: space-between;
 	font-size: 2rem;
 	cursor: pointer;
-	border-bottom: 0.1rem solid white;
 	padding: 1rem;
 }
 
-.accordion-title:hover {
-	color: rgba(255, 255, 255, 0.8);
+.wb-profile-arrow {
+	width: 3rem;
+	height: 3rem;
+}
+
+.accordion-arrow {
+	transition: transform 0.5s;
+}
+
+.accordion-arrow.active {
+	transform: rotate(180deg);
 }
 
 .accordion-content {
-	padding: 1rem;
+	max-height: 0;
+	transition: max-height 0.2s ease-out;
+	overflow: hidden;
+}
+
+.accordion-content.active {
+	max-height: 15rem;
+}
+
+.wb-profile-update {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.625rem;
 }

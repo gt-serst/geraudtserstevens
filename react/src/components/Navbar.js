@@ -4,7 +4,7 @@ import logout from "../assets/power-off.png"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import ErrorDispatcher from "./ErrorDispatcher";
-import { FeedbackProvider } from "../utils";
+import { feedbackHandler } from "../utils";
 import { logOut } from "../api";
 import { useEffect, useRef } from "react";
 
@@ -41,7 +41,7 @@ function Navbar({loginStatus, updateLoginStatus}) {
 
 		if (responseObject && responseObject.type === "SUCCESS") {
 			updateLoginStatus(false)
-			FeedbackProvider(responseObject)
+			feedbackHandler(responseObject)
 			navigate("/login")
 		}
 

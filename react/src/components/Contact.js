@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import "../styles/Contact.css"
 import { postRequest } from "../api"
 import ErrorDispatcher from "./ErrorDispatcher"
-import { FeedbackProvider } from "../utils"
+import { feedbackHandler } from "../utils"
 
 function Contact(){
 	const { register, handleSubmit } = useForm()
@@ -14,7 +14,7 @@ function Contact(){
 		const endpoint = "/contact/sendmail/"
 		const responseObject = await postRequest(endpoint, data)
 		if (responseObject && responseObject.type === "SUCCESS") {
-			FeedbackProvider(responseObject)
+			feedbackHandler(responseObject)
 		}
 		setResponse(responseObject)
 	}

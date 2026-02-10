@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { postRequest } from "../api"
 import ErrorDispatcher from './ErrorDispatcher';
-import { FeedbackProvider } from '../utils';
+import { feedbackHandler } from '../utils';
 
 function Register({ updateLoginStatus }) {
 
@@ -28,7 +28,7 @@ function Register({ updateLoginStatus }) {
 
 			if (responseObject && responseObject.type === "SUCCESS") {
 				updateLoginStatus(true)
-				FeedbackProvider(responseObject)
+				feedbackHandler(responseObject)
 				navigate("/profile");
 			}
 

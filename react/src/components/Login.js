@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { postRequest } from "../api";
 import "../styles/Login.css"
 import ErrorDispatcher from "./ErrorDispatcher";
-import { FeedbackProvider } from "../utils";
+import { feedbackHandler } from "../utils";
 import { NavLink } from "react-router-dom";
 
 function Login({ updateLoginStatus }) {
@@ -21,7 +21,7 @@ function Login({ updateLoginStatus }) {
 
 		if (responseObject && responseObject.type === "SUCCESS"){
 			updateLoginStatus(true)
-			FeedbackProvider(responseObject);
+			feedbackHandler(responseObject);
 			navigate("/profile/")
 		}
 	}

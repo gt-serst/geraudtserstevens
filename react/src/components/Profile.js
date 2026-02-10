@@ -5,14 +5,15 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Profile.css"
 import { useForm } from "react-hook-form"
 import ErrorDispatcher from "./ErrorDispatcher";
-import { FeedbackProvider } from "../utils";
+import { feedbackHandler } from "../utils";
+import arrow from "../assets/down-arrow.png"
 
 function Profile({ updateLoginStatus }) {
 
 	const navigate = useNavigate()
 	const [user, setUser] = useState(null)
 	const [response, setResponse] = useState(null)
-	const [isActive, setIsActive] = useState(false);
+	const [activeIndex, setActiveIndex] = useState(null);
 
 	const {register: registerUsername, handleSubmit: submitUsername} = useForm()
 	const {register: registerPassword, handleSubmit: submitPassword} = useForm()
@@ -46,7 +47,7 @@ function Profile({ updateLoginStatus }) {
 		const responseObject = await postRequest(endpoint, data)
 
 		if (responseObject && responseObject.type === "SUCCESS") {
-			FeedbackProvider(responseObject)
+			feedbackHandler(responseObject)
 			setUser({ ...user, username: responseObject.data.username })
 		}
 
@@ -61,64 +62,63 @@ function Profile({ updateLoginStatus }) {
 		const responseObject = await postRequest(endpoint, data)
 
 		if (responseObject && responseObject.type === "SUCCESS") {
-			FeedbackProvider(responseObject)
+			feedbackHandler(responseObject)
 		}
 
 		setResponse(responseObject)
 	}
 
-	// async function handleClick(){
-
-	// 	const responseObject = await logOut()
-
-
-	// 	if (responseObject && responseObject.type === "SUCCESS") {
-	// 		updateLoginStatus(false)
-	// 		FeedbackProvider(responseObject)
-	// 		navigate("/login")
-	// 	}
-
-	// 	setResponse(responseObject)
-	// }
+	const toggleAccordion = (index) => {
+		setActiveIndex(activeIndex === index ? null : index);
+	};
 
 	return (
 		<div className="wb-profile-container">
 			<h2>PROFIL</h2>
-			<div className="center-column">
-				<h2 className="wb-home-title" >No game currently, will come soon...</h2>
+			<div>
+				<h2 className="wb-home-title">No game available, coming soon...</h2>
 				<div className="accordion">
 					<div className="accordion-item">
-						<div className="accordion-title" onClick={() => setIsActive(!isActive)}>
+						<div className="accordion-title" onClick={() => toggleAccordion(0)}>
 							<div>TES INFORMATIONS</div>
-							 <div>{isActive ? "-" : "+"}</div>
+							<div className={`accordion-arrow ${activeIndex === 0 ? "active" : ""}`}><img className="wb-profile-arrow" src={arrow} alt="arrow"/></div>
 						</div>
-						<div className="accordion-content">
-							{isActive && user && (
+						<div className={`accordion-content ${activeIndex === 0 ? "active" : ""}`}>
+							{user && (
 								<div>
 									<p className="wb-profile-info">{user.id}</p>
 									<p className="wb-profile-info">{user.username}</p>
 									<p className="wb-profile-info">{user.date_joined}</p>
 								</div>
 							)}
-							{/* <div className="wb-profile-update-container">
-								<form onSubmit={submitUsername(usernameOnSubmit)}>
-									<input className="wb-input" type="text" placeholder="Nouveau nom d'utilisateur" {...registerUsername("username", { required: true })}></input>
-									<input className="wb-btn" type="submit" value="Confirmer"></input>
-								</form>
-							</div>
-							<div className="wb-profile-update-container">
-								<form onSubmit={submitPassword(passwordOnSubmit)}>
-									<input className="wb-input" type="password" placeholder="Nouveau mot de passe" {...registerPassword("password", { required: true })}></input>
-									<input className="wb-btn" type="submit" value="Confirmer"></input>
-								</form>
-							</div> */}
 						</div>
 					</div>
 				</div>
-				{/* <button className="wb-btn" type="button" onClick={handleClick}>Se déconnecter</button> */}
-				{response &&
-					<ErrorDispatcher response={response} />
-				}
+				<div className="accordion">
+					<div className="accordion-item">
+						<div className="accordion-title" onClick={() => toggleAccordion(1)}>
+							<div>MODIFIE TES INFORMATIONS</div>
+							<div className={`accordion-arrow ${activeIndex === 1 ? "active" : ""}`}><img className="wb-profile-arrow" src={arrow} alt="arrow"/></div>
+						</div>
+						<div className={`accordion-content ${activeIndex === 1 ? "active" : ""}`}>
+							<div className="wb-profile-update">
+								<div>
+									<form onSubmit={submitUsername(usernameOnSubmit)}>
+										<input className="wb-input" type="text" placeholder="Nouveau nom d'utilisateur" {...registerUsername("username", { required: true })}></input>
+										<input className="wb-btn" type="submit" value="Confirmer"></input>
+									</form>
+								</div>
+								<div>
+									<form onSubmit={submitPassword(passwordOnSubmit)}>
+										<input className="wb-input" type="password" placeholder="Nouveau mot de passe" {...registerPassword("password", { required: true })}></input>
+										<input className="wb-btn" type="submit" value="Confirmer"></input>
+									</form>
+								</div >
+							</div>
+							{response && <ErrorDispatcher response={response} />}
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	)

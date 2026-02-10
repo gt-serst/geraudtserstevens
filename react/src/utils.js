@@ -62,7 +62,7 @@ export async function responseHandler(response){
 	return responseObject
 }
 
-export function FeedbackProvider(response) {
+export function feedbackHandler(response) {
 
 	if (!response || response.type === "SILENT") return;
 

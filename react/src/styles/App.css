@@ -43,13 +43,14 @@
 }
 
 .center {
-	display: flex;
+  display: flex;
 	justify-content: center;
   flex-wrap: wrap;
 	gap: 0.625rem;
 }
 
 .center-column {
+  width: 30rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -63,7 +64,7 @@ h2 {
 }
 
 form {
-  width: 30rem;
+  width: 100%;
 }
 
 .wb-btn {
